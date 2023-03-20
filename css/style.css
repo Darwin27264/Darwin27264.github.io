@@ -1,13 +1,13 @@
 /*
 * Template Name: Space
-* Template Author: Untree.co
-* Author URI: https://untree.co/
+* Template Author: dstu.co
+* Author URI: https://dstu.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */
 body {
   font-family: "PT Mono", monospace;
   line-height: 1.6;
-  background: #ffffff;
+  background: #3b3b3b;
   overflow-x: hidden;
   font-size: 16px; }
   body:before {
@@ -616,21 +616,22 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 .burger:focus {
   outline: none; }
 
-.untree_co-section {
+.dstu_co-section {
   padding: 7rem 0; }
-  .untree_co-section .heading, .untree_co-section .subheading {
-    color: #000000; }
-    .untree_co-section .heading strong, .untree_co-section .subheading strong {
+  .dstu_co-section .heading, .dstu_co-section .subheading {
+    color: rgb(217 217 217); }
+    .dstu_co-section .heading strong, .dstu_co-section .subheading strong {
       font-weight: 700; }
-  .untree_co-section .heading {
-    font-size: 40px; }
-  .untree_co-section .subheading {
+  .dstu_co-section .heading {
+    font-size: 50px; }
+  .dstu_co-section .subheading {
     font-size: 18px;
-    font-family: "PT Mono", monospace; }
+    font-family: "PT Mono", monospace;
+    color: rgb(217 217 217); }
 
 .section-heading {
   font-size: 30px;
-  color: #000000; }
+  color: rgb(217 217 217); }
 
 .item {
   border: none;

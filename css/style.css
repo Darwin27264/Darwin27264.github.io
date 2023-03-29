@@ -78,7 +78,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   padding-bottom: 14px;
   padding-left: 20px;
   padding-right: 20px;
-  border-radius: 25px;
+  border-radius: 15px;
   font-size: 14px;
   border: 1px solid transparent; }
   .btn:active, .btn:focus {
@@ -89,8 +89,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     background: #0389ff;
     border-color: #0389ff; }
     .btn.btn-primary:hover {
-      border-color: #1793ff;
-      background: #1793ff; }
+      border-color: #2298ff;
+      background: #2298ff; }
   .btn.btn-black {
     background: #000000;
     color: #ffffff; }
@@ -116,11 +116,12 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 .form-control, .custom-select {
   border: none;
   font-size: 16px;
+  color: #fff;
   height: 45px;
   padding-left: 0;
   padding-right: 0;
   background: transparent;
-  border-bottom: 1px solid #43434d;
+  border-bottom: 1px solid #fff;
   border-radius: 0; }
   .form-control:active, .form-control:focus, .custom-select:active, .custom-select:focus {
     border-color: #0389ff;
@@ -638,8 +639,13 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     .dstu_co-section .heading strong, .dstu_co-section .subheading strong {
       font-weight: 700; }
   .dstu_co-section .heading {
-    font-size: 50px; }
+    padding-top: 80px;
+    font-size: 85px; }
+  .dstu_co-section .heading_smol {
+    padding-top: 10px;
+    font-size: 40px; }
   .dstu_co-section .subheading {
+    padding-top: 10px;
     font-size: 28px;
     font-family: "PT Mono", monospace;
     color: rgb(217 217 217); }
@@ -1103,6 +1109,7 @@ figure.dotted-bg {
     top: 0;
     left: 0;
     bottom: 0;
+    border-radius: 25px;
     right: 0;
     width: 100%;
     min-height: 400px;

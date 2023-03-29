@@ -416,13 +416,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     width: 100%;
     float: left;
     padding-left: 20px;
-    padding-right: 20px; }
+    padding-right: 40px; }
     .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-close {
       float: right;
       margin-top: 8px; }
       .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-close span {
         font-size: 30px;
         display: inline-block;
+        padding-top: 10px;
         padding-left: 10px;
         padding-right: 0px;
         line-height: 1;
@@ -445,6 +446,10 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     position: relative;
+
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+
     padding: 0 20px 20px 20px;
     height: calc(100vh - 52px);
     padding-bottom: 150px; }
@@ -635,7 +640,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   .dstu_co-section .heading {
     font-size: 50px; }
   .dstu_co-section .subheading {
-    font-size: 18px;
+    font-size: 28px;
     font-family: "PT Mono", monospace;
     color: rgb(217 217 217); }
 
@@ -765,6 +770,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     .gsap-reveal-hero .reveal-wrap .reveal-content {
       line-height: 1.5;
       z-index: 1;
+      color: #fff;
       display: inline-block;
       -webkit-transform: translateX(-100%);
       -ms-transform: translateX(-100%);
@@ -773,6 +779,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 /* circle progress bar*/
 .progressbar {
   display: inline-block;
+  color: #fff;
   margin: 25px; }
   .progressbar .caption {
     font-size: 14px; }

@@ -1,5 +1,8 @@
 Personal Portfolio Website (σ≧▽≦)σ
 
+Visit the site here! 
+https://darwin27264.github.io/
+
 CREDITS
 
 * jQuery
@@ -22,3 +25,4 @@ CREDITS
 * TweenMax
 
 * Base website from untrue.co
+* Hosted by Github

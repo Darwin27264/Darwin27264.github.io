@@ -1,11 +1,7 @@
-Template Name: Minimal
-Template Author: Untree.co
-Template License: https://creativecommons.org/licenses/by/3.0/
-Author URI: https://untree.co/
+Personal Portfolio Website (σ≧▽≦)σ
 
-Twitter: https://twitter.com/Untree_co
-Facebook: https://web.facebook.com/Untree.co/
-
+Visit the site here! 
+https://darwin27264.github.io/
 
 CREDITS
 
@@ -27,3 +23,6 @@ CREDITS
 * jQuery Easing
 * ScrollMagic
 * TweenMax
+
+* Base website from untrue.co
+* Hosted by Github

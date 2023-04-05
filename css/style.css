@@ -1677,8 +1677,8 @@ figure.dotted-bg {
     display: inline-block; }
     .site-footer .social li a {
       display: inline-block;
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
       position: relative;
       background: #0389ff;
       border-radius: 50%;
@@ -1694,4 +1694,6 @@ figure.dotted-bg {
         transform: translate(-50%, -50%); }
       .site-footer .social li a:hover {
         background: #36a1ff;
+        width: 45px;
+        height: 45px;
         color: #ffffff; }

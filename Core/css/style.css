@@ -35,7 +35,7 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-font-sans-serif: "Playfair Display", sans-serif;
+  --bs-font-sans-serif: "Poppins", sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)); }
 
@@ -463,11 +463,13 @@ progress {
 
 .img-fluid {
   max-width: 100%;
+  border-radius:20px;
+  background: #0000;
   height: auto; }
 
 .img-thumbnail {
   padding: 0.25rem;
-  background-color: #fff;
+  background-color: #0000;
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   max-width: 100%;
@@ -6425,7 +6427,7 @@ textarea.form-control-lg {
   pointer-events: auto !important; }
 
 .rounded {
-  border-radius: 0.25rem !important; }
+  border-radius: border-radius:20px !important; }
 
 .rounded-0 {
   border-radius: 0 !important; }
@@ -8634,7 +8636,7 @@ textarea.form-control-lg {
 .logo {
   font-size: 24px;
   color: #fff;
-  font-weight: 700; }
+  font-weight: 500; }
   .logo:hover {
     color: #fff; }
 
@@ -8647,7 +8649,7 @@ textarea.form-control-lg {
 .site-nav {
   padding-top: 20px;
   padding-bottom: 20px;
-  font-family: "Roboto", sans-serif; }
+  font-family: "Poppins", sans-serif; }
   .site-nav h1, .site-nav .h1 {
     margin: 0;
     padding: 0;
@@ -8657,7 +8659,7 @@ textarea.form-control-lg {
     .site-nav .site-navigation .site-menu > li {
       display: inline-block; }
       .site-nav .site-navigation .site-menu > li > a {
-        font-size: 14px;
+        font-size: 20px;
         padding: 10px 15px;
         display: inline-block;
         text-decoration: none !important;
@@ -8702,6 +8704,7 @@ textarea.form-control-lg {
         padding: 20px 0;
         margin-top: 20px;
         margin-left: 0px;
+        border-radius: 20px;
         background: #fff;
         -webkit-transition: 0.2s 0s;
         -o-transition: 0.2s 0s;
@@ -8725,7 +8728,8 @@ textarea.form-control-lg {
             border-width: 10px;
             margin-left: -10px; }
         .site-nav .site-navigation .site-menu .has-children .dropdown a {
-          font-size: 14px;
+          font-size: 18px;
+          font-weight: 300;
           text-transform: none;
           letter-spacing: normal;
           -webkit-transition: 0s all;
@@ -9030,7 +9034,7 @@ textarea.form-control-lg {
   outline: none; }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 300;
   overflow-x: hidden;
   font-size: 16px;
@@ -9087,16 +9091,16 @@ a {
     left: 0; }
 
 .heading-2 {
-  font-size: 90px;
-  font-weight: 700;
+  font-size: 60px;
+  font-weight: 100;
   line-height: 1;
-  font-family: 'Playfair Display', serif; }
+  font-family: 'Poppins', serif; }
   @media (max-width: 991.98px) {
     .heading-2 {
-      font-size: 60px; } }
+      font-size: 50px; } }
   @media (max-width: 991.98px) {
     .heading-2 {
-      font-size: 40px; } }
+      font-size: 30px; } }
 
 .heading {
   font-size: 80px;
@@ -9116,7 +9120,7 @@ a {
   font-weight: 700; }
 
 .v-h-full {
-  height: 100vh;
+  height: 120vh;
   min-height: 700px; }
   @media (max-width: 767.98px) {
     .v-h-full {
@@ -9134,8 +9138,8 @@ a {
   font-weight: 700; }
 
 .btn {
-  font-family: "Roboto", sans-serif;
-  border-radius: 0;
+  font-family: "Poppins", sans-serif;
+  border-radius: 20px;
   padding: 14px 30px; }
   .btn:hover, .btn:active, .btn:focus {
     -webkit-box-shadow: none;
@@ -9535,7 +9539,7 @@ a {
     z-index: 2;
     position: relative; }
   .service .service-img {
-    background-color: #000;
+    background-color: #0000;
     z-index: 1;
     position: relative;
     -webkit-transition: .3s all ease;
@@ -9777,7 +9781,7 @@ a {
   /* Firefox 3.5+ */
   filter: gray;
   /* IE6-9 */
-  -webkit-filter: grayscale(100%);
+  -webkit-filter: grayscale(0%);
   /* Chrome 19+ & Safari 6+ */
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
@@ -9819,8 +9823,8 @@ a {
     display: inline-block; }
     .site-footer .social li a {
       display: inline-block;
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       position: relative;
       background: #f8f9fa;
       border-radius: 50%; }

@@ -461,9 +461,15 @@ progress {
   .blockquote-footer::before {
     content: "\2014\00A0"; }
 
-.img-fluid {
+.img-fluid-three {
   max-width: 100%;
-  border-radius:20px;
+  border-radius:20px 20px 0px 0px;
+  background: #0000;
+  height: auto; }
+
+ .img-fluid {
+  max-width: 100%;
+  border-radius:20px 20px 20px 20px;
   background: #0000;
   height: auto; }
 
@@ -6363,6 +6369,9 @@ textarea.form-control-lg {
 .bg-light {
   background-color: #f8f9fa !important; }
 
+ .bg-black {
+  background-color: #000 !important; }
+
 .bg-dark {
   background-color: #212529 !important; }
 
@@ -9715,7 +9724,7 @@ a {
     .media-1 .media-1-content h2, .media-1 .media-1-content .h2 {
       position: relative;
       color: #fff;
-      font-size: 1.5rem;
+      font-size: 48px;
       -webkit-transition: .4s all ease-in-out;
       -o-transition: .4s all ease-in-out;
       transition: .4s all ease-in-out;

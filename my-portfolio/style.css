@@ -1,0 +1,135 @@
+/* Use Poppins if you added it in index.html from Google Fonts */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif; /* fallback if Poppins fails */
+    background-color: #111; /* overall dark background */
+    color: #fff; /* default text color is white */
+  }
+  
+  /* Navbar Styles */
+  .navbar {
+    background-color: #000; /* or #111, etc. */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  
+  .nav-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    color: #e91e63; /* pink accent on hover */
+  }
+  
+  /* Sections */
+  .home-section {
+    padding: 4rem 2rem;
+    text-align: left;
+    background: #222; /* dark grey background for hero section */
+  }
+  
+  /* Container for consistency */
+  .section-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .section-dark {
+    background-color: #111;
+    padding: 4rem 2rem;
+  }
+  
+  .section-light {
+    background-color: #222;
+    padding: 4rem 2rem;
+  }
+  
+  /* Headings & text */
+  h1, h2, h3 {
+    margin: 0 0 1rem 0;
+  }
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Buttons */
+  .home-buttons {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .btn {
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .btn-gradient {
+    background: linear-gradient(to right, #e91e63, #ff9800);
+    color: #fff;
+  }
+  .btn-gradient:hover {
+    opacity: 0.9;
+  }
+  
+  .btn-outline {
+    border: 2px solid #e91e63;
+    color: #e91e63;
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: #e91e63;
+    color: #fff;
+  }
+  
+  /* Lists */
+  ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    list-style-type: disc;
+  }
+  
+  .subtext {
+    color: #ff80ff; /* just a highlight color, you can pick any */
+  }
+  
+  /* Project or job item spacing */
+  .job-item, .project-item, .education-item {
+    margin-bottom: 2rem;
+  }
+  
+  a {
+    color: #ffa726; /* links can be an accent color */
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  a:hover {
+    color: #ffcc80;
+  }
+  

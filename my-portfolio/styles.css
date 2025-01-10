@@ -1,200 +1,429 @@
 /* styles.css */
 
-/* 1) Global Reset & Font */
+/* 1) Global Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #111; /* overall dark background */
-    color: #fff;            /* default text color is white */
-  }
-  
-  /* 2) Navbar */
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #000; /* or #111, etc. */
-    padding: 1rem 2rem;
-    position: sticky;  /* stays at the top on scroll */
-    top: 0;
-    z-index: 999;
-  }
-  
-  .nav-logo {
-    font-weight: 700;
-    font-size: 1.2rem;
-  }
-  
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-  }
-  
-  .nav-links a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 400;
-    transition: color 0.3s;
-  }
-  
-  .nav-links a:hover {
-    color: #e91e63;
-  }
-  
-  /* 3) Hero / Home Section */
-  .hero-section {
-    background-color: #222;
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    padding: 2rem;
-  }
-  
-  .hero-content {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: left;
-  }
-  
-  .hero-content h1 {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2) Base Body */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fafafa;
+  color: #333;
+  line-height: 1.6;
+  transition: background 0.4s, color 0.4s;
+}
+
+/* 3) Floating Header (Matte Transparent) */
+.header {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(6px);
+  border-radius: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 1rem 3rem; /* Increased padding for bigger navbar */
+}
+
+/* The nav itself */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand a {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500; /* Increased font weight */
+  font-size: 1.1rem; /* Increased font size */
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #777;
+}
+
+/* Dark Mode Toggle Button */
+.theme-toggle {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 0.6rem 1rem; /* Increased padding */
+  font-size: 1rem; /* Increased font size */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.theme-toggle:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+/* 4) Hero Section */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(#fefefe, #fafafa);
+  padding: 2rem;
+  /* push content below floating nav */
+  padding-top: 6rem; 
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 2rem;
+  text-align: left;
+}
+
+.hero-title {
+  font-family: 'Merriweather', serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.hero-subtitle {
+  font-family: 'Merriweather', serif;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+.hero-profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.profile-img {
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.profile-role {
+  font-weight: 400;
+  color: #777;
+}
+
+/* Where you can start (Card) */
+.hero-links {
+  background: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.hero-links-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.hero-links ul {
+  list-style: none;
+}
+
+.hero-links li {
+  margin: 0.5rem 0;
+}
+
+.hero-links li i.material-icons {
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  color: #666;
+}
+
+.hero-links a {
+  text-decoration: none;
+  color: #333;
+}
+
+.hero-links a:hover {
+  text-decoration: underline;
+}
+
+/* 5) Featured Work (Full-Width Cards) */
+.featured-work-section {
+  padding: 4rem 1rem;
+  background: #f7f7f7;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-container h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #444;
+}
+
+.card-full {
+  display: flex;
+  flex-wrap: wrap;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.card-full:hover {
+  transform: translateY(-2px);
+}
+
+.card-full-content {
+  flex: 1 1 400px;
+  padding: 2rem;
+}
+
+.card-full-content h3 {
+  font-family: 'Merriweather', serif;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.card-full-content p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.card-link {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
+
+.card-full-image {
+  flex: 1 1 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eee;
+}
+
+.card-full-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* 6) About, Blog, Contact Sections */
+.about-section, .blog-section, .contact-section {
+  padding: 4rem 1rem;
+  background: #fafafa;
+}
+
+.contact-info {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.contact-info li {
+  margin-bottom: 0.5rem;
+}
+
+.contact-info a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+/* 7) Footer */
+.footer {
+  background: #fff;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #666;
+}
+
+/* 8) Media Queries */
+@media screen and (max-width: 768px) {
+  .hero-title {
     font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
   }
-  
-  .hero-content h2 {
-    font-size: 1.5rem;
-    color: #ccc;
-    margin-bottom: 1rem;
+  .card-full {
+    flex-direction: column;
   }
-  
-  .hero-content p {
-    line-height: 1.6;
-    margin-bottom: 2rem;
+
+  /* Mobile Navigation */
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 60%;
+    background: rgba(255, 255, 255, 0.95);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: right 0.3s ease;
+    gap: 2rem;
   }
-  
-  /* Hero Buttons */
-  .hero-buttons {
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .hamburger {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    cursor: pointer;
   }
-  
-  .btn {
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: all 0.3s ease;
+
+  .hamburger .bar {
+    height: 3px;
+    width: 25px;
+    background-color: #333;
+    margin: 4px 0;
+    transition: all 0.3s;
   }
-  
-  .btn-gradient {
-    background: linear-gradient(to right, #e91e63, #ff9800);
-    color: #fff;
+
+  .theme-toggle {
+    margin-left: 1rem;
   }
-  
-  .btn-gradient:hover {
-    opacity: 0.9;
-  }
-  
-  .btn-outline {
-    border: 2px solid #e91e63;
-    color: #e91e63;
-    background: transparent;
-  }
-  
-  .btn-outline:hover {
-    background-color: #e91e63;
-    color: #fff;
-  }
-  
-  /* 4) Section Containers (dark/light) */
-  .section-dark {
-    background-color: #111;
-    padding: 4rem 2rem;
-  }
-  
-  .section-light {
-    background-color: #222;
-    padding: 4rem 2rem;
-  }
-  
-  .section-container {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  .section-container h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    font-weight: 700;
-  }
-  
-  /* 5) Items (Experience, Projects, etc.) */
-  .job-item, .project-item, .education-item {
-    margin-bottom: 2rem;
-  }
-  
-  .job-item h3, .project-item h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  
-  .job-item span, .project-item .subtext {
-    color: #e91e63;
-  }
-  
-  .job-item p, .project-item p {
-    color: #ccc;
-  }
-  
-  /* Lists */
-  ul {
-    list-style-type: disc;
-    margin-left: 1.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* Link styling inside sections */
-  a {
-    color: #ffa726;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    color: #ffcc80;
-  }
-  
-  /* 6) Footer */
-  .footer {
-    background-color: #000;
-    text-align: center;
-    padding: 1.5rem;
-    color: #666;
-    font-size: 0.9rem;
-  }
-  
-  /* AOS fix (optional) */
-  [data-aos] {
-    position: relative;
-    z-index: 0;
-  }
-  
-  /* 7) Responsive Adjustments (Optional) */
-  @media screen and (max-width: 768px) {
-    .nav-links {
-      /* You could make a mobile menu here if desired */
-      gap: 1rem;
-    }
-    .hero-content h1 {
-      font-size: 2rem;
-    }
-  }
-  
+}
+
+/* 9) Dark Mode */
+body.dark-mode {
+  background: #111;
+  color: #eee;
+}
+
+body.dark-mode .header {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .nav-links a {
+  color: #ccc;
+}
+
+body.dark-mode .nav-links a:hover {
+  color: #fff;
+}
+
+body.dark-mode .theme-toggle {
+  border-color: #777;
+  color: #ccc;
+  background: transparent;
+}
+
+body.dark-mode .hero-section {
+  background: linear-gradient(#222, #111);
+}
+
+body.dark-mode .hero-title {
+  color: #f0f0f0;
+}
+
+body.dark-mode .hero-subtitle {
+  color: #ccc;
+}
+
+body.dark-mode .hero-links {
+  background: #333;
+}
+
+body.dark-mode .hero-links li i.material-icons {
+  color: #ccc;
+}
+
+body.dark-mode .hero-links a {
+  color: #eee;
+}
+
+body.dark-mode .featured-work-section {
+  background: #1a1a1a;
+}
+
+body.dark-mode .card-full {
+  background: #222;
+}
+
+body.dark-mode .card-full-content h3 {
+  color: #eee;
+}
+
+body.dark-mode .card-full-content p {
+  color: #bbb;
+}
+
+body.dark-mode .card-full-image {
+  background: #333;
+}
+
+body.dark-mode .card-link {
+  color: #4ea1ff;
+}
+
+body.dark-mode .about-section,
+body.dark-mode .blog-section,
+body.dark-mode .contact-section {
+  background: #1a1a1a;
+}
+
+body.dark-mode .footer {
+  background: #000;
+}
+
+/* 10) Reactive Cursor */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, background-color 0.3s ease;
+  z-index: 10000;
+}
+
+body.dark-mode .custom-cursor {
+  border-color: #eee;
+}
+
+.custom-cursor.active {
+  transform: translate(-50%, -50%) scale(1.5);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+

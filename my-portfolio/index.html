@@ -3,179 +3,267 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Darwin Chen | Portfolio</title>
-  
-  <!-- Google Font: Poppins -->
+  <title>Darwin Chen | AI & Web Portfolio</title>
+
+  <!-- Google Fonts -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Poppins:wght@300;400;600&display=swap"
     rel="stylesheet"
+  />
+  
+  <!-- Material Icons (for icons) -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  />
+
+  <!-- AOS (Animate On Scroll) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/aos@2.3.1/dist/aos.css"
   />
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="styles.css" />
-
-  <!-- AOS (Animate On Scroll) for fade-up animations -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 </head>
-<body>
+<body class="dark-mode"> <!-- Default to dark mode -->
+  <!-- CUSTOM CURSOR -->
+  <div class="custom-cursor"></div>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-logo">Darwin Chen</div>
-    <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+  <!-- HEADER / FLOATING NAV -->
+  <header class="header">
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="#top">Home&nbsp;</a></li>
+        <li><a href="#work">Work&nbsp;</a></li>
+        <li><a href="#about">About&nbsp;</a></li>
+        <li><a href="#blog">Blog&nbsp;</a></li>
+        <li><a href="#contact">Contact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+      </ul>
+
+      <!-- Dark Mode Toggle -->
+      <button id="themeToggle" class="theme-toggle">Light Mode</button>
+      <!-- Hamburger Menu -->
+      <div class="hamburger" id="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </nav>
+  </header>
 
   <!-- HERO SECTION -->
-  <section id="home" class="hero-section">
+  <section id="top" section class="hero-section">
     <div class="hero-content" data-aos="fade-up">
-      <h1>I'm Darwin Chen, a Frontend Developer &amp; Data Analyst</h1>
-      <h2>Kingston, ON, Canada</h2>
-      <p>
-        I am a .
+      <h1 class="hero-title">Darwin Chen</h1>
+      <p class="hero-subtitle">
+        An AI-driven web developer dedicated to building tools that empower users 
+        and unlock powerful data insights.
       </p>
-      <div class="hero-buttons">
-        <a href="#contact" class="btn btn-gradient">Connect With Me</a>
-        <a
-          href="DarwinChen_Resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-outline"
-        >
-          My Resume
-        </a>
+
+      <!-- Profile row -->
+      <div class="hero-profile">
+        <img
+          src="https://via.placeholder.com/50"
+          alt="Profile Picture"
+          class="profile-img"
+        />
+        <p class="profile-role">vDU Developer (Ericsson), Web Specialist</p>
+      </div>
+
+      <!-- “Where you can start” box -->
+      <div class="hero-links" data-aos="fade-up" data-aos-delay="200">
+        <p class="hero-links-title">Where you can start</p>
+        <ul>
+          <li>
+            <i class="material-icons">person</i> 
+            <a href="#fun-facts">Learn more about my AI journey</a>
+          </li>
+          <li>
+            <i class="material-icons">history</i> 
+            <a href="#work-history">Browse my professional background</a>
+          </li>
+          <li>
+            <i class="material-icons">folder_open</i> 
+            <a href="#featured-case">Explore my GPT Chat Agent</a>
+          </li>
+          <li>
+            <i class="material-icons">edit</i> 
+            <a href="#blog">Check out my blog posts</a>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- EXPERIENCE SECTION -->
-  <section id="experience" class="section-dark">
-    <div class="section-container" data-aos="fade-up">
-      <h2>Work Experience</h2>
-      
-      <div class="job-item">
-        <h3>
-          vDU Developer <span>| Ericsson Canada Inc</span>
-        </h3>
-        <p>May 2024 - Aug 2025 • Ottawa, ON</p>
-        <ul>
-          <li>
-            Implemented critical development tools for developers in the vDU
-            division using Node.js, React, enabling data visualization.
-          </li>
-        </ul>
+  <!-- FEATURED WORK SECTION -->
+  <section id="work" class="featured-work-section">
+    <div class="section-container">
+      <h2 data-aos="fade-up">Work Experience</h2>
+
+      <!-- Card 1 (Ericsson Canada Inc) -->
+      <div class="card-full" data-aos="fade-up">
+        <div class="card-full-content">
+          <h3>vDU Developer | Ericsson Canada Inc</h3>
+          <p>
+            <strong>May 2024 - Aug 2025 • Ottawa, ON</strong><br/>
+            Implemented critical development tools for the vDU division using Node.js &amp; React, 
+            enabling data visualization that streamlined the engineering workflow for next-generation 
+            telecom solutions.
+          </p>
+        </div>
+        <div class="card-full-image">
+          <img
+            src="https://via.placeholder.com/800x400"
+            alt="Ericsson vDU Project"
+          />
+        </div>
       </div>
 
-      <div class="job-item">
-        <h3>
-          Web Developer &amp; Manager <span>| Pathfinders</span>
-        </h3>
-        <p>May - Aug. 2022 - 2024 • Fredericton, NB</p>
-        <ul>
-          <li>
-            Led site maintenance &amp; UI enhancements improving UX; optimized
-            web apps using PHP, HTML, CSS.
-          </li>
-          <li>
-            Streamlined the translation process by developing plugins using
-            Google Apps Script (JavaScript).
-          </li>
-          <li>
-            Utilized Google Ads, Tag Manager, and Analytics to target global
-            traffic.
-          </li>
-        </ul>
+      <!-- Card 2 (Pathfinders) -->
+      <div class="card-full" data-aos="fade-up" data-aos-delay="100">
+        <div class="card-full-content">
+          <h3>Web Developer &amp; Manager | Pathfinders</h3>
+          <p>
+            <strong>May - Aug. 2022 - 2024 • Fredericton, NB</strong><br/>
+            Led site maintenance &amp; UI enhancements to improve UX; optimized apps with PHP, HTML, 
+            &amp; CSS. Developed custom Google Apps Script plugins for advanced translation features 
+            and integrated analytics to target global traffic.
+          </p>
+        </div>
+        <div class="card-full-image">
+          <img
+            src="https://via.placeholder.com/800x400"
+            alt="Pathfinders Project"
+          />
+        </div>
       </div>
-      <!-- Add more job items if needed -->
+
+      <!-- Card 3 (Teaching Asst) -->
+      <div class="card-full" data-aos="fade-up" data-aos-delay="200">
+        <div class="card-full-content">
+          <h3>Teaching Assistant (Data Analytics) | Queen’s University</h3>
+          <p>
+            <strong>Jan. - Apr. 2023 - 2024 • Kingston, ON</strong><br/>
+            Assisted with a course on data analytics fundamentals, 
+            helping students learn Python-based data processing and 
+            AI-driven analysis. Mentored teams on practical machine 
+            learning projects.
+          </p>
+        </div>
+        <div class="card-full-image">
+          <img
+            src="https://via.placeholder.com/800x400"
+            alt="Teaching Assistant"
+          />
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- EDUCATION SECTION -->
-  <section id="education" class="section-light">
+  <!-- ABOUT SECTION -->
+  <section id="about" class="about-section">
     <div class="section-container" data-aos="fade-up">
-      <h2>Education</h2>
-      <div class="education-item">
-        <h3>Queen’s University</h3>
-        <p class="subtext">
-          Bachelor of Computing Honours (Data Analytics Specialization)
-        </p>
-        <p>Sept. 2021 - Apr. 2026 (with one year internship) • Kingston, ON</p>
-      </div>
+      <h2>About Me</h2>
+      <p>
+        I’m a Bachelor of Computing Honours (Data Analytics Specialization) student at 
+        Queen’s University (Sept. 2021 - Apr. 2026). My passion lies in bridging AI 
+        models with practical web deployments—whether it’s building GPT-based chat 
+        solutions, optimizing front-end UX, or implementing advanced analytics on 
+        the back end.
+      </p>
+      <p>
+        My experience includes deploying AI solutions locally, harnessing Node.js &amp; 
+        React for full-stack projects, and leveraging cloud platforms for global 
+        accessibility. I thrive in cross-functional teams that tackle real-world 
+        challenges at scale.
+      </p>
     </div>
   </section>
 
-  <!-- PROJECTS SECTION -->
-  <section id="projects" class="section-dark">
+  <!-- BLOG SECTION -->
+  <section id="blog" class="blog-section">
     <div class="section-container" data-aos="fade-up">
-      <h2>Projects</h2>
-      <div class="project-item">
-        <h3>On-Device GPT Chat Agent</h3>
-        <p class="subtext">Python, Flutter, GPT4ALL</p>
-        <ul>
-          <li>
-            Developed a chatbot using a quantized LLM model &amp; Flutter (Flet
-            GUI) to be ran locally.
-          </li>
-          <li>
-            Incorporated various API calls to obtain real-time information &amp;
-            context.
-          </li>
-        </ul>
-        <a
-          href="https://example.com/on-device-gpt-chat-agent"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Link to Project
-        </a>
+      <h2>Projects &amp; AI Blog</h2>
+
+      <!-- Card 1 (GPT Chat Agent) -->
+      <div class="card-full" data-aos="fade-up">
+        <div class="card-full-content">
+          <h3>On-Device GPT Chat Agent</h3>
+          <p>
+            <strong>Python, Flutter, GPT4ALL</strong><br/>
+            A locally deployable chatbot using a quantized LLM model &amp; Flutter (Flet GUI). 
+            Integrates real-time data calls and supports offline usage—enabling privacy-friendly, 
+            AI-driven conversations for specialized applications.
+          </p>
+          <a href="#case-study-1" class="card-link">View Case Study</a>
+        </div>
+        <div class="card-full-image">
+          <img
+            src="https://via.placeholder.com/800x400"
+            alt="GPT Chat Agent"
+          />
+        </div>
       </div>
-      <!-- Add more projects as needed -->
+
+      <!-- Card 2 (NLP Intent Identifier) -->
+      <div class="card-full" data-aos="fade-up" data-aos-delay="100">
+        <div class="card-full-content">
+          <h3>NLP Intent Identifier</h3>
+          <p>
+            <strong>Java, JavaFX, StanfordNLP</strong><br/>
+            Built a platform leveraging StanfordNLP to classify user inputs 
+            and respond to commands in a chat-like environment. Enhanced 
+            reliability with integrated APIs for extended functionality and 
+            dynamic content retrieval.
+          </p>
+          <a href="#case-study-2" class="card-link">View Project</a>
+        </div>
+        <div class="card-full-image">
+          <img
+            src="https://via.placeholder.com/800x400"
+            alt="NLP Intent Identifier"
+          />
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- CONTACT SECTION -->
-  <section id="contact" class="section-light">
+  <section id="contact" class="contact-section">
     <div class="section-container" data-aos="fade-up">
       <h2>Contact</h2>
-      <p>Phone: +1 (506)897-3819</p>
       <p>
-        Email:
-        <a href="mailto:darwinchen8@outlook.com">darwinchen8@outlook.com</a>
+        Interested in discussing AI-driven web projects, 
+        or want to connect about potential roles?
+        Let’s talk!
       </p>
-      <p>
-        GitHub:
-        <a href="https://github.com/Darwin27264" target="_blank"
-          >Darwin27264</a
-        >
-      </p>
-      <p>
-        LinkedIn:
-        <a href="https://www.linkedin.com/in/Darwin-Chen" target="_blank"
-          >Darwin Chen</a
-        >
-      </p>
+      <ul class="contact-info">
+        <li><strong>Phone:</strong> +1(506)897-3819</li>
+        <li><strong>Email:</strong> <a href="mailto:darwinchen8@outlook.com">darwinchen8@outlook.com</a></li>
+        <li><strong>GitHub:</strong> <a href="https://github.com/Darwin27264" target="_blank" rel="noopener noreferrer">Darwin27264</a></li>
+        <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/Darwin-Chen" target="_blank" rel="noopener noreferrer">Darwin Chen</a></li>
+      </ul>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>© 2025 Darwin Chen. All rights reserved.</p>
+    <div class="footer-container">
+      <p>© 2025 Darwin Chen. All rights reserved.</p>
+    </div>
   </footer>
 
-  <!-- JavaScript Files -->
+  <!-- JS Scripts -->
   <script src="script.js"></script>
 
-  <!-- AOS Library (for on-scroll animations) -->
+  <!-- AOS Library (for fade animations) -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init({
-      duration: 800, // animation duration in ms
-      offset: 100,   // offset (in px) from the original trigger point
+      duration: 600,
+      offset: 100,
+      once: true
     });
   </script>
 </body>

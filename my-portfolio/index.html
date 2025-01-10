@@ -48,7 +48,7 @@
         <li><a href="#work">Work&nbsp;</a></li>
         <li><a href="#about">About&nbsp;</a></li>
         <li><a href="#blog">Blog&nbsp;</a></li>
-        <li><a href="#contact">Contact&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+        <li><a href="#contact">Contact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
         <!-- Theme Toggle inside mobile menu -->
         <li class="theme-toggle-container mobile-theme-toggle">
           <button class="theme-toggle">Light Mode</button>
@@ -80,7 +80,7 @@
       </div>
 
       <!-- “Where you can start” box -->
-      <div class="hero-links" data-aos="fade-up" data-aos-delay="200">
+      <div class="hero-links hero-links-glow" data-aos="fade-up" data-aos-delay="200">
         <p class="hero-links-title">Where you can start</p>
         <ul>
           <li>
@@ -107,9 +107,11 @@
   <!-- FEATURED WORK SECTION -->
   <section id="work" class="featured-work-section">
     <div class="section-container">
-      <h2 class="subheader" data-aos="fade-up">Work Experience</h2>
+      <div class="subheader-container" data-aos="fade-up">
+        <h2 class="subheader">Work Experience</h2>
+      </div>
 
-      <!-- Card 1 (Ericsson Canada Inc) -->
+      <!-- Card 1 -->
       <div class="card-full" data-aos="fade-up">
         <div class="card-full-content">
           <h3>vDU Developer | Ericsson Canada Inc</h3>
@@ -128,7 +130,7 @@
         </div>
       </div>
 
-      <!-- Card 2 (Pathfinders) -->
+      <!-- Card 2 -->
       <div class="card-full" data-aos="fade-up" data-aos-delay="100">
         <div class="card-full-content">
           <h3>Web Developer &amp; Manager | Pathfinders</h3>
@@ -147,7 +149,7 @@
         </div>
       </div>
 
-      <!-- Card 3 (Teaching Asst) -->
+      <!-- Card 3 -->
       <div class="card-full" data-aos="fade-up" data-aos-delay="200">
         <div class="card-full-content">
           <h3>Teaching Assistant (Data Analytics) | Queen’s University</h3>
@@ -169,32 +171,79 @@
     </div>
   </section>
 
-  <!-- ABOUT SECTION -->
+  <!-- ABOUT SECTION (Masonry) -->
   <section id="about" class="about-section">
     <div class="section-container" data-aos="fade-up">
-      <h2 class="subheader">About Me</h2>
-      <p>
-        I’m a Bachelor of Computing Honours (Data Analytics Specialization) student at 
-        Queen’s University (Sept. 2021 - Apr. 2026). My passion lies in bridging AI 
-        models with practical web deployments—whether it’s building GPT-based chat 
-        solutions, optimizing front-end UX, or implementing advanced analytics on 
-        the back end.
-      </p>
-      <p>
-        My experience includes deploying AI solutions locally, harnessing Node.js &amp; 
-        React for full-stack projects, and leveraging cloud platforms for global 
-        accessibility. I thrive in cross-functional teams that tackle real-world 
-        challenges at scale.
-      </p>
+      <div class="subheader-container">
+        <h2 class="subheader">About Me</h2>
+      </div>
+
+      <!-- The masonry container -->
+      <div id="aboutMasonryGrid" class="about-mosaic">
+        <!-- Box 1 -->
+        <div class="mosaic-box box1">
+          <h3>Bachelor of Computing</h3>
+          <p>
+            Honours (Data Analytics) at Queen’s University
+            <br/>(Sept. 2021 - Apr. 2026)
+          </p>
+        </div>
+
+        <!-- Box 2 -->
+        <div class="mosaic-box box2">
+          <h3>AI & Web Passions</h3>
+          <ul>
+            <li>GPT-based chat solutions</li>
+            <li>Front-end UX optimization</li>
+            <li>Advanced back-end analytics</li>
+          </ul>
+        </div>
+
+        <!-- Box 3 -->
+        <div class="mosaic-box box3">
+          <h3>Full-Stack Expertise</h3>
+          <p>
+            Proficient in Node.js &amp; React, bridging AI
+            models with modern web frameworks.
+          </p>
+        </div>
+
+        <!-- Box 4 -->
+        <div class="mosaic-box box4">
+          <h3>AI Deployments</h3>
+          <p>
+            Locally &amp; on the cloud for global accessibility;
+            harnessing data-driven insights in real-world apps.
+          </p>
+        </div>
+
+        <!-- Box 5 -->
+        <div class="mosaic-box box5">
+          <h3>Collaboration</h3>
+          <p>
+            Thriving in cross-functional teams tackling
+            real-world challenges at scale.
+          </p>
+        </div>
+
+        <!-- Box 6: Resume -->
+        <div class="mosaic-box box6">
+          <h3>Get My Resume</h3>
+          <p>Explore my skills &amp; experience in more detail.</p>
+          <a href="DarwinChen_Resume.pdf" target="_blank" class="resume-btn">Download PDF</a>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- BLOG SECTION -->
   <section id="blog" class="blog-section">
     <div class="section-container" data-aos="fade-up">
-      <h2 class="subheader">Projects &amp; AI Blog</h2>
+      <div class="subheader-container">
+        <h2 class="subheader">Projects &amp; AI Blog</h2>
+      </div>
 
-      <!-- Card 1 (GPT Chat Agent) -->
+      <!-- Card 1 -->
       <div class="card-full" data-aos="fade-up">
         <div class="card-full-content">
           <h3>On-Device GPT Chat Agent</h3>
@@ -214,7 +263,7 @@
         </div>
       </div>
 
-      <!-- Card 2 (NLP Intent Identifier) -->
+      <!-- Card 2 -->
       <div class="card-full" data-aos="fade-up" data-aos-delay="100">
         <div class="card-full-content">
           <h3>NLP Intent Identifier</h3>
@@ -240,7 +289,9 @@
   <!-- CONTACT SECTION -->
   <section id="contact" class="contact-section">
     <div class="section-container" data-aos="fade-up">
-      <h2 class="subheader">Contact</h2>
+      <div class="subheader-container">
+        <h2 class="subheader">Contact</h2>
+      </div>
       <p>
         Interested in discussing AI-driven web projects, 
         or want to connect about potential roles?
@@ -272,6 +323,24 @@
       duration: 600,
       offset: 100,
       once: true
+    });
+  </script>
+
+  <!-- Masonry Library (CDN) -->
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  
+  <!-- Initialize Masonry once the page loads -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var aboutGrid = document.querySelector('#aboutMasonryGrid');
+      if (aboutGrid) {
+        new Masonry(aboutGrid, {
+          itemSelector: '.mosaic-box', 
+          columnWidth: '.mosaic-box',
+          percentPosition: true,
+          gutter: 20
+        });
+      }
     });
   </script>
 </body>

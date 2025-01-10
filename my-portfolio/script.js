@@ -6,7 +6,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
     if (target) {
-      // Adjust if you want a different offset from the floating nav
       const offset = 80;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = target.getBoundingClientRect().top;
@@ -42,8 +41,6 @@ themeToggleButtons.forEach(button => {
   // Add event listener to each toggle button
   button.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
-
-    // Update all toggle button texts
     themeToggleButtons.forEach(btn => {
       if (body.classList.contains('dark-mode')) {
         btn.textContent = 'Light Mode';
@@ -62,8 +59,7 @@ document.addEventListener('mousemove', (e) => {
   customCursor.style.left = `${e.clientX}px`;
 });
 
-const interactiveElements = document.querySelectorAll('a, button, .card-full');
-
+const interactiveElements = document.querySelectorAll('a, button, .card-full, .mosaic-box, .resume-btn');
 interactiveElements.forEach(el => {
   el.addEventListener('mouseenter', () => {
     customCursor.classList.add('active');

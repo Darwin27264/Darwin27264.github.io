@@ -13,7 +13,8 @@ body {
   background: #fafafa;
   color: #333;
   line-height: 1.6;
-  transition: background 0.4s, color 0.4s;
+  transition: background 0.6s, color 0.6s; /* Increased transition duration */
+  cursor: none; /* Hide the default cursor */
 }
 
 /* 3) Floating Header (Matte Transparent) */
@@ -26,8 +27,9 @@ body {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(6px);
   border-radius: 2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   padding: 1rem 3rem; /* Increased padding for bigger navbar */
+  transition: background 0.6s; /* Match transition duration */
 }
 
 /* The nav itself */
@@ -35,13 +37,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.nav-brand a {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #333;
-  text-decoration: none;
 }
 
 .nav-links {
@@ -54,12 +49,22 @@ body {
   text-decoration: none;
   color: #333;
   font-weight: 500; /* Increased font weight */
-  font-size: 1.1rem; /* Increased font size */
-  transition: color 0.3s;
+  font-size: 1.2rem; /* Increased font size */
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .nav-links a:hover {
   color: #777;
+}
+
+/* Mobile Theme Toggle - Hidden on Desktop */
+.mobile-theme-toggle {
+  display: none;
+}
+
+/* Desktop Theme Toggle - Visible only on Desktop */
+.desktop-theme-toggle {
+  display: block;
 }
 
 /* Dark Mode Toggle Button */
@@ -67,10 +72,10 @@ body {
   background: none;
   border: 1px solid #ccc;
   padding: 0.6rem 1rem; /* Increased padding */
-  font-size: 1rem; /* Increased font size */
-  border-radius: 4px;
+  font-size: 1.1rem; /* Increased font size */
+  border-radius: 15px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.6s, color 0.6s, border-color 0.6s; /* Slower transitions */
 }
 
 .theme-toggle:hover {
@@ -84,9 +89,10 @@ body {
   align-items: center;
   justify-content: center;
   background: linear-gradient(#fefefe, #fafafa);
-  padding: 2rem;
+  padding: 4rem;
   /* push content below floating nav */
   padding-top: 6rem; 
+  transition: background 0.6s; /* Match transition duration */
 }
 
 .hero-content {
@@ -97,10 +103,11 @@ body {
 
 .hero-title {
   font-family: 'Merriweather', serif;
-  font-size: 3.5rem;
+  font-size: 4rem;
   font-weight: 700;
   margin-bottom: 1rem;
   color: #444;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .hero-subtitle {
@@ -108,6 +115,7 @@ body {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   color: #555;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .hero-profile {
@@ -124,6 +132,7 @@ body {
 .profile-role {
   font-weight: 400;
   color: #777;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 /* Where you can start (Card) */
@@ -132,12 +141,14 @@ body {
   padding: 1rem 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: background 0.6s; /* Match transition duration */
 }
 
 .hero-links-title {
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .hero-links ul {
@@ -152,11 +163,13 @@ body {
   vertical-align: middle;
   margin-right: 0.5rem;
   color: #666;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .hero-links a {
   text-decoration: none;
   color: #333;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .hero-links a:hover {
@@ -167,6 +180,7 @@ body {
 .featured-work-section {
   padding: 4rem 1rem;
   background: #f7f7f7;
+  transition: background 0.6s; /* Match transition duration */
 }
 
 .section-container {
@@ -175,10 +189,30 @@ body {
 }
 
 .section-container h2 {
-  font-size: 2rem;
+  /* Removed default styles to use .subheader */
+}
+
+.subheader {
+  font-size: 1.8rem; /* Smaller font size */
   font-weight: 600;
-  margin-bottom: 2rem;
-  color: #444;
+  margin-bottom: 1rem;
+  color: #fff; /* White color in dark mode */
+  position: relative;
+  display: inline-block;
+  transition: color 0.6s, background 0.6s; /* Match transition duration */
+}
+
+.subheader::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(100% - 200px); /* Adjust based on layout */
+  height: 2px;
+  background: #fff;
+  margin-left: 1rem;
+  transition: background 0.6s; /* Match transition duration */
 }
 
 .card-full {
@@ -189,7 +223,7 @@ body {
   margin-bottom: 2rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   overflow: hidden;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background 0.6s; /* Added background transition */
 }
 
 .card-full:hover {
@@ -206,18 +240,21 @@ body {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
   color: #333;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .card-full-content p {
   font-size: 1rem;
   color: #555;
   margin-bottom: 1.5rem;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .card-link {
   color: #0066cc;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .card-link:hover {
@@ -230,6 +267,7 @@ body {
   align-items: center;
   justify-content: center;
   background: #eee;
+  transition: background 0.6s; /* Match transition duration */
 }
 
 .card-full-image img {
@@ -242,6 +280,7 @@ body {
 .about-section, .blog-section, .contact-section {
   padding: 4rem 1rem;
   background: #fafafa;
+  transition: background 0.6s; /* Match transition duration */
 }
 
 .contact-info {
@@ -256,6 +295,7 @@ body {
 .contact-info a {
   color: #0066cc;
   text-decoration: none;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 .contact-info a:hover {
@@ -268,12 +308,14 @@ body {
   text-align: center;
   padding: 1.5rem 1rem;
   box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
+  transition: background 0.6s; /* Match transition duration */
 }
 
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
   color: #666;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 /* 8) Media Queries */
@@ -289,37 +331,74 @@ body {
   .nav-links {
     position: fixed;
     top: 0;
-    right: -100%;
-    height: 100vh;
-    width: 60%;
-    background: rgba(255, 255, 255, 0.95);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: right 0.3s ease;
+    transition: transform 0.3s ease;
+    transform: translateY(-100%);
     gap: 2rem;
+    z-index: 998;
   }
 
   .nav-links.active {
-    right: 0;
+    transform: translateY(0);
   }
 
+  .nav-links a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.6s; /* Match transition duration */
+  }
+
+  .subheader::after {
+    width: calc(100% - 150px); /* Adjust based on layout */
+    background: #fff;
+    transition: background 0.6s; /* Match transition duration */
+  }
+
+  /* Position Hamburger on Top Left */
   .hamburger {
     display: flex;
     flex-direction: column;
     cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem; /* Changed from right to left */
+    z-index: 1001; /* Ensure it stays above the nav-links */
   }
 
   .hamburger .bar {
-    height: 3px;
-    width: 25px;
-    background-color: #333;
-    margin: 4px 0;
+    height: 4px;
+    width: 30px;
+    background-color: #fff;
+    margin: 5px 0;
     transition: all 0.3s;
   }
 
-  .theme-toggle {
-    margin-left: 1rem;
+  /* Mobile Theme Toggle */
+  .mobile-theme-toggle {
+    display: block;
+    margin-top: 2rem;
+  }
+
+  /* Hide Desktop Theme Toggle on Mobile */
+  .desktop-theme-toggle {
+    display: none;
+  }
+
+  /* Hide Custom Cursor on Mobile */
+  .custom-cursor {
+    display: none;
+  }
+
+  /* Adjust Subheader in Mobile for better layout */
+  .subheader::after {
+    width: calc(100% - 150px); /* Adjust based on layout */
+    background: #fff;
   }
 }
 
@@ -327,14 +406,17 @@ body {
 body.dark-mode {
   background: #111;
   color: #eee;
+  transition: background 0.6s, color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .header {
   background: rgba(0, 0, 0, 0.7);
+  transition: background 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .nav-links a {
   color: #ccc;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .nav-links a:hover {
@@ -345,85 +427,132 @@ body.dark-mode .theme-toggle {
   border-color: #777;
   color: #ccc;
   background: transparent;
+  transition: background 0.6s, color 0.6s, border-color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .hero-section {
   background: linear-gradient(#222, #111);
+  transition: background 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .hero-title {
   color: #f0f0f0;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .hero-subtitle {
   color: #ccc;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .hero-links {
   background: #333;
+  transition: background 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .hero-links li i.material-icons {
   color: #ccc;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .hero-links a {
   color: #eee;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .featured-work-section {
   background: #1a1a1a;
+  transition: background 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .card-full {
   background: #222;
+  transition: background 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .card-full-content h3 {
   color: #eee;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .card-full-content p {
   color: #bbb;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .card-full-image {
   background: #333;
+  transition: background 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .card-link {
   color: #4ea1ff;
+  transition: color 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .about-section,
 body.dark-mode .blog-section,
 body.dark-mode .contact-section {
   background: #1a1a1a;
+  transition: background 0.6s; /* Match transition duration */
 }
 
 body.dark-mode .footer {
   background: #000;
+  transition: background 0.6s; /* Match transition duration */
+}
+
+.footer-container {
+  color: #666;
+  transition: color 0.6s; /* Match transition duration */
+}
+
+/* Subheader Colors Based on Theme */
+body.dark-mode .subheader {
+  color: #fff;
+  transition: color 0.6s; /* Match transition duration */
+}
+
+body:not(.dark-mode) .subheader {
+  color: #000; /* Black color in light mode */
+  transition: color 0.6s; /* Match transition duration */
+}
+
+body.dark-mode .subheader::after {
+  background: #fff;
+  transition: background 0.6s; /* Match transition duration */
+}
+
+body:not(.dark-mode) .subheader::after {
+  background: #000; /* Black line in light mode */
+  transition: background 0.6s; /* Match transition duration */
 }
 
 /* 10) Reactive Cursor */
 .custom-cursor {
   width: 20px;
   height: 20px;
-  border: 2px solid #fff;
+  border: 2px solid #fff; /* White in dark mode */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  transition: transform 0.1s ease, background-color 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.6s ease, border-color 0.6s ease; /* Slower and consistent transitions */
   z-index: 10000;
 }
 
 body.dark-mode .custom-cursor {
-  border-color: #eee;
+  border-color: #fff; /* Ensure border remains white in dark mode */
+  transition: border-color 0.6s; /* Match transition duration */
+}
+
+body:not(.dark-mode) .custom-cursor {
+  border-color: #000; /* Black border in light mode */
+  transition: border-color 0.6s; /* Match transition duration */
 }
 
 .custom-cursor.active {
   transform: translate(-50%, -50%) scale(1.5);
   background-color: rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease, background-color 0.6s ease; /* Slower transitions */
 }
-

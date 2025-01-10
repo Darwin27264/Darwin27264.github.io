@@ -1,7 +1,7 @@
 // script.js
 
-// Smooth scrolling for nav links
-document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
+// Smooth scrolling for all anchor links
+document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', function(e) {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
@@ -28,25 +28,30 @@ document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
 });
 
 // Dark Mode Toggle
-const themeToggleBtn = document.getElementById('themeToggle');
+const themeToggleButtons = document.querySelectorAll('.theme-toggle');
 const body = document.body;
 
 // Initialize theme based on default state
-if (body.classList.contains('dark-mode')) {
-  themeToggleBtn.textContent = 'Light Mode';
-} else {
-  themeToggleBtn.textContent = 'Dark Mode';
-}
-
-themeToggleBtn.addEventListener('click', () => {
-  body.classList.toggle('dark-mode');
-
-  // Update button text
+themeToggleButtons.forEach(button => {
   if (body.classList.contains('dark-mode')) {
-    themeToggleBtn.textContent = 'Light Mode';
+    button.textContent = 'Light Mode';
   } else {
-    themeToggleBtn.textContent = 'Dark Mode';
+    button.textContent = 'Dark Mode';
   }
+
+  // Add event listener to each toggle button
+  button.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+
+    // Update all toggle button texts
+    themeToggleButtons.forEach(btn => {
+      if (body.classList.contains('dark-mode')) {
+        btn.textContent = 'Light Mode';
+      } else {
+        btn.textContent = 'Dark Mode';
+      }
+    });
+  });
 });
 
 // Reactive Cursor

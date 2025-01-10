@@ -10,6 +10,8 @@
     href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Poppins:wght@300;400;600&display=swap"
     rel="stylesheet"
   />
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   
   <!-- Material Icons (for icons) -->
   <link
@@ -33,27 +35,33 @@
   <!-- HEADER / FLOATING NAV -->
   <header class="header">
     <nav class="navbar">
-      <ul class="nav-links">
-        <li><a href="#top">Home&nbsp;</a></li>
-        <li><a href="#work">Work&nbsp;</a></li>
-        <li><a href="#about">About&nbsp;</a></li>
-        <li><a href="#blog">Blog&nbsp;</a></li>
-        <li><a href="#contact">Contact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-      </ul>
-
-      <!-- Dark Mode Toggle -->
-      <button id="themeToggle" class="theme-toggle">Light Mode</button>
       <!-- Hamburger Menu -->
       <div class="hamburger" id="hamburger">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </div>
+
+      <!-- Navigation Links -->
+      <ul class="nav-links">
+        <li><a href="#top">Home&nbsp;</a></li>
+        <li><a href="#work">Work&nbsp;</a></li>
+        <li><a href="#about">About&nbsp;</a></li>
+        <li><a href="#blog">Blog&nbsp;</a></li>
+        <li><a href="#contact">Contact&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+        <!-- Theme Toggle inside mobile menu -->
+        <li class="theme-toggle-container mobile-theme-toggle">
+          <button class="theme-toggle">Light Mode</button>
+        </li>
+      </ul>
+
+      <!-- Desktop Theme Toggle -->
+      <button id="themeToggleDesktop" class="theme-toggle desktop-theme-toggle">Light Mode</button>
     </nav>
   </header>
 
   <!-- HERO SECTION -->
-  <section id="top" section class="hero-section">
+  <section id="top" class="hero-section">
     <div class="hero-content" data-aos="fade-up">
       <h1 class="hero-title">Darwin Chen</h1>
       <p class="hero-subtitle">
@@ -99,7 +107,7 @@
   <!-- FEATURED WORK SECTION -->
   <section id="work" class="featured-work-section">
     <div class="section-container">
-      <h2 data-aos="fade-up">Work Experience</h2>
+      <h2 class="subheader" data-aos="fade-up">Work Experience</h2>
 
       <!-- Card 1 (Ericsson Canada Inc) -->
       <div class="card-full" data-aos="fade-up">
@@ -164,7 +172,7 @@
   <!-- ABOUT SECTION -->
   <section id="about" class="about-section">
     <div class="section-container" data-aos="fade-up">
-      <h2>About Me</h2>
+      <h2 class="subheader">About Me</h2>
       <p>
         I’m a Bachelor of Computing Honours (Data Analytics Specialization) student at 
         Queen’s University (Sept. 2021 - Apr. 2026). My passion lies in bridging AI 
@@ -184,7 +192,7 @@
   <!-- BLOG SECTION -->
   <section id="blog" class="blog-section">
     <div class="section-container" data-aos="fade-up">
-      <h2>Projects &amp; AI Blog</h2>
+      <h2 class="subheader">Projects &amp; AI Blog</h2>
 
       <!-- Card 1 (GPT Chat Agent) -->
       <div class="card-full" data-aos="fade-up">
@@ -232,7 +240,7 @@
   <!-- CONTACT SECTION -->
   <section id="contact" class="contact-section">
     <div class="section-container" data-aos="fade-up">
-      <h2>Contact</h2>
+      <h2 class="subheader">Contact</h2>
       <p>
         Interested in discussing AI-driven web projects, 
         or want to connect about potential roles?
@@ -250,7 +258,7 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-container">
-      <p>© 2025 Darwin Chen. All rights reserved.</p>
+      <p>© 2025 Darwin Chen. All rights reserved </p>
     </div>
   </footer>
 

@@ -188,10 +188,6 @@ body {
   margin: 0 auto;
 }
 
-.section-container h2 {
-  /* Removed default styles to use .subheader */
-}
-
 .subheader {
   font-size: 1.8rem; /* Smaller font size */
   font-weight: 600;

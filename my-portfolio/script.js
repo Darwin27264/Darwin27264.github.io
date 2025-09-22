@@ -15,15 +15,6 @@
     setTimeout(()=> root.classList.remove('theming'), 450);
   };
 
-  btn.addEventListener('click', () => {
-    withTransition(() => {
-      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      localStorage.setItem(key, next);
-      btn.setAttribute('aria-pressed', next === 'dark');
-    });
-  });
-
   const darkMeta  = document.querySelector('meta[name="theme-color"][media*="dark"]');
   const lightMeta = document.querySelector('meta[name="theme-color"][media*="light"]');
   const updateMeta = () => {
@@ -31,17 +22,38 @@
     (root.getAttribute('data-theme') === 'dark' ? darkMeta : lightMeta)?.setAttribute('content', c);
   };
   updateMeta();
+
+  btn.addEventListener('click', () => {
+    withTransition(() => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem(key, next);
+      btn.setAttribute('aria-pressed', next === 'dark');
+      updateMeta(); // sync browser UI
+    });
+  });
 })();
 
-// Progress hairline
+// Progress hairline + "scroll-active" flag for fading geo card while scrolling
 (function(){
   const bar = document.getElementById('progress');
-  const onScroll = () => {
+  const root = document.documentElement;
+  let timer;
+
+  const updateBar = () => {
     const h = document.documentElement;
     const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
     bar.style.width = (scrolled * 100).toFixed(2) + '%';
   };
-  onScroll();
+
+  const onScroll = () => {
+    updateBar();
+    root.classList.add('scroll-active');
+    clearTimeout(timer);
+    timer = setTimeout(()=> root.classList.remove('scroll-active'), 220);
+  };
+
+  updateBar();
   document.addEventListener('scroll', onScroll, {passive:true});
 })();
 
@@ -91,15 +103,22 @@
   requestAnimationFrame(() => root.querySelectorAll('.char').forEach(s => s.classList.add('in')));
 })();
 
-// Smooth anchors
+/* ===== Smooth anchors (works with inertial scroller if enabled) ===== */
 (function(){
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
     a.addEventListener('click', e=>{
       const id = a.getAttribute('href');
-      const target = document.querySelector(id);
-      if (!target) return;
+      const el = document.querySelector(id);
+      if (!el) return;
       e.preventDefault();
-      target.scrollIntoView({behavior:'smooth', block:'start'});
+
+      // If inertial scroller is active, compute target using its current offset
+      const smooth = document.getElementById('smooth');
+      const hasSmooth = document.body.classList.contains('has-smooth');
+      let current = hasSmooth ? parseFloat((/translate3d\(0px,\s*(-?\d+(\.\d+)?)px/).exec(smooth.style.transform)?.[1] || 0) * -1 : window.scrollY;
+      const y = el.getBoundingClientRect().top + current;
+
+      window.scrollTo({behavior:'smooth', top: y});
       history.pushState(null, '', id);
     });
   });
@@ -206,16 +225,8 @@
   if (!reduce) requestAnimationFrame(draw);
 })();
 
-// Footer last updated
-(function(){
-  const el = document.getElementById('lu');
-  if (!el) return;
-  const d = new Date(document.lastModified || Date.now());
-  const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,'0');
-  const da = String(d.getDate()).padStart(2,'0');
-  el.textContent = `${y}-${m}-${da}`;
-})();
+/* ===== (Removed) Footer last updated auto-script
+   Footer is now a fixed date in HTML to ensure consistency. ===== */
 
 /* ===== Hero name morph to top-left ===== */
 (function(){
@@ -225,19 +236,12 @@
   if (!name || !target || !hero) return;
 
   const mediaOK = window.matchMedia('(min-width: 901px)');
-  let ticking = false;
-
   function clamp(n, min, max){return Math.max(min, Math.min(max, n));}
 
   function update(){
-    ticking = false;
     if (!mediaOK.matches){
-      name.classList.remove('pinned');
-      name.style.transform = '';
-      target.style.opacity = 0;
-      return;
+      name.classList.remove('pinned'); name.style.transform = ''; target.style.opacity = 0; return;
     }
-
     const heroRect   = hero.getBoundingClientRect();
     const nameRect   = name.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
@@ -255,7 +259,6 @@
     const tY = dy * p;
     const s  = 1 + (scale - 1) * p;
     name.style.transform = `translate(${tX}px, ${tY}px) scale(${s})`;
-
     target.style.opacity = p > 0 ? Math.min(1, p*1.2) : 0;
 
     if (p >= 0.999){
@@ -269,11 +272,8 @@
     }
   }
 
-  function onScroll(){ requestAnimationFrame(update); }
-  function onResize(){ update(); }
-
-  document.addEventListener('scroll', onScroll, {passive:true});
-  window.addEventListener('resize', onResize);
+  document.addEventListener('scroll', ()=> requestAnimationFrame(update), {passive:true});
+  window.addEventListener('resize', update);
   update();
 })();
 
@@ -308,4 +308,73 @@
   }
   tick();
   setInterval(tick, 1000);
+})();
+
+/* ===== Subtle inertial smooth scrolling (desktop, respects Reduced Motion) ===== */
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(pointer: fine)').matches; // desktop/laptop mice & trackpads
+  const smoothEl = document.getElementById('smooth');
+  if (!smoothEl || reduce || !fine) return;
+
+  document.body.classList.add('has-smooth');
+
+  const setHeight = () => { document.body.style.height = smoothEl.scrollHeight + 'px'; };
+  let target = window.scrollY;
+  let current = target;
+  const ease = 0.12; // lower = laggier, keep subtle
+
+  function raf(){
+    current += (target - current) * ease;
+    // snap when close to avoid jitter
+    if (Math.abs(target - current) < 0.05) current = target;
+    smoothEl.style.transform = `translate3d(0, ${-current.toFixed(2)}px, 0)`;
+    requestAnimationFrame(raf);
+  }
+
+  function onScroll(){ target = window.scrollY; }
+  function onResize(){ setHeight(); target = window.scrollY; }
+
+  // Robust height syncing to prevent disappearing footer/content
+  setHeight();
+  window.addEventListener('resize', onResize);
+  window.addEventListener('scroll', onScroll, {passive:true});
+  requestAnimationFrame(raf);
+
+  // Recompute when fonts/images/content resize
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(setHeight).catch(()=>{}); }
+  window.addEventListener('load', setHeight);
+  setTimeout(setHeight, 250); // after initial layout
+  const ro = new ResizeObserver(setHeight);
+  ro.observe(smoothEl);
+})();
+
+/* ===== Stack badges: staggered pop-in ===== */
+(function(){
+  const section = document.getElementById('stack');
+  if (!section) return;
+  const badges = [...section.querySelectorAll('.badge')];
+  badges.forEach((b,i)=> b.style.setProperty('--i', i));
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce){ badges.forEach(b=>b.classList.add('in')); return; }
+
+  if (!('IntersectionObserver' in window)){ badges.forEach(b=>b.classList.add('in')); return; }
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if (!e.isIntersecting) return;
+      badges.forEach((b,i)=>{
+        b.style.transitionDelay = (i*18) + 'ms';
+        b.classList.add('in');
+      });
+      io.disconnect();
+    });
+  }, {rootMargin: '0px 0px -10% 0px', threshold: 0.05});
+  io.observe(section);
+})();
+
+/* ===== Assign deterministic float delays to about chips ===== */
+(function(){
+  const chips = document.querySelectorAll('.chips.floaty .chip');
+  chips.forEach((c,i)=> c.style.setProperty('--i', i));
 })();

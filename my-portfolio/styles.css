@@ -64,6 +64,17 @@ h1,h2,h3{font-weight:var(--regular);letter-spacing:-.01em}
   text-transform:uppercase;
   color:var(--muted);
   opacity:0; pointer-events:none; user-select:none;
+
+  display:inline-flex;
+  flex-direction:column;
+  line-height:1;
+  gap:2px;                 /* space between first & last name */
+  /* optional: tweak final size */
+}
+
+.brand-target .brand-line{
+  display:block;
+  white-space:nowrap;      /* prevent wrapping within each line */
 }
 
 @media (max-width:900px){.brand-target{display:none}}

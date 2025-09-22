@@ -1,348 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Darwin's Portfolio</title>
-
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Poppins:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
-
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  
-  <!-- Material Icons (for icons) -->
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-  />
-
-  <!-- AOS (Animate On Scroll) -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/aos@2.3.1/dist/aos.css"
-  />
-
-  <!-- Main CSS -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Darwin Chen — Portfolio</title>
+  <meta name="description" content="Darwin Chen — AI-inclined web developer building clean, fast, human-centered tools." />
+  <link rel="icon" href="favicon.ico" />
+  <meta name="theme-color" content="#0F1115" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="dark-mode"> <!-- Default to dark mode -->
-  <!-- CUSTOM CURSOR -->
-  <div class="custom-cursor"></div>
+<body>
+  <!-- Ambient backdrop -->
+  <canvas id="ambient" aria-hidden="true"></canvas>
 
-  <!-- HEADER / FLOATING NAV -->
-  <header class="header">
-    <nav class="navbar">
-      <!-- Hamburger Menu -->
-      <div class="hamburger" id="hamburger">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
+  <!-- Brand target (top-left) for scroll-morph -->
+  <div id="brandTarget" class="brand-target" aria-hidden="true">DARWIN&nbsp;CHEN</div>
 
-      <!-- Navigation Links -->
-      <ul class="nav-links">
-        <li><a href="#top">Home&nbsp;</a></li>
-        <li><a href="#work">Work&nbsp;</a></li>
-        <li><a href="#about">About&nbsp;</a></li>
-        <li><a href="#blog">Blog&nbsp;</a></li>
-        <li><a href="#contact">Contact&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-        <!-- Theme Toggle inside mobile menu -->
-        <li class="theme-toggle-container mobile-theme-toggle">
-          <button class="theme-toggle">Light Mode</button>
-        </li>
-      </ul>
-
-      <!-- Desktop Theme Toggle -->
-      <button id="themeToggleDesktop" class="theme-toggle desktop-theme-toggle">Light Mode</button>
+  <!-- Centered vertical dock -->
+  <aside class="vnav" aria-label="Site">
+    <a class="vnav-top" href="#top" aria-label="Back to top">Top</a>
+    <nav class="vnav-items" id="vnav" aria-label="Primary">
+      <a class="vnav-item" href="#work" data-target="work">Experience</a>
+      <a class="vnav-item" href="#projects" data-target="projects">Projects</a>
+      <a class="vnav-item" href="#about" data-target="about">About</a>
+      <a class="vnav-item" href="#contact" data-target="contact">Contact</a>
     </nav>
-  </header>
+  </aside>
 
-  <!-- HERO SECTION -->
-  <section id="top" class="hero-section">
-    <div class="hero-content" data-aos="fade-up">
-      <h1 class="hero-title">Darwin Chen</h1>
-      <p class="hero-subtitle">
-        An AI-driven web developer dedicated to building tools that empower users 
-        and unlock powerful data insights.
+  <!-- Theme switch -->
+  <button id="themeToggle" class="theme-fab" aria-label="Toggle theme" aria-pressed="false" title="Toggle theme">
+    <svg class="sunmoon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+      <g class="sun">
+        <circle cx="12" cy="12" r="4"></circle>
+        <g class="rays">
+          <line x1="12" y1="2"  x2="12" y2="5"></line>
+          <line x1="12" y1="19" x2="12" y2="22"></line>
+          <line x1="2"  y1="12" x2="5"  y2="12"></line>
+          <line x1="19" y1="12" x2="22" y2="12"></line>
+          <line x1="4.2" y1="4.2"  x2="6.4" y2="6.4"></line>
+          <line x1="17.6" y1="17.6" x2="19.8" y2="19.8"></line>
+          <line x1="17.6" y1="6.4"  x2="19.8" y2="4.2"></line>
+          <line x1="4.2" y1="19.8" x2="6.4" y2="17.6"></line>
+        </g>
+      </g>
+      <g class="moon">
+        <path d="M16.5 12.5a6.5 6.5 0 1 1-5-10.5 7.5 7.5 0 1 0 8.5 9.5 6.48 6.48 0 0 1-3.5 1z"></path>
+      </g>
+    </svg>
+  </button>
+
+  <!-- Bottom-right location (Kingston) -->
+  <div id="geoClock" class="geo-fab loc-card" role="status" aria-live="polite">
+    <div class="loc-kicker">LOCATION</div>
+    <div class="loc-city" id="locCity">KINGSTON, ON, Canada</div>
+    <div class="loc-coords">
+      <span id="coords">—</span>
+      <span class="loc-time" id="clock" title="Local time">—</span>
+    </div>
+  </div>
+
+  <!-- Top progress hairline -->
+  <div class="progress" id="progress" role="presentation"></div>
+
+  <main id="top" class="wrap">
+    <!-- HERO -->
+    <section class="hero content reveal" data-reveal id="home">
+      <div class="hero-layout">
+        <header class="hero-name morphable" id="morphName">
+          <h1 class="letters">
+            <span class="line" data-letters="DARWIN">DARWIN</span>
+            <span class="line" data-letters="CHEN">CHEN</span>
+          </h1>
+          <p class="hero-kicker">AI-inclined web developer</p>
+        </header>
+
+        <figure class="hero-photo">
+          <img src="prof_pic.png" alt="Darwin Chen profile photo" loading="lazy" decoding="async" />
+        </figure>
+      </div>
+
+      <p class="lead">
+        I build clean, fast, human-centered interfaces and data-aware tools—favoring clarity,
+        performance, and quietly sophisticated interactions.
       </p>
 
-      <!-- Profile row -->
-      <div class="hero-profile">
-        <img
-          src="prof_pic.png"
-          alt="Profile Picture"
-          class="profile-img"
-        />
-        <p class="profile-role">AI & Data inclined Web Dev 🤖🔗</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#work">See my work</a>
+        <a class="btn" href="DarwinChen_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="work" class="content reveal" data-reveal>
+      <div class="section-head">
+        <span class="s-kicker">01 — Experience</span>
+        <h2>Timeline</h2>
       </div>
 
-      <!-- “Where you can start” box -->
-      <div class="hero-links hero-links-glow" data-aos="fade-up" data-aos-delay="200">
-        <p class="hero-links-title">Where you can start🔽</p>
-        <ul>
-          <li>
-            <i class="material-icons">person</i> 
-            <a href="#about">Learn more about who I am</a>
-          </li>
-          <li>
-            <i class="material-icons">history</i> 
-            <a href="#work">Browse my professional background</a>
-          </li>
-          <li>
-            <i class="material-icons">folder_open</i> 
-            <a href="#featured-case">Explore my LLM Chat Agent</a>
-          </li>
-          <li>
-            <i class="material-icons">edit</i> 
-            <a href="#blog">Check out my creations</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+      <ol class="timeline" id="timeline">
+        <li class="t-item">
+          <div class="t-dot"></div>
+          <div class="t-card">
+            <header class="t-head">
+              <h3>Software Developer Intern — <span class="where">Ericsson</span></h3>
+              <span class="when"><time>May 2024</time> – <time>Aug 2025</time> · Ottawa, ON</span>
+            </header>
+            <ul>
+              <li>React + OpenSearch dashboards for Jenkins pipelines (faster stage-level triage).</li>
+              <li>Python AST validator for error IDs (prevents collisions, enforces conventions).</li>
+              <li>Bulk Jenkins job tooling to improve CI hygiene.</li>
+              <li>Unsupervised fault classification (Drain3, MiniLM, HDBSCAN).</li>
+              <li>LLM failure-cause recognizer (llama.cpp) with structured JSON outputs.</li>
+            </ul>
+            <div class="t-tech">
+              <span class="tech" title="JavaScript">
+                <svg viewBox="0 0 28 28" class="i-badge" aria-hidden="true">
+                  <rect x="2" y="2" width="24" height="24" rx="6"></rect>
+                  <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">JS</text>
+                </svg>
+              </span>
+              <span class="tech" title="Python">
+                <svg viewBox="0 0 28 28" class="i-badge" aria-hidden="true">
+                  <rect x="2" y="2" width="24" height="24" rx="6"></rect>
+                  <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">PY</text>
+                </svg>
+              </span>
+              <span class="tech" title="React">
+                <svg viewBox="0 0 32 32" class="i i-react" aria-hidden="true">
+                  <circle cx="16" cy="16" r="3"></circle>
+                  <ellipse cx="16" cy="16" rx="10" ry="4"></ellipse>
+                  <ellipse cx="16" cy="16" rx="10" ry="4" transform="rotate(60 16 16)"></ellipse>
+                  <ellipse cx="16" cy="16" rx="10" ry="4" transform="rotate(-60 16 16)"></ellipse>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </li>
 
-  <!-- FEATURED WORK SECTION -->
-  <section id="work" class="featured-work-section">
-    <div class="section-container">
-      <div class="subheader-container" data-aos="fade-up">
-        <h2 class="subheader">Work Experience🏢</h2>
-      </div>
+        <li class="t-item">
+          <div class="t-dot"></div>
+          <div class="t-card">
+            <header class="t-head">
+              <h3>Web Developer &amp; Manager — <span class="where">Pathfinders</span></h3>
+              <span class="when"><time>May 2022</time> – <time>Aug 2025</time> · Fredericton, NB</span>
+            </header>
+            <ul>
+              <li>UI improvements and site maintenance across PHP/HTML/CSS apps.</li>
+              <li>Translation workflow via custom Google Apps Script plugins.</li>
+              <li>Analytics/Ads/Tag Manager; experience with Cloudflare, DreamHost, WordPress.</li>
+            </ul>
+            <div class="t-tech">
+              <span class="tech" title="HTML/CSS">
+                <svg viewBox="0 0 28 28" class="i-badge" aria-hidden="true">
+                  <rect x="2" y="2" width="24" height="24" rx="6"></rect>
+                  <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">HTML</text>
+                </svg>
+              </span>
+              <span class="tech" title="PHP">
+                <svg viewBox="0 0 28 28" class="i-badge" aria-hidden="true">
+                  <rect x="2" y="2" width="24" height="24" rx="6"></rect>
+                  <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">PHP</text>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </li>
 
-      <!-- Card 1 -->
-      <div class="card-full" data-aos="fade-up">
-        <div class="card-full-content">
-          <h3>vDU Developer Intern | Ericsson Canada Inc</h3><br>
-          <p>
-            <strong>May 2024 - Aug 2025 • Ottawa, ON</strong><br/><br>
-            Implemented critical development tools for the vDU division using Node.js &amp; React, 
-            enabling data visualization that streamlined the engineering workflow for next-generation 
-            telecom solutions.
-          </p>
-        </div>
-        <div class="card-full-image">
-          <img
-            src="ericsson.png"
-            alt="Ericsson vDU Project"
-          />
-        </div>
-      </div>
+        <li class="t-item">
+          <div class="t-dot"></div>
+          <div class="t-card">
+            <header class="t-head">
+              <h3>Teaching Assistant — <span class="where">Queen’s University</span></h3>
+              <span class="when"><time>Sept 2023</time> – <time>Apr 2025</time> · Kingston, ON</span>
+            </header>
+            <ul>
+              <li>CISC 151 (Elements of Computing with Data Analytics) &amp; CISC 203 (Discrete Structures II).</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </section>
 
-      <!-- Card 2 -->
-      <div class="card-full" data-aos="fade-up" data-aos-delay="100">
-        <div class="card-full-content">
-          <h3>Web Developer &amp; Manager | Pathfinders</h3><br>
-          <p>
-            <strong>May - Aug. 2022 - 2024 • Fredericton, NB</strong><br/><br>
-            Led site maintenance &amp; UI enhancements to improve UX; optimized sites with PHP, HTML, 
-            &amp; CSS. Developed custom Google Apps Script plugins for advanced translation features 
-            and integrated analytics to target and handle global traffic.
-          </p>
-        </div>
-        <div class="card-full-image">
-          <img
-            src="pathfinders.png"
-            alt="Pathfinders Project"
-          />
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="card-full" data-aos="fade-up" data-aos-delay="200">
-        <div class="card-full-content">
-          <h3>Teaching Assistant (Data Analytics) | Queen’s University</h3><br>
-          <p>
-            <strong>Jan. - Apr. 2023 - 2024 • Kingston, ON</strong><br/><br>
-            Assisted with a course on data analytics fundamentals, 
-            helping students learn Python-based data processing and 
-            AI-driven analysis. Mentored teams on practical machine 
-            learning projects.
-          </p>
-        </div>
-        <div class="card-full-image">
-          <img
-            src="queens.png"
-            alt="Teaching Assistant"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT SECTION (Masonry) -->
-  <section id="about" class="about-section">
-    <div class="section-container" data-aos="fade-up">
-      <div class="subheader-container">
-        <h2 class="subheader">About Me☕</h2>
+    <!-- PROJECTS -->
+    <section id="projects" class="content reveal" data-reveal>
+      <div class="section-head">
+        <span class="s-kicker">02 — Projects</span>
+        <h2>Selected Work</h2>
       </div>
 
-      <!-- The masonry container -->
-      <div id="aboutMasonryGrid" class="about-mosaic">
-        <!-- Box 1 -->
-        <div class="mosaic-box box1">
-          <h3>Bachelor of Computing Honours💻</h3>
-          <p>
-             Data Analytics @ <strong>Queen’s University</strong>
-            <br/>Sept. 2021 - Apr. 2026
-            <br/>(includes 1 year internship)
-          </p>
-        </div>
+      <div class="cards">
+        <article class="card" data-modal="modal-llm">
+          <div class="card-strip"></div>
+          <div class="card-body">
+            <h3>On-Device LLM Chat Agent</h3>
+            <p>Quantized LLM + tool use for private, offline chat (React Native + Python).</p>
+          </div>
+        </article>
 
-        <!-- Box 2 -->
-        <div class="mosaic-box box2">
-          <h3>AI & Web Passions</h3>
-          <ul>
-            <li>LLM-based chat solutions</li>
-            <li>Front-end UX optimization</li>
-            <li>Advanced back-end analytics</li>
+        <article class="card" data-modal="modal-fish">
+          <div class="card-strip"></div>
+          <div class="card-body">
+            <h3>Fishing Data Mapper</h3>
+            <p>Scraped lake/species data → interactive React + Leaflet map.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="content reveal" data-reveal>
+      <div class="section-head">
+        <span class="s-kicker">03 — About</span>
+        <h2>Background</h2>
+      </div>
+
+      <div class="about-shells">
+        <article class="shell">
+          <header class="shell-head"><span class="dot"></span><h3>Education</h3></header>
+          <p>Queen’s University — Bachelor of Computing (AI Specialization), <time>Sept 2021</time> – <time>Apr 2026</time> (with 1-year internship)</p>
+        </article>
+
+        <article class="shell">
+          <header class="shell-head"><span class="dot"></span><h3>Leadership</h3></header>
+          <ul class="bullets">
+            <li>Perception Integration Team Lead — Queen’s AutoDrive (Lv.4 AV platform, MATLAB 3D sims), <time>Sept 2023</time> – <time>Apr 2024</time>.</li>
+            <li>Consulting Design Team Manager — QMIND (LLM backend, LangChain optimization), <time>Sept 2023</time> – <time>Apr 2024</time>.</li>
           </ul>
-        </div>
+        </article>
 
-        <!-- Box 3 -->
-        <div class="mosaic-box box3">
-          <h3>Full-Stack Expertise</h3>
-          <p>
-            Proficient in Node.js &amp; React, bridging AI
-            models with modern web frameworks.
-          </p>
-        </div>
+        <article class="shell wide">
+          <header class="shell-head"><span class="dot"></span><h3>Focus Areas</h3></header>
+          <div class="chips">
+            <span class="chip">LLM tooling &amp; private inference</span>
+            <span class="chip">Front-end performance &amp; UX</span>
+            <span class="chip">Data / observability pipelines</span>
+          </div>
+        </article>
+      </div>
+    </section>
 
-        <!-- Box 4 -->
-        <div class="mosaic-box box4">
-          <h3>AI Deployments</h3>
-          <p>
-            Locally &amp; on the cloud for global accessibility;
-            harnessing data-driven insights in real-world apps.
-          </p>
-        </div>
+    <!-- CONTACT -->
+    <section id="contact" class="contact content reveal" data-reveal>
+      <div class="contact-frame">
+        <div class="contact-grid2">
+          <div class="c-left">
+            <h2 class="c-title">Let’s talk</h2>
+            <p class="sub">Available for roles and collaborations.</p>
+            <div class="bubble-row">
+              <a class="bubble-btn" href="mailto:darwinchen8@outlook.com"><span class="bullet">•</span> Get in touch</a>
+              <a class="btn subtle" href="DarwinChen_Resume.pdf" target="_blank" rel="noopener">Download Resume</a>
+            </div>
+          </div>
 
-        <!-- Box 5 -->
-        <div class="mosaic-box box5">
-          <h3>Collaboration</h3>
-          <p>
-            Thriving in cross-functional teams tackling
-            real-world challenges at scale.
-          </p>
-        </div>
+          <div class="c-right">
+            <div class="col">
+              <div class="col-head">Contact me</div>
+              <a class="c-link" href="mailto:darwinchen8@outlook.com">
+                <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+                darwinchen8@outlook.com
+              </a>
+              <a class="c-link" href="tel:+15068973819">
+                <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92V19a2 2 0 0 1-2.2 2 19.5 19.5 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.5 19.5 0 0 1 3 4.2 2 2 0 0 1 5 2h2a2 2 0 0 1 2 1.7l.3 1.8a2 2 0 0 1-.6 1.8l-1 1a16 16 0 0 0 6 6l1-1a2 2 0 0 1 1.8-.6l1.8.3A2 2 0 0 1 22 16.92z"></path></svg>
+                +1&nbsp;(506)&nbsp;897-3819
+              </a>
+            </div>
 
-        <!-- Box 6: Resume -->
-        <div class="mosaic-box box6">
-          <h3>Get My Resume</h3>
-          <p>Explore my skills &amp; experience in more detail.</p>
-          <a href="DarwinChen_Resume.pdf" target="_blank" class="resume-btn">Download PDF</a>
+            <div class="col">
+              <div class="col-head">Follow me</div>
+              <a class="c-link" target="_blank" rel="noopener" href="https://www.linkedin.com/in/darwinchen/">
+                <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8" cy="10" r="1.2"></circle><path d="M7 13h2v5H7zM11 13h2.1a2.2 2.2 0 0 1 2.2 2.2V18h-2v-2.6c0-.8-.6-1.4-1.3-1.4H11V13z"></path></svg>
+                /in/darwinchen
+              </a>
+              <a class="c-link" target="_blank" rel="noopener" href="https://github.com/Darwin27264">
+                <svg class="ci gh" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.5c.5.1.66-.22.66-.49v-1.7c-2.78.62-3.37-1.18-3.37-1.18-.46-1.16-1.12-1.47-1.12-1.47-.9-.6.07-.6.07-.6 1 .07 1.53 1.05 1.53 1.05.9 1.55 2.37 1.1 2.95.84.09-.65.35-1.1.63-1.36-2.22-.26-4.56-1.1-4.56-4.92 0-1.1.38-2 .99-2.7-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.9-1.29 2.74-1.02 2.74-1.02.55 1.4.2 2.44.1 2.7.64.7 1.02 1.6 1.02 2.7 0 3.83-2.34 4.66-4.57 4.92.36.32.68.94.68 1.9v2.81c0 .26.18.6.69.49A10 10 0 0 0 12 2z"></path></svg>
+                @Darwin27264
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- BLOG SECTION -->
-  <section id="blog" class="blog-section">
-    <div class="section-container" data-aos="fade-up">
-      <div class="subheader-container">
-        <h2 class="subheader">Projects &amp; AI Blog</h2>
-      </div>
-
-      <!-- Card 1 -->
-      <div class="card-full" data-aos="fade-up">
-        <div class="card-full-content">
-          <h3>On-Device GPT Chat Agent</h3>
-          <p>
-            <strong>Python, Flutter, GPT4ALL</strong><br/>
-            A locally deployable chatbot using a quantized LLM model &amp; Flutter (Flet GUI). 
-            Integrates real-time data calls and supports offline usage—enabling privacy-friendly, 
-            AI-driven conversations for specialized applications.
-          </p>
-          <a href="#case-study-1" class="card-link">View Case Study</a>
-        </div>
-        <div class="card-full-image">
-          <img
-            src="https://via.placeholder.com/800x400"
-            alt="GPT Chat Agent"
-          />
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="card-full" data-aos="fade-up" data-aos-delay="100">
-        <div class="card-full-content">
-          <h3>NLP Intent Identifier</h3>
-          <p>
-            <strong>Java, JavaFX, StanfordNLP</strong><br/>
-            Built a platform leveraging StanfordNLP to classify user inputs 
-            and respond to commands in a chat-like environment. Enhanced 
-            reliability with integrated APIs for extended functionality and 
-            dynamic content retrieval.
-          </p>
-          <a href="#case-study-2" class="card-link">View Project</a>
-        </div>
-        <div class="card-full-image">
-          <img
-            src="https://via.placeholder.com/800x400"
-            alt="NLP Intent Identifier"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT SECTION -->
-  <section id="contact" class="contact-section">
-    <div class="section-container" data-aos="fade-up">
-      <div class="subheader-container">
-        <h2 class="subheader">Contact Me👋</h2>
-      </div>
-      <p style="font-size: 1.2rem;">
-        Interested in discussing AI-driven web projects, 
-        or want to connect about potential roles?
-        Let’s talk!
-      </p>
-      <ul class="contact-info" style="font-size: 1.2rem;">
-        <li><strong>☎️ Phone:</strong> +1(506)897-3819</li>
-        <li><strong>📧 Email:</strong> <a href="mailto:darwinchen8@outlook.com">Send</a></li>
-        <li><strong>🔗 GitHub:</strong> <a href="https://github.com/Darwin27264" target="_blank" rel="noopener noreferrer">Darwin27264</a></li>
-        <li><strong>🔗 LinkedIn:</strong> <a href="https://www.linkedin.com/in/darwinchen/" target="_blank" rel="noopener noreferrer">Darwin Chen</a></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-container">
-      <p>© 2025 Darwin Chen. All rights reserved </p>
+  <footer>
+    <div class="wrap content">
+      <p>© Darwin Chen — <time id="lu"></time></p>
     </div>
   </footer>
 
-  <!-- JS Scripts -->
-  <script src="script.js"></script>
+  <!-- Modals -->
+  <div class="modal" id="modal-llm" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="llm-title">
+    <div class="modal-panel">
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <h3 id="llm-title">On-Device LLM Chat Agent</h3>
+      <p>React Native + Python with quantized LLMs. Private/offline chat, tool execution, and structured responses.</p>
+      <div class="modal-tech">
+        <span class="tech" title="React Native"><svg viewBox="0 0 32 32" class="i i-react"><circle cx="16" cy="16" r="3"/><ellipse cx="16" cy="16" rx="10" ry="4"/><ellipse cx="16" cy="16" rx="10" ry="4" transform="rotate(60 16 16)"/><ellipse cx="16" cy="16" rx="10" ry="4" transform="rotate(-60 16 16)"/></svg></span>
+        <span class="tech" title="Python"><svg viewBox="0 0 28 28" class="i-badge"><rect x="2" y="2" width="24" height="24" rx="6"/><text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">PY</text></svg></span>
+      </div>
+      <p><a class="btn" href="#" aria-disabled="true">Case study (soon)</a></p>
+    </div>
+  </div>
 
-  <!-- AOS Library (for fade animations) -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init({
-      duration: 600,
-      offset: 100,
-      once: true
-    });
-  </script>
+  <div class="modal" id="modal-fish" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="fish-title">
+    <div class="modal-panel">
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <h3 id="fish-title">Fishing Data Mapper</h3>
+      <p>Scraped provincial lake/species data (Python + BS4), normalized and visualized on an interactive React + Leaflet map.</p>
+      <div class="modal-tech">
+        <span class="tech" title="JavaScript"><svg viewBox="0 0 28 28" class="i-badge"><rect x="2" y="2" width="24" height="24" rx="6"/><text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">JS</text></svg></span>
+        <span class="tech" title="Python"><svg viewBox="0 0 28 28" class="i-badge"><rect x="2" y="2" width="24" height="24" rx="6"/><text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">PY</text></svg></span>
+        <span class="tech" title="Leaflet"><svg viewBox="0 0 32 32" class="i i-map"><path d="M6 6l8 4 12-4v16l-12 4-8-4zM14 10v16"/></svg></span>
+      </div>
+      <p><a class="btn" href="https://github.com/Darwin27264/Fishing-Data-Mapper" target="_blank" rel="noopener">GitHub ↗</a></p>
+    </div>
+  </div>
 
-  <!-- Masonry Library (CDN) -->
-  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-  
-  <!-- Initialize Masonry once the page loads -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var aboutGrid = document.querySelector('#aboutMasonryGrid');
-      if (aboutGrid) {
-        new Masonry(aboutGrid, {
-          itemSelector: '.mosaic-box', 
-          columnWidth: '.mosaic-box',
-          percentPosition: true,
-          gutter: 20
-        });
-      }
-    });
-  </script>
+  <script src="script.js" defer></script>
 </body>
 </html>

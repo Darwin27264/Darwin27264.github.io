@@ -317,6 +317,14 @@ footer p{width:100%;text-align:center}
   color:var(--text);
 }
 .chat-fab:hover{ transform:translateY(-2px); border-color:color-mix(in srgb,var(--accent) 35%, var(--line)); filter:brightness(1.02) }
+
+/* NEW: robot icon styling (for small FAB) */
+.chat-fab .bot{ width:18px; height:18px; color:var(--text) }
+.chat-fab .bot rect{ fill:none; stroke:currentColor; stroke-width:1.6 }
+.chat-fab .bot circle{ fill:currentColor }
+.chat-fab .bot path{ stroke:currentColor; stroke-width:1.6; fill:none; stroke-linecap:round }
+
+/* existing overlay header icon stays as .brain */
 .chat-fab .brain{ width:18px; height:18px; fill:currentColor; color:var(--text) }
 .gpu-pill{font-size:.72rem;color:var(--muted);border:1px solid var(--line);padding:.18rem .48rem;border-radius:999px;background:color-mix(in srgb,var(--card) 92%,transparent)}
 
@@ -429,3 +437,40 @@ html[data-theme="light"] .msg.user{color:#fff}
 
 /* Focus ring inside overlay */
 .chat-panel :focus-visible{outline:2px solid color-mix(in srgb,var(--accent) 65%, transparent); outline-offset:2px}
+
+/* ==========================
+   Mobile location toggle
+   ========================== */
+.geo-minibtn{
+  display:none;
+  align-items:center; gap:.45rem;
+  border:1px solid var(--line);
+  background:color-mix(in srgb,var(--card) 94%,transparent);
+  border-radius:999px;
+  padding:.45rem .72rem;
+  box-shadow:var(--shadow);
+  color:var(--text);
+  cursor:pointer;
+}
+.geo-minibtn .pin{ width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.6 }
+
+@media (max-width:900px){
+  .geo-fab{
+    right:auto; left:50%; transform:translateX(-50%);
+    top:calc(56px + env(safe-area-inset-top));
+    align-items:center; text-align:center; gap:.4rem;
+  }
+  .geo-minibtn{ display:flex; }
+  .geo-fab .loc-kicker, .geo-fab .loc-city, .geo-fab .loc-coords{ display:none; }
+
+  .geo-fab.open{
+    background:color-mix(in srgb,var(--card) 96%, transparent);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:8px 10px;
+    box-shadow:var(--shadow);
+  }
+  .geo-fab.open .loc-kicker,
+  .geo-fab.open .loc-city,
+  .geo-fab.open .loc-coords{ display:block; }
+}

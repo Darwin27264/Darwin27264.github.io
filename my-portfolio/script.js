@@ -280,6 +280,8 @@
   const LAT = 44.2312, LON = -76.4860, TZ = 'America/Toronto';
   const coordsEl = document.getElementById('coords');
   const clockEl  = document.getElementById('clock');
+  const geoRoot  = document.getElementById('geoClock');
+  const toggleBtn= document.getElementById('geoToggle');
   if (!coordsEl || !clockEl) return;
 
   function toDMS(dec, isLat){
@@ -305,6 +307,26 @@
   }
   tick();
   setInterval(tick, 1000);
+
+  // Mobile toggle (collapsed by default on small screens)
+  if (geoRoot && toggleBtn){
+    const mq = window.matchMedia('(max-width: 900px)');
+    function sync(){
+      if (!mq.matches){
+        geoRoot.classList.remove('open');
+        toggleBtn.setAttribute('aria-expanded','false');
+        return;
+      }
+      const expanded = geoRoot.classList.contains('open');
+      toggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    }
+    toggleBtn.addEventListener('click', ()=>{
+      geoRoot.classList.toggle('open');
+      toggleBtn.setAttribute('aria-expanded', geoRoot.classList.contains('open') ? 'true' : 'false');
+    });
+    window.addEventListener('resize', sync, {passive:true});
+    sync();
+  }
 })();
 
 /* ===== Subtle inertial smooth scrolling ===== */

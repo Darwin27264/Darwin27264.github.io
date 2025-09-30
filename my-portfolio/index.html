@@ -58,6 +58,15 @@
 
   <!-- Top-right: location + time (fixed, moved) -->
   <div id="geoClock" class="geo-fab loc-card" role="status" aria-live="polite">
+    <!-- MOBILE TOGGLE (hidden on desktop) -->
+    <button id="geoToggle" class="geo-minibtn" aria-expanded="false" aria-controls="locCity coords clock">
+      <svg class="pin" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"></path>
+        <circle cx="12" cy="10" r="2.5"></circle>
+      </svg>
+      <span>Location</span>
+    </button>
+
     <div class="loc-kicker">LOCATION</div>
     <div class="loc-city" id="locCity">KINGSTON, ON, Canada</div>
     <div class="loc-coords">
@@ -405,8 +414,12 @@
 
   <!-- Floating Chat FAB (bottom-right, small) -->
   <button id="chatOpenBtn" class="chat-fab" aria-label="Chat with my résumé" title="Chat with my résumé">
-    <svg class="brain" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M8.5 3.5a3 3 0 0 0-3 3v.5a3 3 0 0 0-2 2.8c0 1.1.6 2 1.6 2.6A3.5 3.5 0 0 0 7 16.5V17a3 3 0 0 0 3 3h.5a3 3 0 0 0 3-3v-.5a3.5 3.5 0 0 0 1.9-3.1c1 0 2-.9 2-2 0-1-.7-1.9-1.7-2.1a3 3 0 0 0-2.8-2.4 3 3 0 0 0-2.9-2.4H10a3 3 0 0 0-1.5.4Z"/>
+    <!-- UPDATED: robot icon for the small FAB -->
+    <svg class="bot" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="4" y="7" width="16" height="10" rx="3"></rect>
+      <circle cx="9"  cy="12" r="1.6"></circle>
+      <circle cx="15" cy="12" r="1.6"></circle>
+      <path d="M12 7V4M6 17h12" stroke-linecap="round"></path>
     </svg>
     <span>Chat with my résumé</span>
     <span class="gpu-pill">GPU: <strong id="gpuBadge">Off</strong></span>

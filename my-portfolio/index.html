@@ -56,7 +56,7 @@
     </svg>
   </button>
 
-  <!-- Bottom-right: location + time (fixed) -->
+  <!-- Top-right: location + time (fixed, moved) -->
   <div id="geoClock" class="geo-fab loc-card" role="status" aria-live="polite">
     <div class="loc-kicker">LOCATION</div>
     <div class="loc-city" id="locCity">KINGSTON, ON, Canada</div>
@@ -206,7 +206,7 @@
             </div>
           </article>
 
-        <article class="card" data-modal="modal-fish">
+          <article class="card" data-modal="modal-fish">
             <div class="card-strip"></div>
             <div class="card-body">
               <h3>Fishing Data Mapper</h3>
@@ -216,7 +216,7 @@
         </div>
       </section>
 
-      <!-- ABOUT (enhanced/animated) -->
+      <!-- ABOUT -->
       <section id="about" class="content reveal" data-reveal>
         <div class="section-head">
           <span class="s-kicker">03 — About</span>
@@ -229,7 +229,6 @@
               <span class="dot"></span><h3>Education</h3>
             </header>
 
-            <!-- Prettified multi-line education block -->
             <dl class="edu">
               <dt>School</dt>
               <dd>Queen’s University</dd>
@@ -268,7 +267,7 @@
         </div>
       </section>
 
-      <!-- STACK (new) -->
+      <!-- STACK -->
       <section id="stack" class="content reveal" data-reveal>
         <div class="section-head">
           <span class="s-kicker">04 — Stack</span>
@@ -376,7 +375,7 @@
     </footer>
   </div><!-- /smooth -->
 
-  <!-- Modals (outside smooth so they overlay correctly) -->
+  <!-- Modals -->
   <div class="modal" id="modal-llm" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="llm-title">
     <div class="modal-panel">
       <button class="modal-close" data-close aria-label="Close">×</button>
@@ -401,6 +400,46 @@
         <span class="tech" title="Leaflet"><svg viewBox="0 0 32 32" class="i i-map"><path d="M6 6l8 4 12-4v16l-12 4-8-4zM14 10v16"/></svg></span>
       </div>
       <p><a class="btn" href="https://github.com/Darwin27264/Fishing-Data-Mapper" target="_blank" rel="noopener">GitHub ↗</a></p>
+    </div>
+  </div>
+
+  <!-- Floating Chat FAB (bottom-right, small) -->
+  <button id="chatOpenBtn" class="chat-fab" aria-label="Chat with my résumé" title="Chat with my résumé">
+    <svg class="brain" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8.5 3.5a3 3 0 0 0-3 3v.5a3 3 0 0 0-2 2.8c0 1.1.6 2 1.6 2.6A3.5 3.5 0 0 0 7 16.5V17a3 3 0 0 0 3 3h.5a3 3 0 0 0 3-3v-.5a3.5 3.5 0 0 0 1.9-3.1c1 0 2-.9 2-2 0-1-.7-1.9-1.7-2.1a3 3 0 0 0-2.8-2.4 3 3 0 0 0-2.9-2.4H10a3 3 0 0 0-1.5.4Z"/>
+    </svg>
+    <span>Chat with my résumé</span>
+    <span class="gpu-pill">GPU: <strong id="gpuBadge">Off</strong></span>
+  </button>
+
+  <!-- Full-screen Chat Overlay -->
+  <div id="chatWidget" class="chat-overlay" aria-hidden="true">
+    <div class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+      <header class="chat-head">
+        <div class="chat-title">
+          <svg class="brain" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8.5 3.5a3 3 0 0 0-3 3v.5a3 3 0 0 0-2 2.8c0 1.1.6 2 1.6 2.6A3.5 3.5 0 0 0 7 16.5V17a3 3 0 0 0 3 3h.5a3 3 0 0 0 3-3v-.5a3.5 3.5 0 0 0 1.9-3.1c1 0 2-.9 2-2 0-1-.7-1.9-1.7-2.1a3 3 0 0 0-2.8-2.4 3 3 0 0 0-2.9-2.4H10a3 3 0 0 0-1.5.4Z"/>
+          </svg>
+          <h3 id="chatTitle">Chat with my résumé</h3>
+          <span class="gpu-pill">WebGPU: <strong id="gpuBadgeHeader">Off</strong></span>
+        </div>
+        <button id="chatCloseBtn" class="chat-close" aria-label="Close">×</button>
+      </header>
+
+      <div class="chat-status">
+        <div id="chatStatus" class="status-text" role="status">Ready</div>
+        <div id="chatProgress" class="progressline" hidden>
+          <div id="chatProgressBar" class="bar" style="width:0%"></div>
+          <span id="chatProgressLabel" class="label">0%</span>
+        </div>
+      </div>
+
+      <div id="chatLog" class="chat-log" role="log" aria-live="polite"></div>
+
+      <form id="chatForm" class="chat-form">
+        <textarea id="chatInput" rows="2" placeholder="Ask about experience, projects, tools…" required></textarea>
+        <button id="chatSendBtn" class="btn primary" type="submit">Send</button>
+      </form>
     </div>
   </div>
 

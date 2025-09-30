@@ -7,7 +7,7 @@
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const initial = saved ? saved : (systemDark ? 'dark' : 'light');
   root.setAttribute('data-theme', initial);
-  btn.setAttribute('aria-pressed', initial === 'dark');
+  if (btn) btn.setAttribute('aria-pressed', initial === 'dark');
 
   const withTransition = (fn) => {
     root.classList.add('theming');
@@ -23,26 +23,30 @@
   };
   updateMeta();
 
-  btn.addEventListener('click', () => {
-    withTransition(() => {
-      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      localStorage.setItem(key, next);
-      btn.setAttribute('aria-pressed', next === 'dark');
-      updateMeta(); // sync browser UI
+  if (btn) {
+    btn.addEventListener('click', () => {
+      withTransition(() => {
+        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem(key, next);
+        btn.setAttribute('aria-pressed', next === 'dark');
+        updateMeta();
+      });
     });
-  });
+  }
 })();
 
-// Progress hairline + "scroll-active" flag for fading geo card while scrolling
+// Progress hairline + "scroll-active" flag
 (function(){
   const bar = document.getElementById('progress');
   const root = document.documentElement;
+  if (!bar) return;
   let timer;
 
   const updateBar = () => {
     const h = document.documentElement;
-    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+    const denom = (h.scrollHeight - h.clientHeight);
+    const scrolled = (h.scrollTop) / (denom || 1);
     bar.style.width = (scrolled * 100).toFixed(2) + '%';
   };
 
@@ -103,7 +107,7 @@
   requestAnimationFrame(() => root.querySelectorAll('.char').forEach(s => s.classList.add('in')));
 })();
 
-/* ===== Smooth anchors (works with inertial scroller if enabled) ===== */
+/* ===== Smooth anchors ===== */
 (function(){
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
     a.addEventListener('click', e=>{
@@ -111,20 +115,17 @@
       const el = document.querySelector(id);
       if (!el) return;
       e.preventDefault();
-
-      // If inertial scroller is active, compute target using its current offset
       const smooth = document.getElementById('smooth');
       const hasSmooth = document.body.classList.contains('has-smooth');
-      let current = hasSmooth ? parseFloat((/translate3d\(0px,\s*(-?\d+(\.\d+)?)px/).exec(smooth.style.transform)?.[1] || 0) * -1 : window.scrollY;
-      const y = el.getBoundingClientRect().top + current;
-
+      const current = hasSmooth ? Math.abs(parseFloat((/translate3d\(0px,\s*(-?\d+(\.\d+)?)px/).exec(smooth.style.transform)?.[1] || 0)) : window.scrollY;
+      const y = el.getBoundingClientRect().top + (hasSmooth ? current : 0);
       window.scrollTo({behavior:'smooth', top: y});
       history.pushState(null, '', id);
     });
   });
 })();
 
-// Scrollspy (fix: at top, none selected)
+// Scrollspy
 (function(){
   const nav = document.getElementById('vnav');
   if (!nav) return;
@@ -225,9 +226,6 @@
   if (!reduce) requestAnimationFrame(draw);
 })();
 
-/* ===== (Removed) Footer last updated auto-script
-   Footer is now a fixed date in HTML to ensure consistency. ===== */
-
 /* ===== Hero name morph to top-left ===== */
 (function(){
   const name = document.getElementById('morphName');
@@ -277,9 +275,8 @@
   update();
 })();
 
-/* ===== Bottom-right Kingston location + live time ===== */
+/* ===== Kingston location + live time ===== */
 (function(){
-  // Kingston, Ontario approx: 44.2312° N, -76.4860° W
   const LAT = 44.2312, LON = -76.4860, TZ = 'America/Toronto';
   const coordsEl = document.getElementById('coords');
   const clockEl  = document.getElementById('clock');
@@ -310,10 +307,10 @@
   setInterval(tick, 1000);
 })();
 
-/* ===== Subtle inertial smooth scrolling (desktop, respects Reduced Motion) ===== */
+/* ===== Subtle inertial smooth scrolling ===== */
 (function(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = window.matchMedia('(pointer: fine)').matches; // desktop/laptop mice & trackpads
+  const fine = window.matchMedia('(pointer: fine)').matches;
   const smoothEl = document.getElementById('smooth');
   if (!smoothEl || reduce || !fine) return;
 
@@ -322,11 +319,10 @@
   const setHeight = () => { document.body.style.height = smoothEl.scrollHeight + 'px'; };
   let target = window.scrollY;
   let current = target;
-  const ease = 0.12; // lower = laggier, keep subtle
+  const ease = 0.12;
 
   function raf(){
     current += (target - current) * ease;
-    // snap when close to avoid jitter
     if (Math.abs(target - current) < 0.05) current = target;
     smoothEl.style.transform = `translate3d(0, ${-current.toFixed(2)}px, 0)`;
     requestAnimationFrame(raf);
@@ -335,16 +331,14 @@
   function onScroll(){ target = window.scrollY; }
   function onResize(){ setHeight(); target = window.scrollY; }
 
-  // Robust height syncing to prevent disappearing footer/content
   setHeight();
   window.addEventListener('resize', onResize);
   window.addEventListener('scroll', onScroll, {passive:true});
   requestAnimationFrame(raf);
 
-  // Recompute when fonts/images/content resize
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(setHeight).catch(()=>{}); }
   window.addEventListener('load', setHeight);
-  setTimeout(setHeight, 250); // after initial layout
+  setTimeout(setHeight, 250);
   const ro = new ResizeObserver(setHeight);
   ro.observe(smoothEl);
 })();
@@ -357,7 +351,6 @@
   badges.forEach((b,i)=> b.style.setProperty('--i', i));
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce){ badges.forEach(b=>b.classList.add('in')); return; }
-
   if (!('IntersectionObserver' in window)){ badges.forEach(b=>b.classList.add('in')); return; }
 
   const io = new IntersectionObserver((entries)=>{
@@ -377,4 +370,447 @@
 (function(){
   const chips = document.querySelectorAll('.chips.floaty .chip');
   chips.forEach((c,i)=> c.style.setProperty('--i', i));
+})();
+
+/* =========================================================================
+   WebGPU Résumé Chatbot — LLM answers everything (dynamic + accurate)
+   + Quick actions (chips) shown ONLY when model is loaded
+   ========================================================================= */
+(function(){
+  try {
+    const openBtn  = document.getElementById('chatOpenBtn');
+    const overlay  = document.getElementById('chatWidget');
+    const panel    = overlay?.querySelector('.chat-panel');
+    const closeBtn = document.getElementById('chatCloseBtn');
+
+    const logEl    = document.getElementById('chatLog');
+    const form     = document.getElementById('chatForm');
+    const input    = document.getElementById('chatInput');
+    const sendBtn  = document.getElementById('chatSendBtn');
+
+    const statusRow= document.querySelector('.chat-status');
+    const statusEl = document.getElementById('chatStatus');
+
+    const progWrap = document.getElementById('chatProgress');
+    const progBar  = document.getElementById('chatProgressBar');
+    const progLbl  = document.getElementById('chatProgressLabel');
+
+    const gpuBadgeBtn    = document.getElementById('gpuBadge');
+    const gpuBadgeHeader = document.getElementById('gpuBadgeHeader');
+
+    if (!openBtn || !overlay || !panel || !form || !input || !logEl) return;
+
+    // WebGPU availability (https or localhost)
+    const isLocalhost = ['localhost','127.0.0.1','[::1]'].some(h => location.hostname === h) || location.hostname.endsWith('.localhost');
+    const isSecure = (window.isSecureContext && location.protocol === 'https:') || isLocalhost;
+    const webgpuOk = !!navigator.gpu && isSecure;
+
+    const setGpuBadge = (txt) => {
+      if (gpuBadgeBtn)    gpuBadgeBtn.textContent = txt;
+      if (gpuBadgeHeader) gpuBadgeHeader.textContent = txt;
+    };
+    setGpuBadge(webgpuOk ? 'On' : 'Off');
+
+    // Prefer a slightly larger but still light model; gracefully fall back to 0.5B
+    const MODEL_PREFS = [
+      'Qwen2.5-1.5B-Instruct-q4f16_1-MLC',
+      'Qwen2.5-0.5B-Instruct-q4f16_1-MLC'
+    ];
+
+    let engine = null;
+    let loading = false;
+
+    // rolling chat history for continuity
+    const history = [];
+    const ctx = buildResumeContextWithDerivedFacts();
+
+    const SYSTEM = [
+      "You are 'DarwinBot', a friendly, concise assistant for Darwin Chen's résumé site.",
+      "Always answer using ONLY the on-page CONTEXT provided. If something isn't present, say you don't know and point to the résumé PDF link available on the page.",
+      "Style: conversational and helpful. Use short sentences. If listing multiple items, use bullets. Otherwise, write natural prose.",
+      "Keep answers focused and ≤ ~120 words unless asked for more. Avoid repeating the entire résumé.",
+      "When dates are provided, feel free to mention approximate durations already computed in CONTEXT.",
+      "Never invent employers, schools, or dates beyond what appears in CONTEXT."
+    ].join("\n");
+
+    // ----- Quick actions (chips) — created only after model is ready -----
+    let quickShown = false;
+    function ensureQuickActions(){
+      if (quickShown || !form || !input) return;
+
+      const row = document.createElement('div');
+      row.id = 'chatQuick';
+      row.setAttribute('role','group');
+      row.setAttribute('aria-label','Quick suggestions');
+      // make it full-width inside the grid form and sit above the input
+      row.style.gridColumn = '1 / -1';
+      row.style.display = 'flex';
+      row.style.gap = '8px';
+      row.style.flexWrap = 'wrap';
+      row.style.marginBottom = '6px';
+
+      const mkChip = (label, message) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'quick-chip';
+        // neutral rounded “chip” look that matches the panel
+        b.style.border = '1px solid var(--line)';
+        b.style.background = 'color-mix(in srgb,var(--card) 96%, transparent)';
+        b.style.borderRadius = '999px';
+        b.style.padding = '.5rem .8rem';
+        b.style.cursor = 'pointer';
+        b.style.boxShadow = 'var(--shadow)';
+        b.style.color = 'var(--text)';
+        b.style.fontSize = '.92rem';
+        b.style.transition = 'filter .16s ease, transform .16s ease, border-color .16s ease';
+        b.addEventListener('mouseenter', ()=>{ b.style.filter = 'brightness(1.02)'; b.style.transform = 'translateY(-1px)'; });
+        b.addEventListener('mouseleave', ()=>{ b.style.filter = ''; b.style.transform = ''; });
+        b.textContent = label;
+        b.addEventListener('click', ()=>{
+          input.value = message;
+          form.requestSubmit();
+        });
+        return b;
+      };
+
+      row.appendChild(mkChip('Ask about my work experience', 'What did you do at your roles?'));
+      row.appendChild(mkChip('Ask about my projects', 'Tell me about your projects.'));
+
+      // place chips as the first row inside the form (above the textarea+send)
+      form.prepend(row);
+      quickShown = true;
+    }
+
+    /* ---------- Overlay controls + focus trap ---------- */
+    function openChat(){
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden','false');
+      setTimeout(()=> input.focus({ preventScroll: true }), 0);
+      trapFocus(panel);
+
+      if (webgpuOk && !engine && !loading){
+        showStatus('Loading local model…', true);
+        initModel().catch(()=>{});
+      } else if (!webgpuOk){
+        showStatus('Fallback mode (enable WebGPU via https/localhost).', false);
+        setTimeout(hideStatus, 1600);
+        ungateInputs();
+      } else if (engine){
+        hideStatus();
+        ungateInputs();
+        ensureQuickActions(); // model already ready
+      }
+    }
+
+    function closeChat(){
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden','true');
+      untrapFocus();
+    }
+
+    openBtn.addEventListener('click', openChat);
+    if (closeBtn) closeBtn.addEventListener('click', closeChat);
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape' && overlay.classList.contains('open')) closeChat(); });
+
+    function trapFocus(scope){
+      const focusables = scope.querySelectorAll('a,button,textarea,input,select,[tabindex]:not([tabindex="-1"])');
+      const first = focusables[0], last = focusables[focusables.length-1];
+      function onKey(e){
+        if (e.key !== 'Tab') return;
+        if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+      scope.__focusTrap = onKey;
+      scope.addEventListener('keydown', onKey);
+    }
+    function untrapFocus(){ if (panel?.__focusTrap) panel.removeEventListener('keydown', panel.__focusTrap); }
+
+    /* ---------- Status helpers ---------- */
+    function showStatus(text, withProgress){
+      if (!statusRow) return;
+      statusRow.classList.remove('hidden');
+      if (panel) panel.classList.remove('status-hidden');
+      if (statusEl) statusEl.textContent = text || '';
+      if (progWrap) progWrap.hidden = !withProgress;
+      if (!withProgress){
+        if (progBar) progBar.style.width = '0%';
+        if (progLbl) progLbl.textContent = '0%';
+      }
+    }
+    function hideStatus(){
+      if (!statusRow) return;
+      statusRow.classList.add('hidden');
+      if (panel) panel.classList.add('status-hidden');
+    }
+
+    /* ---------- UI gating for model load ---------- */
+    function gateForModelLoad(){
+      loading = true;
+      showStatus('Loading local model…', true);
+      if (sendBtn) sendBtn.disabled = true;
+      if (input){
+        input.disabled = true;
+        input.placeholder = 'Loading local model…';
+      }
+    }
+    function ungateInputs(){
+      loading = false;
+      if (sendBtn) sendBtn.disabled = false;
+      if (input){
+        input.disabled = false;
+        input.placeholder = 'Ask about experience, projects, tools…';
+      }
+    }
+
+    /* ---------- Chat plumbing ---------- */
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const q = input.value.trim();
+      if (!q) return;
+      if (loading && webgpuOk){
+        showStatus('Still preparing the local model…', true);
+        return;
+      }
+      addMsg('user', q);
+      input.value = '';
+      await respond(q);
+    });
+
+    input.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter' && !e.shiftKey){
+        e.preventDefault();
+        form.requestSubmit();
+      }
+    });
+
+    function addMsg(role, content){
+      const card = document.createElement('div');
+      card.className = `msg ${role}`;
+      const r = document.createElement('div'); r.className = 'role'; r.textContent = role === 'user' ? 'You' : 'DarwinBot';
+      const c = document.createElement('div'); c.className = 'content'; c.textContent = content;
+      card.appendChild(r); card.appendChild(c);
+      logEl.appendChild(card);
+      logEl.scrollTop = logEl.scrollHeight;
+      return c;
+    }
+
+    /* ---------- Model init with progress; prefer 1.5B, fall back to 0.5B ---------- */
+    async function initModel(){
+      try{
+        gateForModelLoad();
+        const { CreateMLCEngine } = await import('https://esm.run/@mlc-ai/web-llm');
+
+        let lastErr = null;
+        for (const modelName of MODEL_PREFS){
+          try{
+            engine = await CreateMLCEngine(modelName, {
+              initProgressCallback: ({ progress, text }) => {
+                const pct = Math.round((progress || 0) * 100);
+                if (progBar) progBar.style.width = pct + '%';
+                if (progLbl) progLbl.textContent = pct + '%';
+                if (statusEl) statusEl.textContent = `Preparing model… ${pct}%${text ? ' · ' + text : ''}`;
+              }
+            });
+            setGpuBadge('On');
+            break; // success
+          }catch(err){
+            lastErr = err;
+            engine = null;
+          }
+        }
+
+        if (!engine && lastErr) throw lastErr;
+
+        hideStatus();
+        ungateInputs();
+        ensureQuickActions(); // <-- show chips now that the model is ready
+      }catch(err){
+        console.warn('WebLLM init failed, falling back to rule-based answers.', err);
+        setGpuBadge('Off');
+        showStatus('Fallback mode (model unavailable).', false);
+        setTimeout(hideStatus, 1600);
+        engine = null;
+      }finally{
+        ungateInputs();
+      }
+    }
+
+    /* ---------- Retrieval + response (LLM for everything when available) ---------- */
+    function tokenize(t){ return (t||'').toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(Boolean); }
+    function score(docToks, qToks){
+      const set = new Set(docToks);
+      let s = 0; for (const t of qToks){ if (set.has(t)) s++; }
+      return s;
+    }
+    function relevantContext(query, rawContext, k=8, maxChars=1100){
+      const cleaned = rawContext
+        .replace(/^==.*?==$/gm,'')
+        .replace(/^\s*[A-Z]{2,8}\s*$/gm,'')
+        .replace(/\n{2,}/g,'\n\n')
+        .trim();
+      const q = tokenize(query);
+      const chunks = cleaned.split('\n\n').map(c => c.trim()).filter(Boolean);
+      const scored = chunks.map(c => ({ c, s: score(tokenize(c), q) }))
+                           .sort((a,b)=> b.s - a.s)
+                           .slice(0,k)
+                           .map(x=>x.c);
+      let buf = '';
+      for (const c of scored){
+        if ((buf + '\n\n' + c).length > maxChars) break;
+        buf += (buf ? '\n\n' : '') + c;
+      }
+      return buf || cleaned.slice(0, maxChars);
+    }
+
+    function polish(text){
+      let t = (text||'').replace(/\r/g,'').replace(/ {2,}/g,' ').replace(/\n{3,}/g,'\n\n');
+      t = t.replace(/^(assistant|darwinbot)\s*:\s*/i,'');
+      const lines = t.split('\n');
+      const seen = new Set(); const out = [];
+      for (const line of lines){
+        const key = line.trim().toLowerCase();
+        if (key && !seen.has(key)){ out.push(line); seen.add(key); }
+      }
+      t = out.join('\n').trim();
+      return t.length > 1200 ? t.slice(0, 1200) + '…' : t;
+    }
+
+    function composeMessages(userQ, ctxSnippet){
+      const tail = history.slice(-6);
+      const msgs = [{ role: 'system', content: SYSTEM }];
+      for (const m of tail){ msgs.push(m); }
+      msgs.push({
+        role: 'user',
+        content:
+          `CONTEXT (from page, include DERIVED FACTS when relevant):\n${ctxSnippet}\n\n` +
+          `QUESTION: ${userQ}\n\n` +
+          `Answer conversationally. If listing items, you may use bullets. If info is missing, say you don't know and mention the résumé PDF link on the page.`
+      });
+      return msgs;
+    }
+
+    async function respond(q){
+      const sink = addMsg('assistant', '');
+
+      if (engine){
+        try{
+          const ctxSnippet = relevantContext(q, ctx, 8, 1100);
+          const messages = composeMessages(q, ctxSnippet);
+
+          const chunks = await engine.chat.completions.create({
+            messages,
+            temperature: 0.3,
+            top_p: 0.9,
+            max_tokens: 512,
+            stream: true,
+            stream_options: { include_usage: true }
+          });
+
+          let full = '';
+          for await (const ch of chunks){
+            const delta = ch?.choices?.[0]?.delta?.content || '';
+            if (delta){
+              full += delta;
+              sink.textContent = polish(full);
+              logEl.scrollTop = logEl.scrollHeight;
+            }
+          }
+          const finalText = polish(full) || "I’m not seeing that in the page context. You can check the résumé PDF linked above.";
+          sink.textContent = finalText;
+
+          history.push({ role: 'user', content: q });
+          history.push({ role: 'assistant', content: finalText });
+          return;
+        }catch(err){
+          console.warn('WebLLM generation error:', err);
+          sink.textContent = "Local generation hit a snag. I’ll answer from the page content directly.";
+        }
+      }
+
+      const answer = fallbackQA(q, ctx);
+      sink.textContent = answer;
+      history.push({ role: 'user', content: q });
+      history.push({ role: 'assistant', content: answer });
+    }
+
+    /* ---------- Context building with derived tenure facts ---------- */
+    function buildResumeContextWithDerivedFacts(){
+      const pickText = (sel) => [...document.querySelectorAll(sel)].map(n => n.textContent.trim()).filter(Boolean).join('\n');
+
+      const deriveFacts = ()=>{
+        const months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
+        const parseRange = (s)=>{
+          const m = /([A-Za-z]{3,9})\s+(\d{4})\s*[–-]\s*([A-Za-z]{3,9})\s+(\d{4})/.exec(s);
+          if (!m) return null;
+          const sm = months[m[1].toLowerCase()] ?? null;
+          const sy = +m[2]; const em = months[m[3].toLowerCase()] ?? null; const ey = +m[4];
+          if (sm==null || em==null || !sy || !ey) return null;
+          const startIndex = sy*12 + sm;
+          const endIndex   = ey*12 + em;
+          const diff = Math.max(0, endIndex - startIndex);
+          return {start:`${m[1]} ${sy}`, end:`${m[3]} ${ey}`, months: diff};
+        };
+
+        const facts = [];
+        document.querySelectorAll('#work .t-card').forEach(card=>{
+          const role = card.querySelector('.t-head h3')?.textContent?.trim();
+          const when = card.querySelector('.t-head .when')?.textContent?.trim();
+          if (!role || !when) return;
+          const r = parseRange(when);
+          if (r){
+            const approx = r.months;
+            facts.push(`• ${role}: ${r.start} – ${r.end} (about ${approx} months)`);
+          }
+        });
+        return facts.join('\n');
+      };
+
+      const parts = [
+        '== HERO ==',
+        pickText('.hero .lead'),
+        pickText('.cta-row .btn[href$=".pdf"]'),
+        '== EXPERIENCE ==',
+        pickText('#work .t-card'),
+        '== PROJECTS ==',
+        pickText('#projects .card-body'),
+        '== EDUCATION ==',
+        pickText('.edu'),
+        '== LEADERSHIP ==',
+        pickText('#about .bullets'),
+        '== FOCUS ==',
+        pickText('#about .chips'),
+        '== STACK ==',
+        pickText('#stack .badge'),
+        '== CONTACT ==',
+        pickText('#contact .c-right'),
+        '== DERIVED FACTS ==',
+        deriveFacts()
+      ];
+      return parts.join('\n').replace(/\n{3,}/g, '\n\n');
+    }
+
+    /* ---------- Fallback keyword retriever ---------- */
+    function fallbackQA(query, context){
+      const cleaned = context
+        .replace(/^==.*?==$/gm,'')
+        .replace(/^\s*[A-Z]{2,8}\s*$/gm,'')
+        .replace(/\n{2,}/g,'\n\n')
+        .trim();
+
+      const q = tokenize(query);
+      const chunks = cleaned.split('\n\n').map(c => c.trim()).filter(Boolean);
+      const scored = chunks.map(c => ({ c, s: score(tokenize(c), q) }))
+                           .sort((a,b)=> b.s - a.s)
+                           .slice(0,6);
+      if (!scored.length || scored[0].s === 0){
+        const a = document.querySelector('a.btn[href$=".pdf"]');
+        const link = a ? a.href : 'the résumé PDF on this page';
+        return `I couldn’t find that in the on-page context. Please check ${link}.`;
+      }
+      const top = scored.map(x => x.c.replace(/\s+/g,' ').trim()).join('\n\n');
+      return polish(top);
+    }
+  } catch (err){
+    console.warn('Chat overlay init error:', err);
+  }
 })();

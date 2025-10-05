@@ -30,18 +30,14 @@ button{font:inherit}
 html[data-theme="light"]{--bg:#FAFAFA;--text:#111317;--muted:#5B616E;--card:#FFFFFF;--line:#E6E8EF;--accent:#2463EB;--fab-fg:#0B0D12}
 html[data-theme="dark"]{--bg:#0F1115;--text:#ECEEF3;--muted:#A7ADBA;--card:#121722;--line:#232734;--accent:#6AA6FF;--fab-fg:#EDEFF6}
 
-/* Slightly decrease base type when rail is visible but not ultrawide */
 @media (min-width:901px) and (max-width:1600px){
   :root{ font-size:clamp(15px,0.7vw + 10px,20px); }
 }
 
-/* animated theming */
 html.theming *{transition:var(--theming-transition)}
-
-/* BASE */
 body{background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 
-/* Layout container + extra left padding when rail is visible but not ultrawide */
+/* Layout container */
 .wrap{max-width:var(--wrap-max);margin-inline:auto;padding-inline:clamp(16px,3vw,44px)}
 @media (min-width:901px) and (max-width:1600px){
   .wrap{padding-left:calc(clamp(16px,3vw,44px) + var(--rail-offset));}
@@ -50,7 +46,7 @@ body{background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;t
 .content{max-width:var(--content);margin-inline:auto}
 section{padding-block:clamp(96px,14vw,220px);border-top:1px solid var(--line)}
 
-/* HERO – tighter top space */
+/* HERO – spacing */
 .hero{padding-top:calc(clamp(72px,12vw,180px) + env(safe-area-inset-top));padding-bottom:clamp(90px,13vw,220px)}
 section[data-reveal]{contain: layout style}
 
@@ -59,23 +55,127 @@ h1,h2,h3{font-weight:var(--regular);letter-spacing:-.01em}
 .sub{color:var(--muted);margin-top:.6rem;margin-bottom:clamp(18px,2.4vw,26px)}
 .muted{color:var(--muted)}
 
-/* VERTICAL NAV */
+/* ==========================
+   Vertical nav (desktop) /
+   Top bar (mobile portrait)
+   ========================== */
+
+/* Desktop rail defaults */
 .vnav{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:60;width:190px;padding-left:clamp(10px,1vw,18px)}
-.vnav-top{display:inline-block;margin:0 0 14px 0;padding:4px 0;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:var(--muted);position:relative}
-.vnav-top::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:22px;background:color-mix(in srgb,var(--accent) 80%,transparent);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
-.vnav-top:hover{color:var(--text)} .vnav-top:hover::after{transform:scaleX(1)}
 .vnav-items{display:grid;gap:18px}
 .vnav-item{text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;color:var(--muted);padding:4px 0;position:relative}
 .vnav-item::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:28px;background:color-mix(in srgb,var(--accent) 80%,transparent);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
 .vnav-item:hover{color:var(--text)} .vnav-item:hover::after{transform:scaleX(1)}
 .vnav-item.active{color:var(--text)} .vnav-item.active::after{transform:scaleX(1)}
-@media (max-width:900px){
-  .vnav{inset:0 0 auto 0;transform:none;width:auto;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line);padding:10px 12px}
-  .vnav-top{display:none}
-  .vnav-items{display:flex;gap:18px;justify-content:center}
+.menu-toggle{display:none;background:none;border:0;color:inherit}
+
+/* Hide mobile dropdown container on desktop/landscape */
+.vnav-drop{ display:none }
+
+/* Mobile PORTRAIT top bar */
+@media (max-width:900px) and (orientation:portrait){
+  :root{ --bar-h:60px; }
+
+  .vnav{
+    position:fixed; left:0; right:0; top:0; z-index:70;
+    height:calc(env(safe-area-inset-top) + var(--bar-h));
+    transform:none; width:auto; overflow:hidden;
+
+    padding:calc(env(safe-area-inset-top) + 6px) max(12px, env(safe-area-inset-right)) 6px max(12px, env(safe-area-inset-left));
+
+    background:color-mix(in srgb,var(--bg) 85%,transparent);
+    backdrop-filter:saturate(140%) blur(10px);
+
+    border-bottom:1px solid var(--line);
+    border-left:0; border-right:0; border-top:0;
+    border-radius:0 0 16px 16px;
+
+    display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start;
+    box-shadow:0 10px 30px rgba(0,0,0,.22);
+    transition: height .24s ease, border-radius .24s ease, box-shadow .24s ease, border-color .24s ease;
+    will-change: height;
+    --drop-h: 0px;
+  }
+  .vnav.open{ height:calc(env(safe-area-inset-top) + var(--bar-h) + var(--drop-h)); box-shadow:0 18px 50px rgba(0,0,0,.35) }
+
+  .menu-toggle{
+    display:flex; align-items:center; justify-content:space-between;
+    min-height:var(--bar-h); height:var(--bar-h);
+    width:100%; gap:10px; cursor:pointer; background:none; border:0; color:inherit;
+  }
+
+  #menuLabel{
+    flex:1 1 auto; min-width:0;
+    display:grid; align-items:center; justify-items:start;
+    position:relative; isolation:isolate;
+    height:var(--bar-h); line-height:1;
+    overflow:hidden; white-space:nowrap;
+    font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    font-size:1.12rem;
+    padding-right:6px;
+  }
+  #menuLabel .label{ grid-area:1/1; will-change:transform,opacity; }
+  #menuLabel .label.enter{ opacity:0; transform:translateY(8px); }
+  #menuLabel .label.enter.in{ opacity:1; transform:translateY(0); transition:opacity .18s ease, transform .18s ease; }
+  #menuLabel .label.exit{ opacity:1; transform:translateY(0); }
+  #menuLabel .label.exit.out{ opacity:0; transform:translateY(-8px); transition:opacity .18s ease, transform .18s ease; }
+
+  .caret{ width:18px;height:18px;transition:transform .22s ease; align-self:center; flex:0 0 auto; }
+  .vnav.open .caret{transform:rotate(180deg)}
+
+  .vnav-drop{
+    display:block;
+    padding:6px 4px 10px;
+    opacity:0; transform:translateY(-4px);
+    transition: opacity .18s ease, transform .18s ease;
+    pointer-events:none;
+  }
+  .vnav.open .vnav-drop{ opacity:1; transform:none; pointer-events:auto; }
+
+  .vnav .vnav-items{ display:block; }
+  .vnav .vnav-item{
+    display:block; text-align:left;
+    padding:10px 12px; border-radius:10px; letter-spacing:.08em; font-size:.95rem;
+  }
+  .vnav .vnav-item.active{
+    background:color-mix(in srgb,var(--card) 88%,transparent);
+    color:var(--text);
+  }
+
+  /* Location block inside dropdown */
+  .vnav-loc{
+    margin-top:6px; padding:10px 12px;
+    border-top:1px dashed color-mix(in srgb,var(--line) 70%, transparent);
+    display:grid; gap:.2rem; text-align:left;
+  }
+
+  /* Increase hero top-padding to clear docked bar, and nudge content down a touch */
+  .hero{ padding-top:calc(env(safe-area-inset-top) + var(--bar-h) + 52px); }
 }
 
-/* BRAND TARGET */
+/* Generic location text styles (used by mobile/desktop) */
+.loc-kicker{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.loc-city{font-size:.88rem;letter-spacing:.02em}
+/* Put time on its own line everywhere */
+.loc-coords{font-size:.82rem;color:var(--muted)}
+.loc-time{display:block;font-size:.8rem;color:var(--muted);margin-top:2px}
+
+/* Desktop/landscape location (top-right) */
+.geo-desk{
+  position:fixed; right:16px; top:16px; z-index:65;
+  display:flex; flex-direction:column; gap:.15rem; align-items:flex-end; text-align:right;
+  color:var(--fab-fg);
+  opacity:.75; transition:opacity .2s ease, filter .2s ease;
+}
+html.scroll-active .geo-desk{ opacity:.4; }
+.geo-desk:hover{ opacity:1; }
+.loc-card{background:none;border:0;box-shadow:none}
+/* Hide desktop location card on mobile portrait */
+@media (max-width:900px) and (orientation:portrait){
+  .geo-desk{ display:none !important; }
+}
+
+/* BRAND TARGET (desktop only) */
 .brand-target{
   position:fixed; top:10px; left:12px; z-index:55;
   font-size:clamp(1rem, 0.9rem + 0.5vw, 1.35rem);
@@ -104,27 +204,21 @@ html[data-theme="dark"] .sunmoon .moon{opacity:0;transform:scale(.8);transition:
 html:not([data-theme="dark"]) .sunmoon .sun{opacity:0;transform:scale(.8);transition:transform .24s ease,opacity .24s ease}
 html:not([data-theme="dark"]) .sunmoon .moon{opacity:1;transform:scale(1);transition:transform .24s ease,opacity .24s ease}
 
-/* GEO — LOCATION CARD (top-right) */
-.geo-fab{
-  position:fixed; right:16px; top:16px; z-index:65;
-  display:flex; flex-direction:column; gap:.15rem; align-items:flex-end; text-align:right;
-  color:var(--fab-fg);
-  opacity:.75; transition:opacity .2s ease, filter .2s ease;
-}
-html.scroll-active .geo-fab{ opacity:.4; }
-.geo-fab:hover, .geo-fab:focus-within{ opacity:1; }
-.loc-card{background:none;border:0;box-shadow:none}
-.loc-kicker{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.loc-city{font-size:.82rem;letter-spacing:.04em}
-.loc-coords{display:block;font-size:.78rem;color:var(--muted)}
-.loc-time{display:block;margin-top:.15rem;font-size:.76rem;opacity:.9}
-
 /* PROGRESS */
 .progress{position:fixed;left:0;top:0;height:1px;width:0%;z-index:70;background:linear-gradient(90deg,var(--accent),transparent)}
 
-/* HERO */
+/* HERO layout */
 .hero-layout{display:grid;gap:clamp(22px,2.6vw,30px);align-items:start}
 @media (min-width:1100px){.hero-layout{grid-template-columns:1fr minmax(160px,220px)}}
+
+/* Mobile portrait: bigger name and photo to the right */
+@media (max-width:900px) and (orientation:portrait){
+  .hero-layout{ grid-template-columns: 1fr auto; align-items:end; margin-top:8px; }
+  /* Slightly bigger mobile name */
+  .hero-name h1{ font-size: clamp(2.6rem, 11vw, 3.8rem); }
+  .hero-photo{ max-width:120px; justify-self:end; align-self:end; }
+}
+
 .letters{display:grid;gap:.2em}
 .letters .line{display:block}
 .letters .char{display:inline-block;opacity:0;transform:translateY(16px)}
@@ -237,7 +331,7 @@ html.scroll-active .geo-fab{ opacity:.4; }
 .chips.floaty{display:flex;flex-wrap:wrap;gap:8px}
 .chip{border:1px solid var(--line);padding:.45rem .7rem;border-radius:999px;background:color-mix(in srgb,var(--card) 85%,transparent);transition:transform .18s ease, border-color .18s ease, filter .18s ease;}
 .chips.floaty .chip{animation:drift 6s ease-in-out infinite; animation-delay:calc(var(--i,0)*.18s)}
-.chips.floaty .chip:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 30%,var(--line));filter:brightness(1.02)}
+.chips.floaty .chip:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 30%,var(--line));filter:brightness(1.03)}
 @keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 
 /* STACK */
@@ -286,13 +380,13 @@ html.scroll-active .geo-fab{ opacity:.4; }
   radial-gradient(1000px 1000px at 10% 80%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 60%),
   linear-gradient(180deg,color-mix(in srgb,var(--bg) 92%,#000 8%),var(--bg));pointer-events:none}
 
-/* FOOTER – sticky, centered */
+/* FOOTER */
 .smooth{min-height:100dvh;display:flex;flex-direction:column}
 footer{margin-top:auto}
 footer .wrap.content{display:flex;justify-content:center}
 footer p{width:100%;text-align:center}
 
-/* SMOOTH SCROLL WRAPPER */
+/* SMOOTH WRAPPER */
 .has-smooth #smooth{position:fixed; inset:0; will-change:transform}
 
 /* REDUCED MOTION */
@@ -304,60 +398,20 @@ footer p{width:100%;text-align:center}
   .chips.floaty .chip{animation:none}
 }
 
-/* ==========================
-   Chat overlay + FAB styles
-   ========================== */
-.chat-fab{
-  position:fixed; right:16px; bottom:16px; z-index:75;
-  display:inline-flex; align-items:center; gap:.6rem;
-  padding:.7rem 1rem; border-radius:999px; border:1px solid var(--line);
-  background:color-mix(in srgb,var(--card) 94%, transparent);
-  box-shadow:var(--shadow); cursor:pointer;
-  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease, filter .16s ease;
-  color:var(--text);
-}
+/* Chat overlay + FAB (unchanged) */
+.chat-fab{position:fixed; right:16px; bottom:16px; z-index:75; display:inline-flex; align-items:center; gap:.6rem; padding:.7rem 1rem; border-radius:999px; border:1px solid var(--line); background:color-mix(in srgb,var(--card) 94%, transparent); box-shadow:var(--shadow); cursor:pointer; transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease, filter .16s ease; color:var(--text)}
 .chat-fab:hover{ transform:translateY(-2px); border-color:color-mix(in srgb,var(--accent) 35%, var(--line)); filter:brightness(1.02) }
-
-/* NEW: robot icon styling (for small FAB) */
 .chat-fab .bot{ width:18px; height:18px; color:var(--text) }
 .chat-fab .bot rect{ fill:none; stroke:currentColor; stroke-width:1.6 }
 .chat-fab .bot circle{ fill:currentColor }
 .chat-fab .bot path{ stroke:currentColor; stroke-width:1.6; fill:none; stroke-linecap:round }
-
-/* existing overlay header icon stays as .brain */
 .chat-fab .brain{ width:18px; height:18px; fill:currentColor; color:var(--text) }
 .gpu-pill{font-size:.72rem;color:var(--muted);border:1px solid var(--line);padding:.18rem .48rem;border-radius:999px;background:color-mix(in srgb,var(--card) 92%,transparent)}
-
-/* Overlay */
-.chat-overlay{
-  position:fixed; inset:0; z-index:120;
-  display:grid; place-items:center;
-  background:rgba(0,0,0,.25);
-  backdrop-filter:saturate(140%) blur(8px);
-  opacity:0; pointer-events:none; transition:opacity .22s ease;
-}
+.chat-overlay{ position:fixed; inset:0; z-index:120; display:grid; place-items:center; background:rgba(0,0,0,.25); backdrop-filter:saturate(140%) blur(8px); opacity:0; pointer-events:none; transition:opacity .22s ease }
 .chat-overlay.open{opacity:1; pointer-events:auto}
-
-/* Panel */
-.chat-panel{
-  width:min(1000px,95vw);
-  height:min(86dvh, 900px);
-  display:grid;
-  /* CHANGED: make middle track resilient */
-  grid-template-rows:auto auto minmax(0, 1fr) auto;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:24px;
-  box-shadow:0 28px 80px rgba(0,0,0,.45);
-  overflow:hidden;
-}
-@media (max-width:720px){
-  .chat-panel{width:96vw; height:92dvh; border-radius:20px}
-}
-/* Optional helper when JS toggles the class */
+.chat-panel{ width:min(1000px,95vw); height:min(86dvh, 900px); display:grid; grid-template-rows:auto auto minmax(0, 1fr) auto; background:var(--card); border:1px solid var(--line); border-radius:24px; box-shadow:0 28px 80px rgba(0,0,0,.45); overflow:hidden }
+@media (max-width:720px){ .chat-panel{width:96vw; height:92dvh; border-radius:20px} }
 .chat-panel.status-hidden{ grid-template-rows: auto 0 minmax(0,1fr) auto; }
-
-/* Head */
 .chat-head{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:14px 16px; border-bottom:1px solid var(--line); background:color-mix(in srgb,var(--card) 96%, transparent)}
 .chat-title{display:flex; align-items:center; gap:.6rem}
 .chat-title .brain{width:18px;height:18px;fill:currentColor;color:var(--text)}
@@ -365,112 +419,22 @@ footer p{width:100%;text-align:center}
 .chat-close{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;color:var(--text)}
 .chat-close:hover{filter:brightness(1.05)}
 .gpu-pill strong{font-weight:600}
-
-/* Status / progress */
 .chat-status{display:flex;flex-direction:column;gap:.4rem;padding:10px 16px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--card) 98%, transparent)}
-/* CHANGED: collapse instead of removing from layout */
 .chat-status.hidden{ display:block; height:0; padding:0; margin:0; border:0; overflow:hidden; }
-
 .status-text{font-size:.86rem;color:var(--muted)}
 .progressline{position:relative;height:10px;background:color-mix(in srgb,var(--card) 92%, transparent);border:1px solid var(--line);border-radius:999px;overflow:hidden}
 .progressline .bar{height:100%;background:linear-gradient(90deg,var(--accent),transparent)}
 .progressline .label{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:.72rem;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
-
-/* Log */
-.chat-log{
-  padding:12px 16px; overflow:auto; line-height:1.6;
-  display:flex; flex-direction:column; gap:12px;
-  text-align:left;
-  /* CHANGED: allow track to shrink properly */
-  min-height:0;
-}
-
-/* Bubbles — clean rounded boxes with one flatter corner */
-.msg{
-  position:relative;
-  display:flex; flex-direction:column; gap:4px;
-  padding:10px 13px;
-  max-width:min(720px, 85%);
-  border:1px solid var(--line);
-  background:color-mix(in srgb,var(--card) 97%, transparent);
-  text-align:left;
-}
+.chat-log{ padding:12px 16px; overflow:auto; line-height:1.6; display:flex; flex-direction:column; gap:12px; text-align:left; min-height:0; }
+.msg{ position:relative; display:flex; flex-direction:column; gap:4px; padding:10px 13px; max-width:min(720px, 85%); border:1px solid var(--line); background:color-mix(in srgb,var(--card) 97%, transparent); text-align:left; }
 .msg .role{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .msg .content{white-space:pre-wrap; text-align:left}
-
-/* Assistant: flatter bottom-left corner */
-.msg.assistant{
-  align-self:flex-start;
-  border-radius:16px 16px 16px 8px; /* TL TR BR BL */
-}
-
-/* User: accent bubble, flatter bottom-right corner */
-.msg.user{
-  align-self:flex-end;
-  color:#ffffff;
-  background:linear-gradient(180deg, color-mix(in srgb,var(--accent) 85%, transparent), color-mix(in srgb,var(--accent) 65%, transparent));
-  border-color:transparent;
-  border-radius:16px 16px 8px 16px; /* TL TR BR BL */
-}
+.msg.assistant{ align-self:flex-start; border-radius:16px 16px 16px 8px; }
+.msg.user{ align-self:flex-end; color:#ffffff; background:linear-gradient(180deg, color-mix(in srgb,var(--accent) 85%, transparent), color-mix(in srgb,var(--accent) 65%, transparent)); border-color:transparent; border-radius:16px 16px 8px 16px; }
 html[data-theme="light"] .msg.user{color:#fff}
 .msg.user .role{color:rgba(255,255,255,.85)}
-
-/* Form — stable single-line height aligned with Send */
-.chat-form{
-  display:grid;grid-template-columns:1fr auto;gap:10px;
-  padding:12px 16px;border-top:1px solid var(--line);
-  background:color-mix(in srgb,var(--card) 98%, transparent)
-}
-.chat-form textarea{
-  resize:none;border:1px solid var(--line);border-radius:12px;
-  padding:.7rem .8rem;background:color-mix(in srgb,var(--card) 92%, transparent);
-  color:var(--text);
-  height:44px; min-height:44px; max-height:44px; /* keep steady size */
-  line-height:1.3;
-  /* CHANGED: hide vertical scrollbar while preserving height */
-  overflow-y:hidden;
-  scrollbar-width:none; /* Firefox */
-}
-.chat-form textarea::-webkit-scrollbar{ width:0; height:0 } /* WebKit/Chromium */
+.chat-form{ display:grid;grid-template-columns:1fr auto;gap:10px; padding:12px 16px;border-top:1px solid var(--line); background:color-mix(in srgb,var(--card) 98%, transparent) }
+.chat-form textarea{ resize:none;border:1px solid var(--line);border-radius:12px; padding:.7rem .8rem;background:color-mix(in srgb,var(--card) 92%, transparent); color:var(--text); height:44px; min-height:44px; max-height:44px; line-height:1.3; overflow-y:hidden; scrollbar-width:none; }
+.chat-form textarea::-webkit-scrollbar{ width:0; height:0 }
 .chat-form textarea:disabled{opacity:.6;cursor:not-allowed}
 .chat-form .btn.primary{padding:0 16px;height:44px;align-self:end}
-
-/* Focus ring inside overlay */
-.chat-panel :focus-visible{outline:2px solid color-mix(in srgb,var(--accent) 65%, transparent); outline-offset:2px}
-
-/* ==========================
-   Mobile location toggle
-   ========================== */
-.geo-minibtn{
-  display:none;
-  align-items:center; gap:.45rem;
-  border:1px solid var(--line);
-  background:color-mix(in srgb,var(--card) 94%,transparent);
-  border-radius:999px;
-  padding:.45rem .72rem;
-  box-shadow:var(--shadow);
-  color:var(--text);
-  cursor:pointer;
-}
-.geo-minibtn .pin{ width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.6 }
-
-@media (max-width:900px){
-  .geo-fab{
-    right:auto; left:50%; transform:translateX(-50%);
-    top:calc(56px + env(safe-area-inset-top));
-    align-items:center; text-align:center; gap:.4rem;
-  }
-  .geo-minibtn{ display:flex; }
-  .geo-fab .loc-kicker, .geo-fab .loc-city, .geo-fab .loc-coords{ display:none; }
-
-  .geo-fab.open{
-    background:color-mix(in srgb,var(--card) 96%, transparent);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:8px 10px;
-    box-shadow:var(--shadow);
-  }
-  .geo-fab.open .loc-kicker,
-  .geo-fab.open .loc-city,
-  .geo-fab.open .loc-coords{ display:block; }
-}

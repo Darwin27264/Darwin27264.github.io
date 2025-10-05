@@ -16,21 +16,50 @@
   <!-- Ambient backdrop (fixed) -->
   <canvas id="ambient" aria-hidden="true"></canvas>
 
-  <!-- Brand target (top-left) for scroll-morph -->
+  <!-- Brand target (top-left) for scroll-morph (desktop only) -->
   <div id="brandTarget" class="brand-target" aria-hidden="true">
     <span class="brand-line">DARWIN</span>
     <span class="brand-line">CHEN</span>
   </div>
 
-  <!-- Left vertical nav (fixed) -->
+  <!-- Left vertical nav on desktop / Top bar on mobile -->
   <aside class="vnav" aria-label="Site">
-    <a class="vnav-top" href="#top" aria-label="Back to top">Top</a>
-    <nav class="vnav-items" id="vnav" aria-label="Primary">
-      <a class="vnav-item" href="#work" data-target="work">Experience</a>
+    <!-- Mobile / portrait: expanding top bar -->
+    <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="vnavDrop">
+      <div id="menuLabel" aria-live="polite" aria-atomic="true"></div>
+      <svg class="caret" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </button>
+
+    <!-- Mobile dropdown panel (rounded/frosted) -->
+    <div id="vnavDrop" class="vnav-drop">
+      <nav class="vnav-items" id="vnav" aria-label="Primary (mobile)">
+        <a class="vnav-item" href="#work"     data-target="work">Experience</a>
+        <a class="vnav-item" href="#projects" data-target="projects">Projects</a>
+        <a class="vnav-item" href="#about"    data-target="about">About</a>
+        <a class="vnav-item" href="#stack"    data-target="stack">Stack</a>
+        <a class="vnav-item" href="#contact"  data-target="contact">Contact</a>
+      </nav>
+
+      <!-- Location in dropdown (mobile) -->
+      <div class="vnav-loc" role="status" aria-live="polite">
+        <div class="loc-kicker">LOCATION</div>
+        <div class="loc-city" id="locCity">KINGSTON, ON, Canada</div>
+        <div class="loc-coords">
+          <span id="coords">—</span>
+          <span class="loc-time" id="clock" title="Local time">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop/landscape: standard vertical items -->
+    <nav class="vnav-items" id="vnavDesktop" aria-label="Primary (desktop)">
+      <a class="vnav-item" href="#work"     data-target="work">Experience</a>
       <a class="vnav-item" href="#projects" data-target="projects">Projects</a>
-      <a class="vnav-item" href="#about" data-target="about">About</a>
-      <a class="vnav-item" href="#stack" data-target="stack">Stack</a>
-      <a class="vnav-item" href="#contact" data-target="contact">Contact</a>
+      <a class="vnav-item" href="#about"    data-target="about">About</a>
+      <a class="vnav-item" href="#stack"    data-target="stack">Stack</a>
+      <a class="vnav-item" href="#contact"  data-target="contact">Contact</a>
     </nav>
   </aside>
 
@@ -56,22 +85,13 @@
     </svg>
   </button>
 
-  <!-- Top-right: location + time (fixed, moved) -->
-  <div id="geoClock" class="geo-fab loc-card" role="status" aria-live="polite">
-    <!-- MOBILE TOGGLE (hidden on desktop) -->
-    <button id="geoToggle" class="geo-minibtn" aria-expanded="false" aria-controls="locCity coords clock">
-      <svg class="pin" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"></path>
-        <circle cx="12" cy="10" r="2.5"></circle>
-      </svg>
-      <span>Location</span>
-    </button>
-
+  <!-- Desktop/landscape: location (top-right) -->
+  <div id="geoDesk" class="geo-desk loc-card" role="status" aria-live="polite" aria-hidden="false">
     <div class="loc-kicker">LOCATION</div>
-    <div class="loc-city" id="locCity">KINGSTON, ON, Canada</div>
+    <div class="loc-city" id="locCityDesk">KINGSTON, ON, Canada</div>
     <div class="loc-coords">
-      <span id="coords">—</span>
-      <span class="loc-time" id="clock" title="Local time">—</span>
+      <span id="coordsDesk">—</span>
+      <span class="loc-time" id="clockDesk" title="Local time">—</span>
     </div>
   </div>
 
@@ -414,7 +434,6 @@
 
   <!-- Floating Chat FAB (bottom-right, small) -->
   <button id="chatOpenBtn" class="chat-fab" aria-label="Chat with my résumé" title="Chat with my résumé">
-    <!-- UPDATED: robot icon for the small FAB -->
     <svg class="bot" viewBox="0 0 24 24" aria-hidden="true">
       <rect x="4" y="7" width="16" height="10" rx="3"></rect>
       <circle cx="9"  cy="12" r="1.6"></circle>

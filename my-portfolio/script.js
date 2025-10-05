@@ -1,4 +1,6 @@
-// Theme toggle with animated transition + correct icon inversion
+/* ==========================================================
+   THEME TOGGLE
+   ========================================================== */
 (function () {
   const root = document.documentElement;
   const btn  = document.getElementById('themeToggle');
@@ -36,7 +38,9 @@
   }
 })();
 
-// Progress hairline + "scroll-active" flag
+/* ==========================================================
+   PROGRESS HAIRLINE
+   ========================================================== */
 (function(){
   const bar = document.getElementById('progress');
   const root = document.documentElement;
@@ -61,7 +65,9 @@
   document.addEventListener('scroll', onScroll, {passive:true});
 })();
 
-// Section reveal
+/* ==========================================================
+   REVEALS
+   ========================================================== */
 (function () {
   const els = [...document.querySelectorAll('[data-reveal]')];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -74,7 +80,9 @@
   els.forEach((el) => io.observe(el));
 })();
 
-// Timeline cards fade-in
+/* ==========================================================
+   TIMELINE CARD FADE-IN
+   ========================================================== */
 (function(){
   const cards = document.querySelectorAll('.t-card');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -87,7 +95,9 @@
   cards.forEach(c=>io.observe(c));
 })();
 
-// Two-line name letters entrance
+/* ==========================================================
+   HERO TITLE LETTER ENTRANCE
+   ========================================================== */
 (function(){
   const root = document.querySelector('.letters');
   if (!root) return;
@@ -107,7 +117,9 @@
   requestAnimationFrame(() => root.querySelectorAll('.char').forEach(s => s.classList.add('in')));
 })();
 
-/* ===== Smooth anchors ===== */
+/* ==========================================================
+   SMOOTH ANCHORS
+   ========================================================== */
 (function(){
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
     a.addEventListener('click', e=>{
@@ -125,35 +137,180 @@
   });
 })();
 
-// Scrollspy
+function isMobilePortrait(){ return window.matchMedia('(max-width: 900px) and (orientation: portrait)').matches; }
+
+/* ==========================================================
+   MOBILE TOP BAR: SCROLLSPY + TITLE SWAP
+   ========================================================== */
 (function(){
-  const nav = document.getElementById('vnav');
-  if (!nav) return;
+  const aside = document.querySelector('.vnav');
+  const nav   = document.getElementById('vnav');          // mobile nav
+  const drop  = document.getElementById('vnavDrop');
+  const menuToggle = document.getElementById('menuToggle');
+  const menuLabel  = document.getElementById('menuLabel');
+  const hero = document.getElementById('home');
+  if (!aside || !nav || !drop || !menuToggle || !menuLabel) return;
+
+  const GREETING = 'Hey there!';
+  let currentText = '';
+
+  function setLabelImmediate(txt){
+    currentText = (txt||'').trim();
+    menuLabel.innerHTML = '';
+    const span = document.createElement('span');
+    span.className = 'label enter in';
+    span.textContent = currentText;
+    menuLabel.appendChild(span);
+  }
+
+  function animateLabelTo(nextText){
+    const next = (nextText||'').trim();
+    if (!isMobilePortrait()){ setLabelImmediate(next); return; }
+    if (!next || next === currentText) return;
+    const oldNode = menuLabel.querySelector('.label');
+    currentText = next;
+
+    const enter = document.createElement('span');
+    enter.className = 'label enter';
+    enter.textContent = next;
+    menuLabel.appendChild(enter);
+
+    if (oldNode){
+      oldNode.classList.remove('enter','in');
+      oldNode.classList.add('exit');
+      requestAnimationFrame(()=> oldNode.classList.add('out'));
+      setTimeout(()=> oldNode.remove(), 240);
+    }
+    requestAnimationFrame(()=> enter.classList.add('in'));
+  }
+
+  function ensureLabelVisible(){
+    const text = menuLabel.textContent.trim();
+    if (!text){
+      const activeTxt = document.querySelector('.vnav-item.active')?.textContent.trim();
+      if (isMobilePortrait()){
+        setLabelImmediate(activeTxt || GREETING);
+      } else {
+        setLabelImmediate(activeTxt || 'Experience');
+      }
+    }
+  }
+
+  // Initial greeting / default
+  if (isMobilePortrait()) setLabelImmediate(GREETING);
+  else setLabelImmediate('Experience');
+
+  // Scrollspy + label switching (mobile)
   const links = [...nav.querySelectorAll('.vnav-item')];
   const map = new Map(links.map(l => [l.dataset.target, l]));
   const sections = links.map(l => document.getElementById(l.dataset.target)).filter(Boolean);
-  const hero = document.getElementById('home');
 
   function clearActive(){ links.forEach(x=>x.classList.remove('active')); }
+  const firstLabel = (links[0]?.textContent || 'Experience').trim();
 
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
       if (e.target === hero){
-        if (e.isIntersecting) { clearActive(); }
+        if (e.isIntersecting){
+          if (isMobilePortrait()){
+            clearActive();
+            animateLabelTo(GREETING);
+          } else {
+            setLabelImmediate(firstLabel);
+          }
+        }
         return;
       }
       const id = e.target.id;
       const link = map.get(id);
       if (!link) return;
-      if (e.isIntersecting) { clearActive(); link.classList.add('active'); }
+      if (e.isIntersecting){
+        clearActive(); link.classList.add('active');
+        const txt = link.textContent.trim();
+        if (isMobilePortrait()) animateLabelTo(txt);
+        else setLabelImmediate(txt);
+      }
+    });
+    ensureLabelVisible();
+  }, {rootMargin: '-45% 0px -50% 0px', threshold: 0.01});
+  sections.forEach(s=>io.observe(s));
+  if (hero) io.observe(hero);
+
+  // Bar expansion
+  function measureDropHeight(){
+    if (!isMobilePortrait()){ aside.style.removeProperty('--drop-h'); return; }
+    const h = drop.scrollHeight + 8;
+    aside.style.setProperty('--drop-h', h + 'px');
+  }
+  function setOpen(open){
+    aside.classList.toggle('open', open);
+    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) measureDropHeight();
+  }
+  menuToggle.addEventListener('click', ()=> setOpen(!aside.classList.contains('open')));
+
+  links.forEach(l=>{
+    l.addEventListener('click', ()=>{
+      if (isMobilePortrait()) setOpen(false);
+    });
+  });
+
+  document.addEventListener('click', (e)=>{
+    if (isMobilePortrait()){
+      if (!aside.contains(e.target)) setOpen(false);
+    }
+  }, {capture:true});
+
+  function onResize(){
+    measureDropHeight();
+    if (!isMobilePortrait()){
+      setLabelImmediate(firstLabel);
+    } else {
+      const heroRect = document.getElementById('home')?.getBoundingClientRect();
+      const isAtTop = heroRect ? heroRect.top >= -1 : true;
+      if (isAtTop) setLabelImmediate(GREETING);
+      else {
+        const activeTxt = document.querySelector('.vnav-item.active')?.textContent.trim() || firstLabel;
+        setLabelImmediate(activeTxt);
+      }
+    }
+    ensureLabelVisible();
+  }
+  window.addEventListener('resize', onResize);
+  window.addEventListener('orientationchange', onResize);
+  document.addEventListener('visibilitychange', ensureLabelVisible);
+
+  const ro = new ResizeObserver(measureDropHeight);
+  ro.observe(drop);
+  measureDropHeight();
+  window.addEventListener('load', () => setTimeout(ensureLabelVisible, 50));
+})();
+
+/* ==========================================================
+   DESKTOP SCROLLSPY (keeps left-rail highlighting)
+   ========================================================== */
+(function(){
+  const nav = document.getElementById('vnavDesktop');
+  if (!nav) return;
+  const links = [...nav.querySelectorAll('.vnav-item')];
+  const map = new Map(links.map(l => [l.dataset.target, l]));
+  const sections = links.map(l => document.getElementById(l.dataset.target)).filter(Boolean);
+  const hero = document.getElementById('home');
+  function clearActive(){ links.forEach(x=>x.classList.remove('active')); }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if (e.target === hero){ if (e.isIntersecting) clearActive(); return; }
+      const id = e.target.id, link = map.get(id);
+      if (e.isIntersecting){ clearActive(); link?.classList.add('active'); }
     });
   }, {rootMargin: '-45% 0px -50% 0px', threshold: 0.01});
-
   sections.forEach(s=>io.observe(s));
   if (hero) io.observe(hero);
 })();
 
-// Modals
+/* ==========================================================
+   MODALS
+   ========================================================== */
 (function(){
   const openers = document.querySelectorAll('.card[data-modal]');
   const modals  = document.querySelectorAll('.modal');
@@ -175,7 +332,9 @@
   });
 })();
 
-// Ambient canvas light (paused when tab hidden)
+/* ==========================================================
+   AMBIENT CANVAS
+   ========================================================== */
 (function(){
   const c = document.getElementById('ambient');
   if (!c) return;
@@ -226,7 +385,9 @@
   if (!reduce) requestAnimationFrame(draw);
 })();
 
-/* ===== Hero name morph to top-left ===== */
+/* ==========================================================
+   HERO NAME MORPH TO TOP-LEFT (desktop only)
+   ========================================================== */
 (function(){
   const name = document.getElementById('morphName');
   const target = document.getElementById('brandTarget');
@@ -275,14 +436,17 @@
   update();
 })();
 
-/* ===== Kingston location + live time ===== */
+/* ==========================================================
+   LOCATION + LIVE TIME (updates both mobile & desktop, if present)
+   ========================================================== */
 (function(){
   const LAT = 44.2312, LON = -76.4860, TZ = 'America/Toronto';
-  const coordsEl = document.getElementById('coords');
-  const clockEl  = document.getElementById('clock');
-  const geoRoot  = document.getElementById('geoClock');
-  const toggleBtn= document.getElementById('geoToggle');
-  if (!coordsEl || !clockEl) return;
+
+  const coordEls = [...document.querySelectorAll('#coords, #coordsDesk')];
+  const clockEls = [...document.querySelectorAll('#clock, #clockDesk')];
+  const cityEls  = [...document.querySelectorAll('#locCity, #locCityDesk')];
+
+  if (coordEls.length === 0 || clockEls.length === 0 || cityEls.length === 0) return;
 
   function toDMS(dec, isLat){
     const abs = Math.abs(dec);
@@ -293,7 +457,8 @@
     const hemi = isLat ? (dec >= 0 ? 'N' : 'S') : (dec >= 0 ? 'E' : 'W');
     return `${deg}° ${String(min).padStart(2,'0')}' ${String(sec).padStart(2,'0')}" ${hemi}`;
   }
-  coordsEl.textContent = `${toDMS(LAT,true)}  ${toDMS(LON,false)}`;
+  const dmsText = `${toDMS(LAT,true)}  ${toDMS(LON,false)}`;
+  coordEls.forEach(el => el.textContent = dmsText);
 
   const fmt = new Intl.DateTimeFormat('en-CA', {
     timeZone: TZ, hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, timeZoneName:'short'
@@ -303,33 +468,15 @@
     const parts = fmt.formatToParts(new Date());
     const time = parts.filter(p=>['hour','minute','second'].includes(p.type)).map(p=>p.value).join(':');
     const tzname = parts.find(p=>p.type==='timeZoneName')?.value || '';
-    clockEl.textContent = `${time} ${tzname}`;
+    clockEls.forEach(el => el.textContent = `${time} ${tzname}`);
   }
   tick();
   setInterval(tick, 1000);
-
-  // Mobile toggle (collapsed by default on small screens)
-  if (geoRoot && toggleBtn){
-    const mq = window.matchMedia('(max-width: 900px)');
-    function sync(){
-      if (!mq.matches){
-        geoRoot.classList.remove('open');
-        toggleBtn.setAttribute('aria-expanded','false');
-        return;
-      }
-      const expanded = geoRoot.classList.contains('open');
-      toggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    }
-    toggleBtn.addEventListener('click', ()=>{
-      geoRoot.classList.toggle('open');
-      toggleBtn.setAttribute('aria-expanded', geoRoot.classList.contains('open') ? 'true' : 'false');
-    });
-    window.addEventListener('resize', sync, {passive:true});
-    sync();
-  }
 })();
 
-/* ===== Subtle inertial smooth scrolling ===== */
+/* ==========================================================
+   SMOOTH SCROLL (desktop-ish only)
+   ========================================================== */
 (function(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = window.matchMedia('(pointer: fine)').matches;
@@ -365,7 +512,9 @@
   ro.observe(smoothEl);
 })();
 
-/* ===== Stack badges: staggered pop-in ===== */
+/* ==========================================================
+   STACK BADGES STAGGER
+   ========================================================== */
 (function(){
   const section = document.getElementById('stack');
   if (!section) return;
@@ -388,16 +537,17 @@
   io.observe(section);
 })();
 
-/* ===== Assign deterministic float delays to about chips ===== */
+/* ==========================================================
+   FLOAT DELAYS FOR ABOUT CHIPS
+   ========================================================== */
 (function(){
   const chips = document.querySelectorAll('.chips.floaty .chip');
   chips.forEach((c,i)=> c.style.setProperty('--i', i));
 })();
 
-/* =========================================================================
-   WebGPU Résumé Chatbot — LLM answers everything (dynamic + accurate)
-   + Quick actions (chips) shown ONLY when model is loaded
-   ========================================================================= */
+/* ==========================================================
+   CHAT WIDGET (unchanged core)
+   ========================================================== */
 (function(){
   try {
     const openBtn  = document.getElementById('chatOpenBtn');
@@ -422,7 +572,6 @@
 
     if (!openBtn || !overlay || !panel || !form || !input || !logEl) return;
 
-    // WebGPU availability (https or localhost)
     const isLocalhost = ['localhost','127.0.0.1','[::1]'].some(h => location.hostname === h) || location.hostname.endsWith('.localhost');
     const isSecure = (window.isSecureContext && location.protocol === 'https:') || isLocalhost;
     const webgpuOk = !!navigator.gpu && isSecure;
@@ -433,7 +582,6 @@
     };
     setGpuBadge(webgpuOk ? 'On' : 'Off');
 
-    // Prefer a slightly larger but still light model; gracefully fall back to 0.5B
     const MODEL_PREFS = [
       'Qwen2.5-1.5B-Instruct-q4f16_1-MLC',
       'Qwen2.5-0.5B-Instruct-q4f16_1-MLC'
@@ -441,8 +589,6 @@
 
     let engine = null;
     let loading = false;
-
-    // rolling chat history for continuity
     const history = [];
     const ctx = buildResumeContextWithDerivedFacts();
 
@@ -450,32 +596,26 @@
       "You are 'DarwinBot', a friendly, concise assistant for Darwin Chen's résumé site.",
       "Always answer using ONLY the on-page CONTEXT provided. If something isn't present, say you don't know and point to the résumé PDF link available on the page.",
       "Style: conversational and helpful. Use short sentences. If listing multiple items, use bullets. Otherwise, write natural prose.",
-      "Keep answers focused and ≤ ~120 words unless asked for more. Avoid repeating the entire résumé.",
-      "When dates are provided, feel free to mention approximate durations already computed in CONTEXT.",
+      "Keep answers focused and ≤ ~120 words unless asked for more.",
       "Never invent employers, schools, or dates beyond what appears in CONTEXT."
     ].join("\n");
 
-    // ----- Quick actions (chips) — created only after model is ready -----
     let quickShown = false;
     function ensureQuickActions(){
       if (quickShown || !form || !input) return;
-
       const row = document.createElement('div');
       row.id = 'chatQuick';
       row.setAttribute('role','group');
       row.setAttribute('aria-label','Quick suggestions');
-      // make it full-width inside the grid form and sit above the input
       row.style.gridColumn = '1 / -1';
       row.style.display = 'flex';
       row.style.gap = '8px';
       row.style.flexWrap = 'wrap';
       row.style.marginBottom = '6px';
-
       const mkChip = (label, message) => {
         const b = document.createElement('button');
         b.type = 'button';
         b.className = 'quick-chip';
-        // neutral rounded “chip” look that matches the panel
         b.style.border = '1px solid var(--line)';
         b.style.background = 'color-mix(in srgb,var(--card) 96%, transparent)';
         b.style.borderRadius = '999px';
@@ -488,47 +628,25 @@
         b.addEventListener('mouseenter', ()=>{ b.style.filter = 'brightness(1.02)'; b.style.transform = 'translateY(-1px)'; });
         b.addEventListener('mouseleave', ()=>{ b.style.filter = ''; b.style.transform = ''; });
         b.textContent = label;
-        b.addEventListener('click', ()=>{
-          input.value = message;
-          form.requestSubmit();
-        });
+        b.addEventListener('click', ()=>{ input.value = message; form.requestSubmit(); });
         return b;
       };
-
       row.appendChild(mkChip('Ask about my work experience', 'What did you do at your roles?'));
       row.appendChild(mkChip('Ask about my projects', 'Tell me about your projects.'));
-
-      // place chips as the first row inside the form (above the textarea+send)
       form.prepend(row);
       quickShown = true;
     }
 
-    /* ---------- Overlay controls + focus trap ---------- */
     function openChat(){
       overlay.classList.add('open');
       overlay.setAttribute('aria-hidden','false');
       setTimeout(()=> input.focus({ preventScroll: true }), 0);
       trapFocus(panel);
-
-      if (webgpuOk && !engine && !loading){
-        showStatus('Loading local model…', true);
-        initModel().catch(()=>{});
-      } else if (!webgpuOk){
-        showStatus('Fallback mode (enable WebGPU via https/localhost).', false);
-        setTimeout(hideStatus, 1600);
-        ungateInputs();
-      } else if (engine){
-        hideStatus();
-        ungateInputs();
-        ensureQuickActions(); // model already ready
-      }
+      if (webgpuOk && !engine && !loading){ showStatus('Loading local model…', true); initModel().catch(()=>{}); }
+      else if (!webgpuOk){ showStatus('Fallback mode (enable WebGPU via https/localhost).', false); setTimeout(hideStatus, 1600); ungateInputs(); }
+      else if (engine){ hideStatus(); ungateInputs(); ensureQuickActions(); }
     }
-
-    function closeChat(){
-      overlay.classList.remove('open');
-      overlay.setAttribute('aria-hidden','true');
-      untrapFocus();
-    }
+    function closeChat(){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); untrapFocus(); }
 
     openBtn.addEventListener('click', openChat);
     if (closeBtn) closeBtn.addEventListener('click', closeChat);
@@ -547,11 +665,17 @@
     }
     function untrapFocus(){ if (panel?.__focusTrap) panel.removeEventListener('keydown', panel.__focusTrap); }
 
-    /* ---------- Status helpers ---------- */
     function showStatus(text, withProgress){
+      const statusRow = document.querySelector('.chat-status');
+      const statusEl  = document.getElementById('chatStatus');
+      const progWrap  = document.getElementById('chatProgress');
+      const progBar   = document.getElementById('chatProgressBar');
+      const progLbl   = document.getElementById('chatProgressLabel');
+      const panel     = document.querySelector('.chat-panel');
+
       if (!statusRow) return;
       statusRow.classList.remove('hidden');
-      if (panel) panel.classList.remove('status-hidden');
+      panel?.classList.remove('status-hidden');
       if (statusEl) statusEl.textContent = text || '';
       if (progWrap) progWrap.hidden = !withProgress;
       if (!withProgress){
@@ -560,31 +684,25 @@
       }
     }
     function hideStatus(){
+      const statusRow = document.querySelector('.chat-status');
+      const panel     = document.querySelector('.chat-panel');
       if (!statusRow) return;
       statusRow.classList.add('hidden');
-      if (panel) panel.classList.add('status-hidden');
+      panel?.classList.add('status-hidden');
     }
 
-    /* ---------- UI gating for model load ---------- */
     function gateForModelLoad(){
       loading = true;
       showStatus('Loading local model…', true);
       if (sendBtn) sendBtn.disabled = true;
-      if (input){
-        input.disabled = true;
-        input.placeholder = 'Loading local model…';
-      }
+      if (input){ input.disabled = true; input.placeholder = 'Loading local model…'; }
     }
     function ungateInputs(){
       loading = false;
       if (sendBtn) sendBtn.disabled = false;
-      if (input){
-        input.disabled = false;
-        input.placeholder = 'Ask about experience, projects, tools…';
-      }
+      if (input){ input.disabled = false; input.placeholder = 'Ask about experience, projects, tools…'; }
     }
 
-    /* ---------- Chat plumbing ---------- */
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
       const q = input.value.trim();
@@ -597,13 +715,7 @@
       input.value = '';
       await respond(q);
     });
-
-    input.addEventListener('keydown', (e)=>{
-      if (e.key === 'Enter' && !e.shiftKey){
-        e.preventDefault();
-        form.requestSubmit();
-      }
-    });
+    input.addEventListener('keydown', (e)=>{ if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); form.requestSubmit(); } });
 
     function addMsg(role, content){
       const card = document.createElement('div');
@@ -616,149 +728,99 @@
       return c;
     }
 
-    /* ---------- Model init with progress; prefer 1.5B, fall back to 0.5B ---------- */
     async function initModel(){
       try{
         gateForModelLoad();
         const { CreateMLCEngine } = await import('https://esm.run/@mlc-ai/web-llm');
-
         let lastErr = null;
         for (const modelName of MODEL_PREFS){
           try{
             engine = await CreateMLCEngine(modelName, {
               initProgressCallback: ({ progress, text }) => {
                 const pct = Math.round((progress || 0) * 100);
+                const progBar = document.getElementById('chatProgressBar');
+                const progLbl = document.getElementById('chatProgressLabel');
+                const statusEl= document.getElementById('chatStatus');
                 if (progBar) progBar.style.width = pct + '%';
                 if (progLbl) progLbl.textContent = pct + '%';
                 if (statusEl) statusEl.textContent = `Preparing model… ${pct}%${text ? ' · ' + text : ''}`;
               }
             });
             setGpuBadge('On');
-            break; // success
-          }catch(err){
-            lastErr = err;
-            engine = null;
-          }
+            break;
+          }catch(err){ lastErr = err; engine = null; }
         }
-
         if (!engine && lastErr) throw lastErr;
-
-        hideStatus();
-        ungateInputs();
-        ensureQuickActions(); // <-- show chips now that the model is ready
+        hideStatus(); ungateInputs(); ensureQuickActions();
       }catch(err){
-        console.warn('WebLLM init failed, falling back to rule-based answers.', err);
-        setGpuBadge('Off');
-        showStatus('Fallback mode (model unavailable).', false);
+        console.warn('WebLLM init failed:', err);
+        setGpuBadge('Off'); showStatus('Fallback mode (model unavailable).', false);
         setTimeout(hideStatus, 1600);
         engine = null;
-      }finally{
-        ungateInputs();
-      }
+      }finally{ ungateInputs(); }
     }
 
-    /* ---------- Retrieval + response (LLM for everything when available) ---------- */
     function tokenize(t){ return (t||'').toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(Boolean); }
-    function score(docToks, qToks){
-      const set = new Set(docToks);
-      let s = 0; for (const t of qToks){ if (set.has(t)) s++; }
-      return s;
-    }
+    function score(docToks, qToks){ const set = new Set(docToks); let s = 0; for (const t of qToks){ if (set.has(t)) s++; } return s; }
     function relevantContext(query, rawContext, k=8, maxChars=1100){
-      const cleaned = rawContext
-        .replace(/^==.*?==$/gm,'')
-        .replace(/^\s*[A-Z]{2,8}\s*$/gm,'')
-        .replace(/\n{2,}/g,'\n\n')
-        .trim();
+      const cleaned = rawContext.replace(/^==.*?==$/gm,'').replace(/^\s*[A-Z]{2,8}\s*$/gm,'').replace(/\n{2,}/g,'\n\n').trim();
       const q = tokenize(query);
       const chunks = cleaned.split('\n\n').map(c => c.trim()).filter(Boolean);
-      const scored = chunks.map(c => ({ c, s: score(tokenize(c), q) }))
-                           .sort((a,b)=> b.s - a.s)
-                           .slice(0,k)
-                           .map(x=>x.c);
-      let buf = '';
-      for (const c of scored){
-        if ((buf + '\n\n' + c).length > maxChars) break;
-        buf += (buf ? '\n\n' : '') + c;
-      }
+      const scored = chunks.map(c => ({ c, s: score(tokenize(c), q) })).sort((a,b)=> b.s - a.s).slice(0,k).map(x=>x.c);
+      let buf = ''; for (const c of scored){ if ((buf + '\n\n' + c).length > maxChars) break; buf += (buf ? '\n\n' : '') + c; }
       return buf || cleaned.slice(0, maxChars);
     }
-
     function polish(text){
-      let t = (text||'').replace(/\r/g,'').replace(/ {2,}/g,' ').replace(/\n{3,}/g,'\n\n');
+      let t = (text||'').replace(/\r/g,'').replace(/ {2,}/g, ' ').replace(/\n{3,}/g, '\n\n');
       t = t.replace(/^(assistant|darwinbot)\s*:\s*/i,'');
-      const lines = t.split('\n');
-      const seen = new Set(); const out = [];
-      for (const line of lines){
-        const key = line.trim().toLowerCase();
-        if (key && !seen.has(key)){ out.push(line); seen.add(key); }
-      }
+      const lines = t.split('\n'); const seen = new Set(); const out = [];
+      for (const line of lines){ const key = line.trim().toLowerCase(); if (key && !seen.has(key)){ out.push(line); seen.add(key); } }
       t = out.join('\n').trim();
       return t.length > 1200 ? t.slice(0, 1200) + '…' : t;
     }
-
     function composeMessages(userQ, ctxSnippet){
       const tail = history.slice(-6);
       const msgs = [{ role: 'system', content: SYSTEM }];
       for (const m of tail){ msgs.push(m); }
-      msgs.push({
-        role: 'user',
-        content:
-          `CONTEXT (from page, include DERIVED FACTS when relevant):\n${ctxSnippet}\n\n` +
-          `QUESTION: ${userQ}\n\n` +
-          `Answer conversationally. If listing items, you may use bullets. If info is missing, say you don't know and mention the résumé PDF link on the page.`
-      });
+      msgs.push({ role: 'user', content:
+        `CONTEXT (from page, include DERIVED FACTS when relevant):\n${ctxSnippet}\n\n` +
+        `QUESTION: ${userQ}\n\n` +
+        `Answer conversationally. If listing items, you may use bullets. If info is missing, say you don't know and mention the résumé PDF link on the page.` });
       return msgs;
     }
 
     async function respond(q){
       const sink = addMsg('assistant', '');
-
       if (engine){
         try{
           const ctxSnippet = relevantContext(q, ctx, 8, 1100);
           const messages = composeMessages(q, ctxSnippet);
-
           const chunks = await engine.chat.completions.create({
-            messages,
-            temperature: 0.3,
-            top_p: 0.9,
-            max_tokens: 512,
-            stream: true,
-            stream_options: { include_usage: true }
+            messages, temperature: 0.3, top_p: 0.9, max_tokens: 512, stream: true, stream_options: { include_usage: true }
           });
-
           let full = '';
           for await (const ch of chunks){
             const delta = ch?.choices?.[0]?.delta?.content || '';
-            if (delta){
-              full += delta;
-              sink.textContent = polish(full);
-              logEl.scrollTop = logEl.scrollHeight;
-            }
+            if (delta){ full += delta; sink.textContent = polish(full); }
           }
           const finalText = polish(full) || "I’m not seeing that in the page context. You can check the résumé PDF linked above.";
           sink.textContent = finalText;
-
-          history.push({ role: 'user', content: q });
-          history.push({ role: 'assistant', content: finalText });
+          history.push({ role: 'user', content: q }); history.push({ role: 'assistant', content: finalText });
           return;
         }catch(err){
           console.warn('WebLLM generation error:', err);
           sink.textContent = "Local generation hit a snag. I’ll answer from the page content directly.";
         }
       }
-
+      // Fallback
       const answer = fallbackQA(q, ctx);
       sink.textContent = answer;
       history.push({ role: 'user', content: q });
       history.push({ role: 'assistant', content: answer });
     }
 
-    /* ---------- Context building with derived tenure facts ---------- */
     function buildResumeContextWithDerivedFacts(){
       const pickText = (sel) => [...document.querySelectorAll(sel)].map(n => n.textContent.trim()).filter(Boolean).join('\n');
-
       const deriveFacts = ()=>{
         const months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
         const parseRange = (s)=>{
@@ -772,58 +834,35 @@
           const diff = Math.max(0, endIndex - startIndex);
           return {start:`${m[1]} ${sy}`, end:`${m[3]} ${ey}`, months: diff};
         };
-
         const facts = [];
         document.querySelectorAll('#work .t-card').forEach(card=>{
           const role = card.querySelector('.t-head h3')?.textContent?.trim();
           const when = card.querySelector('.t-head .when')?.textContent?.trim();
           if (!role || !when) return;
           const r = parseRange(when);
-          if (r){
-            const approx = r.months;
-            facts.push(`• ${role}: ${r.start} – ${r.end} (about ${approx} months)`);
-          }
+          if (r){ facts.push(`• ${role}: ${r.start} – ${r.end} (about ${r.months} months)`); }
         });
         return facts.join('\n');
       };
-
       const parts = [
-        '== HERO ==',
-        pickText('.hero .lead'),
-        pickText('.cta-row .btn[href$=".pdf"]'),
-        '== EXPERIENCE ==',
-        pickText('#work .t-card'),
-        '== PROJECTS ==',
-        pickText('#projects .card-body'),
-        '== EDUCATION ==',
-        pickText('.edu'),
-        '== LEADERSHIP ==',
-        pickText('#about .bullets'),
-        '== FOCUS ==',
-        pickText('#about .chips'),
-        '== STACK ==',
-        pickText('#stack .badge'),
-        '== CONTACT ==',
-        pickText('#contact .c-right'),
-        '== DERIVED FACTS ==',
-        deriveFacts()
+        '== HERO ==', pickText('.hero .lead'), pickText('.cta-row .btn[href$=".pdf"]'),
+        '== EXPERIENCE ==', pickText('#work .t-card'),
+        '== PROJECTS ==', pickText('#projects .card-body'),
+        '== EDUCATION ==', pickText('.edu'),
+        '== LEADERSHIP ==', pickText('#about .bullets'),
+        '== FOCUS ==', pickText('#about .chips'),
+        '== STACK ==', pickText('#stack .badge'),
+        '== CONTACT ==', pickText('#contact .c-right'),
+        '== DERIVED FACTS ==', deriveFacts()
       ];
       return parts.join('\n').replace(/\n{3,}/g, '\n\n');
     }
 
-    /* ---------- Fallback keyword retriever ---------- */
     function fallbackQA(query, context){
-      const cleaned = context
-        .replace(/^==.*?==$/gm,'')
-        .replace(/^\s*[A-Z]{2,8}\s*$/gm,'')
-        .replace(/\n{2,}/g,'\n\n')
-        .trim();
-
+      const cleaned = context.replace(/^==.*?==$/gm,'').replace(/^\s*[A-Z]{2,8}\s*$/gm,'').replace(/\n{2,}/g,'\n\n').trim();
       const q = tokenize(query);
       const chunks = cleaned.split('\n\n').map(c => c.trim()).filter(Boolean);
-      const scored = chunks.map(c => ({ c, s: score(tokenize(c), q) }))
-                           .sort((a,b)=> b.s - a.s)
-                           .slice(0,6);
+      const scored = chunks.map(c => ({ c, s: score(tokenize(c), q) })).sort((a,b)=> b.s - a.s).slice(0,6);
       if (!scored.length || scored[0].s === 0){
         const a = document.querySelector('a.btn[href$=".pdf"]');
         const link = a ? a.href : 'the résumé PDF on this page';

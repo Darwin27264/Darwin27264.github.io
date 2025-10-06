@@ -158,18 +158,15 @@
    Robust title manager (prevents "stuck" overlays) + dropdown sizing
    ========================================================================= */
 (function(){
-  // Only run on small portrait layout; safe to run generally with guards
   const aside = document.querySelector('.vnav');
   if (!aside) return;
 
-  const labelHost = document.getElementById('menuLabel'); // container for animated title
+  const labelHost = document.getElementById('menuLabel');
   const btn       = aside.querySelector('.menu-toggle');
   const drop      = aside.querySelector('.vnav-drop');
 
-  // ---- Dropdown: measure height and set CSS var so the same panel expands
   function setDropHeight(){
     if (!drop) return;
-    // Use scrollHeight; add a few px buffer for borders
     const h = Math.max(0, drop.scrollHeight + 2);
     aside.style.setProperty('--drop-h', h + 'px');
   }
@@ -185,42 +182,19 @@
       const open = !aside.classList.contains('open');
       aside.classList.toggle('open', open);
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      // keep height fresh (fonts/lines may have shifted)
       setDropHeight();
     });
   }
 
-  // ---- Title Animator with tokens + fast-path collapse to prevent overlays
+  // Title animator — overlap-safe
   function createLabelAnimator(host){
     let cur = '';
     let token = 0;
-    let lastSwapAt = 0; // FIX: time-based collapse for burst changes
+    let lastSwapAt = 0;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Paint-bust to clear any compositor weirdness (kept from earlier)
-    function bustPaint(el){
-      if (!el) return;
-      el.style.transform = 'translateZ(0)';
-      void el.offsetHeight;
-      requestAnimationFrame(()=>{ el.style.transform = ''; });
-    }
-
-    // Hard fallback remove in case transitionend is dropped
-    function scheduleHardRemove(node){
-      const tid = setTimeout(()=>{
-        if (node && node.parentNode === host){
-          try{ node.remove(); }catch(_){}
-        }
-      }, 600);
-      const clear = () => clearTimeout(tid);
-      node.addEventListener('transitionend', clear, {once:true});
-      node.addEventListener('animationend',  clear, {once:true});
-    }
-
-    // FIX: aggressively clear any lingering exit nodes before we proceed
     function pruneExits(){
-      const exits = host.querySelectorAll('.label.exit');
-      exits.forEach(n=>{ try{ n.remove(); }catch(_){ } });
+      host.querySelectorAll('.label.exit').forEach(n=>{ try{ n.remove(); }catch(_){ } });
     }
 
     const set = (text, immediate=false) => {
@@ -229,62 +203,45 @@
       cur = text;
       token++;
 
-      pruneExits(); // FIX: drop any stale exiting labels immediately
+      pruneExits();
 
-      const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
-      const since = now - lastSwapAt;
-      const tooFast = since < 160;       // FIX: faster than the 180ms CSS duration ≈ overlap
+      const now = (performance && performance.now) ? performance.now() : Date.now();
+      const tooFast = (now - lastSwapAt) < 160;
       const instant = immediate || reduce || tooFast;
 
-      // Keep host lean (max 2 labels)
       host.querySelectorAll('.label').forEach((n, i) => { if (i > 1) n.remove(); });
 
-      // If we are swapping too fast or reduced motion: do a single-node instant swap
       if (instant){
-        // Remove all labels synchronously (no animation → no overlap)
         host.querySelectorAll('.label').forEach(n=>{ try{ n.remove(); }catch(_){} });
         const next = document.createElement('span');
         next.className = 'label enter in';
         next.textContent = text;
-        // Show instantly without transition flicker
         next.style.transition = 'none';
         host.appendChild(next);
-        bustPaint(host); // keep compositor tidy
-        // restore transition for future animated swaps
         requestAnimationFrame(()=>{ next.style.transition = ''; });
         lastSwapAt = now;
         return;
       }
 
-      // Animated path (normal behavior)
       const old = host.querySelector('.label.enter.in') || host.querySelector('.label');
       const next = document.createElement('span');
       next.className = 'label enter';
       next.textContent = text;
       host.appendChild(next);
 
-      bustPaint(host);
-
-      // Start enter
-      void next.offsetHeight; // reflow
+      void next.offsetHeight;
       next.classList.add('in');
 
-      // Animate out the old label (if present)
       if (old && old !== next){
         const my = token;
         old.classList.add('exit');
         requestAnimationFrame(()=> old.classList.add('out'));
-
-        const done = () => {
-          if (my !== token) return;
-          old.remove();
-        };
+        const done = () => { if (my === token) old.remove(); };
         old.addEventListener('transitionend', done, {once:true});
         old.addEventListener('animationend',  done, {once:true});
-        scheduleHardRemove(old); // safety
+        setTimeout(()=>{ if (document.contains(old)) try{ old.remove(); }catch(_){ } }, 600);
       }
 
-      // Micro-prune after DOM settles so we never keep more than two
       queueMicrotask(()=>{
         const labels = host.querySelectorAll('.label');
         if (labels.length > 2){
@@ -300,7 +257,7 @@
 
   const animator = createLabelAnimator(labelHost);
 
-  // ---- Active section resolver; RAF-throttled to avoid event storms
+  // Section list
   const sections = [
     { id:'work',     title:'EXPERIENCE' },
     { id:'projects', title:'PROJECTS' },
@@ -309,13 +266,29 @@
     { id:'contact',  title:'CONTACT' },
   ];
   const GREETING = 'HEY THERE!';
-
-  // initial render: greeting
   animator.set(GREETING, true);
 
   function getBarHeight(){
     const head = aside.querySelector('.menu-toggle');
     return head ? head.getBoundingClientRect().height : 60;
+  }
+
+  // ---- Transform-proof measurement helpers (fixes hero→experience nudge)
+  function currentSmoothOffset(){
+    const hasSmooth = document.body.classList.contains('has-smooth');
+    if (!hasSmooth) return window.scrollY;
+    const smooth = document.getElementById('smooth');
+    if (!smooth) return window.scrollY;
+    const m = /translate3d\(0px,\s*(-?\d+(\.\d+)?)px/.exec(smooth.style.transform || '');
+    const cur = m ? Math.abs(parseFloat(m[1])) : window.scrollY;
+    return cur;
+  }
+  function visualTop(el){
+    // distance from viewport top, ignoring element transforms
+    return el.offsetTop - currentSmoothOffset();
+  }
+  function visualBottom(el){
+    return visualTop(el) + el.offsetHeight;
   }
 
   let activeId = '__greet__';
@@ -329,7 +302,7 @@
 
     // Show greeting until Experience is reached
     if (work){
-      const t = work.getBoundingClientRect().top;
+      const t = visualTop(work);
       if (t - threshold > 0){
         if (activeId !== '__greet__'){
           activeId = '__greet__';
@@ -340,7 +313,7 @@
       }
     }
 
-    // Snap to last section when at the very bottom (ensures CONTACT appears)
+    // Snap to last section when at the bottom
     const doc = document.scrollingElement || document.documentElement;
     if (window.innerHeight + window.scrollY >= (doc.scrollHeight - 1)){
       const last = sections[sections.length - 1];
@@ -352,28 +325,29 @@
       return;
     }
 
-    // Best section (closest above the bar)
+    // Choose the section whose top is closest above the bar
     let best = null;
     let bestDelta = Infinity;
 
     for (const s of sections){
       const el = document.getElementById(s.id);
       if (!el) continue;
-      const top = el.getBoundingClientRect().top;
+      const top = visualTop(el);
       const delta = Math.abs(top - threshold);
       if (top <= threshold + 1 && delta < bestDelta){
         best = s; bestDelta = delta;
       }
     }
 
-    // If none are above threshold, choose the LAST visible one (deepest wins)
+    // If none above, pick the deepest visible one
     if (!best){
       for (let i = sections.length - 1; i >= 0; i--){
         const s = sections[i];
         const el = document.getElementById(s.id);
         if (!el) continue;
-        const r = el.getBoundingClientRect();
-        if (r.bottom > 0 && r.top < window.innerHeight * 0.98){
+        const top = visualTop(el);
+        const bottom = visualBottom(el);
+        if (bottom > 0 && top < window.innerHeight * 0.98){
           best = s; break;
         }
       }
@@ -427,7 +401,7 @@
   });
 })();
 
-// Ambient canvas light (paused when tab hidden)
+// Ambient canvas light (throttled ~30fps to reduce GPU load)
 (function(){
   const c = document.getElementById('ambient');
   if (!c) return;
@@ -448,7 +422,13 @@
   let running = true;
   document.addEventListener('visibilitychange', ()=>{ running = !document.hidden; if (running && !reduce) requestAnimationFrame(draw); });
 
-  const draw = () => {
+  let last = 0;
+  const FPS_MS = 33;
+
+  const draw = (ts=0) => {
+    if ((ts - last) < FPS_MS) { if (running && !reduce) requestAnimationFrame(draw); return; }
+    last = ts;
+
     const w = c.width, h = c.height;
     ctx.clearRect(0,0,w,h);
     const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6AA6FF';
@@ -490,7 +470,10 @@
 
   function update(){
     if (!mediaOK.matches){
-      name.classList.remove('pinned'); name.style.transform = ''; target.style.opacity = 0; return;
+      name.style.visibility = ''; // ensure visible again on mobile
+      name.style.transform = '';
+      target.style.opacity = 0;
+      return;
     }
     const heroRect   = hero.getBoundingClientRect();
     const nameRect   = name.getBoundingClientRect();
@@ -511,19 +494,17 @@
     name.style.transform = `translate(${tX}px, ${tY}px) scale(${s})`;
     target.style.opacity = p > 0 ? Math.min(1, p*1.2) : 0;
 
+    // FIX: Do NOT switch to position:fixed (no layout jump). Hide when "pinned".
     if (p >= 0.999){
-      name.classList.add('pinned');
       name.style.transform = '';
-      name.style.setProperty('--brand-top',  targetRect.top + 'px');
-      name.style.setProperty('--brand-left', targetRect.left + 'px');
-      name.style.setProperty('--brand-scale', scale);
+      name.style.visibility = 'hidden'; // reserve layout, no jump
     }else{
-      name.classList.remove('pinned');
+      name.style.visibility = '';
     }
   }
 
   document.addEventListener('scroll', ()=> requestAnimationFrame(update), {passive:true});
-  window.addEventListener('resize', update);
+  window.addEventListener('resize', update, {passive:true});
   update();
 })();
 
@@ -532,7 +513,6 @@
   const LAT = 44.2312, LON = -76.4860, TZ = 'America/Toronto';
   const coordsEl = document.getElementById('coords');
   const clockEl  = document.getElementById('clock');
-  // also reflect values in desktop widgets if present
   const coordsElDesk = document.getElementById('coordsDesk');
   const clockElDesk  = document.getElementById('clockDesk');
   const geoRoot  = document.getElementById('geoClock');
@@ -567,7 +547,6 @@
   tick();
   setInterval(tick, 1000);
 
-  // Mobile toggle (collapsed by default on small screens)
   if (geoRoot && toggleBtn){
     const mq = window.matchMedia('(max-width: 900px)');
     function sync(){
@@ -602,23 +581,36 @@
   let current = target;
   const ease = 0.12;
 
-  function raf(){
+  // Event-driven RAF that idles when settled
+  let rafId = null;
+  let lastActiveAt = 0;
+  const IDLE_AFTER = 120;
+
+  function step(){
+    rafId = null;
     current += (target - current) * ease;
     if (Math.abs(target - current) < 0.05) current = target;
     smoothEl.style.transform = `translate3d(0, ${-current.toFixed(2)}px, 0)`;
-    requestAnimationFrame(raf);
-  }
 
-  function onScroll(){ target = window.scrollY; }
-  function onResize(){ setHeight(); target = window.scrollY; }
+    const now = performance.now();
+    const moving = Math.abs(target - current) >= 0.05;
+    if (moving){ lastActiveAt = now; }
+    if (moving || (now - lastActiveAt) < IDLE_AFTER){
+      rafId = requestAnimationFrame(step);
+    }
+  }
+  function ensureRAF(){ if (rafId == null) rafId = requestAnimationFrame(step); }
+
+  function onScroll(){ target = window.scrollY; ensureRAF(); }
+  function onResize(){ setHeight(); target = window.scrollY; ensureRAF(); }
 
   setHeight();
-  window.addEventListener('resize', onResize);
+  window.addEventListener('resize', onResize, {passive:true});
   window.addEventListener('scroll', onScroll, {passive:true});
-  requestAnimationFrame(raf);
+  ensureRAF();
 
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(setHeight).catch(()=>{}); }
-  window.addEventListener('load', setHeight);
+  window.addEventListener('load', setHeight, {once:true});
   setTimeout(setHeight, 250);
   const ro = new ResizeObserver(setHeight);
   ro.observe(smoothEl);
@@ -681,7 +673,6 @@
 
     if (!openBtn || !overlay || !panel || !form || !input || !logEl) return;
 
-    // WebGPU availability (https or localhost)
     const isLocalhost = ['localhost','127.0.0.1','[::1]'].some(h => location.hostname === h) || location.hostname.endsWith('.localhost');
     const isSecure = (window.isSecureContext && location.protocol === 'https:') || isLocalhost;
     const webgpuOk = !!navigator.gpu && isSecure;
@@ -692,7 +683,6 @@
     };
     setGpuBadge(webgpuOk ? 'On' : 'Off');
 
-    // Prefer a slightly larger but still light model; gracefully fall back to 0.5B
     const MODEL_PREFS = [
       'Qwen2.5-1.5B-Instruct-q4f16_1-MLC',
       'Qwen2.5-0.5B-Instruct-q4f16_1-MLC'
@@ -701,40 +691,34 @@
     let engine = null;
     let loading = false;
 
-    // rolling chat history for continuity
     const history = [];
-    const ctx = buildResumeContextWithDerivedFacts();
+
+    const ctx = getPreferredContextOrBuild();
 
     const SYSTEM = [
       "You are 'DarwinBot', a friendly, concise assistant for Darwin Chen's résumé site.",
-      "Always answer using ONLY the on-page CONTEXT provided. If something isn't present, say you don't know and point to the résumé PDF link available on the page.",
-      "Style: conversational and helpful. Use short sentences. If listing multiple items, use bullets. Otherwise, write natural prose.",
+      "Answer using ONLY the provided CONTEXT. If something isn't present, say you don't know and point to the résumé PDF link available on the page.",
+      "Style: conversational and helpful. Use short sentences. If listing multiple items, use bullets.",
       "Keep answers focused and ≤ ~120 words unless asked for more. Avoid repeating the entire résumé.",
-      "When dates are provided, feel free to mention approximate durations already computed in CONTEXT.",
-      "Never invent employers, schools, or dates beyond what appears in CONTEXT."
+      "Never invent employers, schools, dates, or skills beyond what appears in CONTEXT."
     ].join("\n");
 
-    // ----- Quick actions (chips) — created only after model is ready -----
     let quickShown = false;
     function ensureQuickActions(){
       if (quickShown || !form || !input) return;
-
       const row = document.createElement('div');
       row.id = 'chatQuick';
       row.setAttribute('role','group');
       row.setAttribute('aria-label','Quick suggestions');
-      // make it full-width inside the grid form and sit above the input
       row.style.gridColumn = '1 / -1';
       row.style.display = 'flex';
       row.style.gap = '8px';
       row.style.flexWrap = 'wrap';
       row.style.marginBottom = '6px';
-
       const mkChip = (label, message) => {
         const b = document.createElement('button');
         b.type = 'button';
         b.className = 'quick-chip';
-        // neutral rounded “chip” look that matches the panel
         b.style.border = '1px solid var(--line)';
         b.style.background = 'color-mix(in srgb,var(--card) 96%, transparent)';
         b.style.borderRadius = '999px';
@@ -753,16 +737,12 @@
         });
         return b;
       };
-
       row.appendChild(mkChip('Ask about my work experience', 'What did you do at your roles?'));
       row.appendChild(mkChip('Ask about my projects', 'Tell me about your projects.'));
-
-      // place chips as the first row inside the form (above the textarea+send)
       form.prepend(row);
       quickShown = true;
     }
 
-    /* ---------- Overlay controls + focus trap ---------- */
     function openChat(){
       overlay.classList.add('open');
       overlay.setAttribute('aria-hidden','false');
@@ -779,7 +759,7 @@
       } else if (engine){
         hideStatus();
         ungateInputs();
-        ensureQuickActions(); // model already ready
+        ensureQuickActions();
       }
     }
 
@@ -806,7 +786,6 @@
     }
     function untrapFocus(){ if (panel?.__focusTrap) panel.removeEventListener('keydown', panel.__focusTrap); }
 
-    /* ---------- Status helpers ---------- */
     function showStatus(text, withProgress){
       if (!statusRow) return;
       statusRow.classList.remove('hidden');
@@ -824,7 +803,6 @@
       if (panel) panel.classList.add('status-hidden');
     }
 
-    /* ---------- UI gating for model load ---------- */
     function gateForModelLoad(){
       loading = true;
       showStatus('Loading local model…', true);
@@ -843,7 +821,6 @@
       }
     }
 
-    /* ---------- Chat plumbing ---------- */
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
       const q = input.value.trim();
@@ -875,12 +852,10 @@
       return c;
     }
 
-    /* ---------- Model init with progress; prefer 1.5B, fall back to 0.5B ---------- */
     async function initModel(){
       try{
         gateForModelLoad();
         const { CreateMLCEngine } = await import('https://esm.run/@mlc-ai/web-llm');
-
         let lastErr = null;
         for (const modelName of MODEL_PREFS){
           try{
@@ -893,18 +868,16 @@
               }
             });
             setGpuBadge('On');
-            break; // success
+            break;
           }catch(err){
             lastErr = err;
             engine = null;
           }
         }
-
         if (!engine && lastErr) throw lastErr;
-
         hideStatus();
         ungateInputs();
-        ensureQuickActions(); // <-- show chips now that the model is ready
+        ensureQuickActions();
       }catch(err){
         console.warn('WebLLM init failed, falling back to rule-based answers.', err);
         setGpuBadge('Off');
@@ -916,7 +889,6 @@
       }
     }
 
-    /* ---------- Retrieval + response (LLM for everything when available) ---------- */
     function tokenize(t){ return (t||'').toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(Boolean); }
     function score(docToks, qToks){
       const set = new Set(docToks);
@@ -942,6 +914,11 @@
       }
       return buf || cleaned.slice(0, maxChars);
     }
+    function relevanceScore(query, rawContext){
+      const q = tokenize(query);
+      const c = tokenize(rawContext);
+      return score(c, q);
+    }
 
     function polish(text){
       let t = (text||'').replace(/\r/g,'').replace(/ {2,}/g,' ').replace(/\n{3,}/g,'\n\n');
@@ -963,26 +940,36 @@
       msgs.push({
         role: 'user',
         content:
-          `CONTEXT (from page, include DERIVED FACTS when relevant):\n${ctxSnippet}\n\n` +
+          `CONTEXT (from page or provided JSON):\n${ctxSnippet}\n\n` +
           `QUESTION: ${userQ}\n\n` +
-          `Answer conversationally. If listing items, you may use bullets. If info is missing, say you don't know and mention the résumé PDF link on the page.`
+          `If the answer is not explicitly supported by CONTEXT, say you don't know and point to the résumé PDF link on the page.`
       });
       return msgs;
     }
 
     async function respond(q){
       const sink = addMsg('assistant', '');
+      const ctxSnippet = relevantContext(q, ctx, 8, 1100);
+      const rel = relevanceScore(q, ctxSnippet);
+
+      if (rel < 2){
+        const a = document.querySelector('a.btn[href$=".pdf"]');
+        const link = a ? a.href : 'the résumé PDF on this page';
+        const msg  = "I don’t have that in the on-page context. Please check " + link + ".";
+        sink.textContent = msg;
+        history.push({ role: 'user', content: q });
+        history.push({ role: 'assistant', content: msg });
+        return;
+      }
 
       if (engine){
         try{
-          const ctxSnippet = relevantContext(q, ctx, 8, 1100);
           const messages = composeMessages(q, ctxSnippet);
-
           const chunks = await engine.chat.completions.create({
             messages,
-            temperature: 0.3,
-            top_p: 0.9,
-            max_tokens: 512,
+            temperature: 0.2,
+            top_p: 0.7,
+            max_tokens: 384,
             stream: true,
             stream_options: { include_usage: true }
           });
@@ -1008,13 +995,25 @@
         }
       }
 
-      const answer = fallbackQA(q, ctx);
+      const answer = fallbackQA(q, ctxSnippet);
       sink.textContent = answer;
       history.push({ role: 'user', content: q });
       history.push({ role: 'assistant', content: answer });
     }
 
-    /* ---------- Context building with derived tenure facts ---------- */
+    function getPreferredContextOrBuild(){
+      try{
+        if (typeof window.__RESUME_CONTEXT__ === 'string' && window.__RESUME_CONTEXT__.trim().length > 0){
+          return window.__RESUME_CONTEXT__;
+        }
+        const node = document.getElementById('resumeContext');
+        if (node && node.textContent){
+          return String(node.textContent).trim();
+        }
+      }catch(_){}
+      return buildResumeContextWithDerivedFacts();
+    }
+
     function buildResumeContextWithDerivedFacts(){
       const pickText = (sel) => [...document.querySelectorAll(sel)].map(n => n.textContent.trim()).filter(Boolean).join('\n');
 
@@ -1070,7 +1069,6 @@
       return parts.join('\n').replace(/\n{3,}/g, '\n\n');
     }
 
-    /* ---------- Fallback keyword retriever ---------- */
     function fallbackQA(query, context){
       const cleaned = context
         .replace(/^==.*?==$/gm,'')

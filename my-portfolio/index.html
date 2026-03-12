@@ -6,475 +6,391 @@
   <title>Darwin Chen — Portfolio</title>
   <meta name="description" content="Darwin Chen — AI-inclined web developer building clean, fast, human-centered tools." />
   <link rel="icon" href="favicon.ico" />
-  <meta name="theme-color" content="#0F1115" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#F2F2F0">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Ambient backdrop (fixed) -->
-  <canvas id="ambient" aria-hidden="true"></canvas>
 
-  <!-- Brand target (top-left) for scroll-morph (desktop only) -->
-  <div id="brandTarget" class="brand-target" aria-hidden="true">
-    <span class="brand-line">DARWIN</span>
-    <span class="brand-line">CHEN</span>
-  </div>
-
-  <!-- Left vertical nav on desktop / Top bar on mobile -->
-  <aside class="vnav" aria-label="Site">
-    <!-- Mobile / portrait: expanding top bar -->
-    <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="vnavDrop">
-      <div id="menuLabel" aria-live="polite" aria-atomic="true"></div>
-      <svg class="caret" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    </button>
-
-    <!-- Mobile dropdown panel (rounded/frosted) -->
-    <div id="vnavDrop" class="vnav-drop">
-      <nav class="vnav-items" id="vnav" aria-label="Primary (mobile)">
-        <a class="vnav-item" href="#work"     data-target="work">Experience</a>
-        <a class="vnav-item" href="#projects" data-target="projects">Projects</a>
-        <a class="vnav-item" href="#about"    data-target="about">About</a>
-        <a class="vnav-item" href="#stack"    data-target="stack">Stack</a>
-        <a class="vnav-item" href="#contact"  data-target="contact">Contact</a>
-      </nav>
-
-      <!-- Location in dropdown (mobile) -->
-      <div class="vnav-loc" role="status" aria-live="polite">
-        <div class="loc-kicker">LOCATION</div>
-        <div class="loc-city" id="locCity">KINGSTON, ON, Canada</div>
-        <div class="loc-coords">
-          <span id="coords">—</span>
-          <span class="loc-time" id="clock" title="Local time">—</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Desktop/landscape: standard vertical items -->
-    <nav class="vnav-items" id="vnavDesktop" aria-label="Primary (desktop)">
-      <a class="vnav-item" href="#work"     data-target="work">Experience</a>
-      <a class="vnav-item" href="#projects" data-target="projects">Projects</a>
-      <a class="vnav-item" href="#about"    data-target="about">About</a>
-      <a class="vnav-item" href="#stack"    data-target="stack">Stack</a>
-      <a class="vnav-item" href="#contact"  data-target="contact">Contact</a>
-    </nav>
-  </aside>
-
-  <!-- Theme switch (fixed) -->
-  <button id="themeToggle" class="theme-fab" aria-label="Toggle theme" aria-pressed="false" title="Toggle theme">
-    <svg class="sunmoon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-      <g class="sun">
-        <circle cx="12" cy="12" r="4"></circle>
-        <g class="rays">
-          <line x1="12" y1="2"  x2="12" y2="5"></line>
-          <line x1="12" y1="19" x2="12" y2="22"></line>
-          <line x1="2"  y1="12" x2="5"  y2="12"></line>
-          <line x1="19" y1="12" x2="22" y2="12"></line>
-          <line x1="4.2" y1="4.2"  x2="6.4" y2="6.4"></line>
-          <line x1="17.6" y1="17.6" x2="19.8" y2="19.8"></line>
-          <line x1="17.6" y1="6.4"  x2="19.8" y2="4.2"></line>
-          <line x1="4.2" y1="19.8" x2="6.4" y2="17.6"></line>
-        </g>
-      </g>
-      <g class="moon">
-        <path d="M16.5 12.5a6.5 6.5 0 1 1-5-10.5 7.5 7.5 0 1 0 8.5 9.5 6.48 6.48 0 0 1-3.5 1z"></path>
-      </g>
-    </svg>
+  <button id="themeToggle" class="icon-btn floating-btn" aria-label="Toggle theme">
+    <span class="icon">◑</span>
   </button>
 
-  <!-- Desktop/landscape: location (top-right) -->
-  <div id="geoDesk" class="geo-desk loc-card" role="status" aria-live="polite" aria-hidden="false">
-    <div class="loc-kicker">LOCATION</div>
-    <div class="loc-city" id="locCityDesk">KINGSTON, ON, Canada</div>
-    <div class="loc-coords">
-      <span id="coordsDesk">—</span>
-      <span class="loc-time" id="clockDesk" title="Local time">—</span>
-    </div>
-  </div>
+  <main class="wrap">
 
-  <!-- Top progress hairline (fixed) -->
-  <div class="progress" id="progress" role="presentation"></div>
+    <header class="hero reveal-stagger" id="home">
+      <div class="hero-top fade-up">
+        <div>
+          <span class="meta-text block">V2.0 — PORTFOLIO</span>
+          <span class="meta-text block text-muted mt-qtr">UPDATED MAR 12, 2026</span>
+        </div>
+        <div class="text-right">
+          <span class="meta-text block">KINGSTON, ON</span>
+          <span class="meta-text block text-muted mt-qtr" id="weatherStatus">--°C LOCAL</span>
+        </div>
+      </div>
 
-  <!-- Smooth-scrolling content wrapper (transformed) -->
-  <div id="smooth" class="smooth">
-    <main id="top" class="wrap">
-      <!-- HERO -->
-      <section class="hero content reveal" data-reveal id="home">
-        <div class="hero-layout">
-          <header class="hero-name morphable" id="morphName">
-            <h1 class="letters">
-              <span class="line" data-letters="DARWIN">DARWIN</span>
-              <span class="line" data-letters="CHEN">CHEN</span>
-            </h1>
-            <p class="hero-kicker">AI-inclined web developer</p>
-          </header>
+      <div class="hero-middle">
+        <h1 class="massive-title fade-up">
+          Darwin Chen.
+        </h1>
+      </div>
 
-          <figure class="hero-photo">
-            <img src="prof_pic.png" alt="Darwin Chen profile photo" loading="lazy" decoding="async" />
-          </figure>
+      <div class="hero-bottom fade-up">
+        <div class="hero-img-pill">
+          <img src="prof_pic_old.png" alt="Darwin Chen" />
         </div>
 
-        <p class="lead">
-          I build clean, fast, human-centered interfaces and data-aware tools—favoring clarity,
-          performance, and quietly sophisticated interactions.
-        </p>
-
-        <div class="cta-row">
-          <a class="btn primary" href="#work">See my work</a>
-          <a class="btn" href="DarwinChen_Resume.pdf" target="_blank" rel="noopener">My Resume</a>
+        <div class="hero-actions">
+          <a href="#experience" class="pill-btn outline">VIEW EXPERIENCE <span class="arrow">↓</span></a>
+          <a href="#projects" class="pill-btn dark-btn">VIEW PROJECTS <span class="arrow">↘</span></a>
         </div>
-      </section>
+      </div>
+    </header>
 
-      <!-- EXPERIENCE -->
-      <section id="work" class="content reveal" data-reveal>
-        <div class="section-head">
-          <span class="s-kicker">01 — Experience</span>
-          <h2>Timeline</h2>
-        </div>
+    <section id="statement" class="content reveal-up mt-massive">
+      <h2 class="statement-text">
+        An AI-inclined web developer building clean, fast, human-centered interfaces and data-aware tools.
+        <span class="text-muted">Favoring clarity, performance, and quietly sophisticated interactions.</span>
+      </h2>
+    </section>
 
-        <ol class="timeline" id="timeline">
-          <li class="t-item">
-            <div class="t-dot"></div>
-            <div class="t-card">
-              <header class="t-head">
-                <h3>Software Developer Intern — <span class="where">Ericsson</span></h3>
-                <span class="when"><time>May 2024</time> – <time>Aug 2025</time> · Ottawa, ON</span>
-              </header>
-              <ul>
-                <li>React + OpenSearch dashboards for Jenkins pipelines (faster stage-level triage).</li>
-                <li>Python AST validator for error IDs (prevents collisions, enforces conventions).</li>
-                <li>Bulk Jenkins job tooling to improve CI hygiene.</li>
-                <li>Unsupervised fault classification (Drain3, MiniLM, HDBSCAN).</li>
-                <li>LLM failure-cause recognizer (llama.cpp) with structured JSON outputs.</li>
-              </ul>
-              <div class="t-tech">
-                <span class="tech" title="JavaScript">
-                  <svg viewBox="0 0 28 28" class="i-badge" aria-hidden="true">
-                    <rect x="2" y="2" width="24" height="24" rx="6"></rect>
-                    <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">JS</text>
-                  </svg>
-                </span>
-                <span class="tech" title="Python">
-                  <svg viewBox="0 0 28 28" class="i-badge" aria-hidden="true">
-                    <rect x="2" y="2" width="24" height="24" rx="6"></rect>
-                    <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">PY</text>
-                  </svg>
-                </span>
-                <span class="tech" title="React">
-                  <svg viewBox="0 0 32 32" class="i i-react" aria-hidden="true">
-                    <circle cx="16" cy="16" r="3"></circle>
-                    <ellipse cx="16" cy="16" rx="10" ry="4"></ellipse>
-                    <ellipse cx="16" cy="16" rx="10" ry="4" transform="rotate(60 16 16)"></ellipse>
-                    <ellipse cx="16" cy="16" rx="10" ry="4" transform="rotate(-60 16 16)"></ellipse>
-                  </svg>
-                </span>
-              </div>
+    <section id="experience" class="content reveal-up mt-massive">
+      <div class="section-header split border-bottom pb-1 mb-2">
+        <h2 class="medium-title">Experience & Education</h2>
+        <a href="DarwinChen_Resume.pdf" target="_blank" class="pill-btn outline">
+          View My Resume ↗
+        </a>
+      </div>
+
+      <div class="resume-grid mt-2">
+        <div class="resume-col">
+          <h3 class="meta-text text-muted mb-2">WORK EXPERIENCE</h3>
+
+          <div class="resume-item reveal-up">
+            <div class="item-head">
+              <h4>Software Developer Intern</h4>
+              <span class="meta-text text-muted">MAY 2024 – AUG 2025</span>
             </div>
-          </li>
-
-          <li class="t-item">
-            <div class="t-dot"></div>
-            <div class="t-card">
-              <header class="t-head">
-                <h3>Web Developer &amp; Manager — <span class="where">Pathfinders</span></h3>
-                <span class="when"><time>May 2022</time> – <time>Aug 2025</time> · Fredericton, NB</span>
-              </header>
-              <ul>
-                <li>UI improvements and site maintenance across PHP/HTML/CSS apps.</li>
-                <li>Translation workflow via custom Google Apps Script plugins.</li>
-                <li>Analytics/Ads/Tag Manager; experience with Cloudflare, DreamHost, WordPress.</li>
-              </ul>
-              <div class="t-tech">
-                <span class="tech" title="HTML/CSS">
-                  <svg viewBox="0 0 28 28" class="i-badge" aria-hidden="true">
-                    <rect x="2" y="2" width="24" height="24" rx="6"></rect>
-                    <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">HTML</text>
-                  </svg>
-                </span>
-                <span class="tech" title="PHP">
-                  <svg viewBox="0 0 28 28" class="i-badge" aria-hidden="true">
-                    <rect x="2" y="2" width="24" height="24" rx="6"></rect>
-                    <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">PHP</text>
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </li>
-
-          <li class="t-item">
-            <div class="t-dot"></div>
-            <div class="t-card">
-              <header class="t-head">
-                <h3>Teaching Assistant — <span class="where">Queen’s University</span></h3>
-                <span class="when"><time>Sept 2023</time> – <time>Apr 2025</time> · Kingston, ON</span>
-              </header>
-              <ul>
-                <li>CISC 151 (Elements of Computing with Data Analytics) &amp; CISC 203 (Discrete Structures II).</li>
-              </ul>
-            </div>
-          </li>
-        </ol>
-      </section>
-
-      <!-- PROJECTS -->
-      <section id="projects" class="content reveal" data-reveal>
-        <div class="section-head">
-          <span class="s-kicker">02 — Projects</span>
-          <h2>Selected Work</h2>
-        </div>
-
-        <div class="cards">
-          <article class="card" data-modal="modal-llm">
-            <div class="card-strip"></div>
-            <div class="card-body">
-              <h3>On-Device LLM Chat Agent</h3>
-              <p>Quantized LLM + tool use for private, offline chat (React Native + Python).</p>
-            </div>
-          </article>
-
-          <article class="card" data-modal="modal-fish">
-            <div class="card-strip"></div>
-            <div class="card-body">
-              <h3>Fishing Data Mapper</h3>
-              <p>Scraped lake/species data → interactive React + Leaflet map.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- ABOUT -->
-      <section id="about" class="content reveal" data-reveal>
-        <div class="section-head">
-          <span class="s-kicker">03 — About</span>
-          <h2>Background</h2>
-        </div>
-
-        <div class="about-shells playful">
-          <article class="shell">
-            <header class="shell-head">
-              <span class="dot"></span><h3>Education</h3>
-            </header>
-
-            <dl class="edu">
-              <dt>School</dt>
-              <dd>Queen’s University</dd>
-
-              <dt>Degree</dt>
-              <dd>Bachelor of Computing <span class="muted">(AI Specialization)</span></dd>
-
-              <dt>Dates</dt>
-              <dd>
-                <time>Sept 2021</time> – <time>Apr 2026</time>
-                <span class="muted">• 1-year internship</span>
-              </dd>
-            </dl>
-          </article>
-
-          <article class="shell">
-            <header class="shell-head">
-              <span class="dot"></span><h3>Leadership</h3>
-            </header>
-            <ul class="bullets">
-              <li>Perception Integration Team Lead — Queen’s AutoDrive (Lv.4 AV platform, MATLAB 3D sims), <time>Sept 2023</time> – <time>Apr 2024</time>.</li>
-              <li>Consulting Design Team Manager — QMIND (LLM backend, LangChain optimization), <time>Sept 2023</time> – <time>Apr 2024</time>.</li>
+            <p class="company">Ericsson — Ottawa, ON</p>
+            <ul class="bullet-list">
+              <li>Shipped React + OpenSearch observability dashboards that auto-indexed 15+ Jenkins pipelines; surfaced stage-level signals and reduced triage time by ~60%.</li>
+              <li>Prototyped an on-device large language model (LLM) failure summarizer with llama.cpp, converting jobs with 3,000+ error logs and 50,000+ lines into structured JSON for downstream automation.</li>
+              <li>Built a Python validation pipeline (regex + AST parsing) to enforce error-ID conventions and prevent collisions before production releases.</li>
+              <li>Ran automated log-triage experiments (Drain3 templates, MiniLM embeddings, HDBSCAN clustering) and built CI hygiene tooling for bulk Jenkins job audits/actions.</li>
             </ul>
-          </article>
-
-          <article class="shell wide">
-            <header class="shell-head">
-              <span class="dot"></span><h3>Focus Areas</h3>
-            </header>
-            <div class="chips floaty">
-              <span class="chip">LLM tooling &amp; private inference</span>
-              <span class="chip">Front-end performance &amp; UX</span>
-              <span class="chip">Data / observability pipelines</span>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- STACK -->
-      <section id="stack" class="content reveal" data-reveal>
-        <div class="section-head">
-          <span class="s-kicker">04 — Stack</span>
-          <h2>Tools &amp; Tech</h2>
-        </div>
-
-        <div class="stack-grid">
-          <div class="stack-col">
-            <h3 class="stack-head">Languages</h3>
-            <div class="badges">
-              <span class="badge">Python</span>
-              <span class="badge">JavaScript</span>
-              <span class="badge">TypeScript</span>
-              <span class="badge">PHP</span>
-              <span class="badge">HTML</span>
-              <span class="badge">CSS</span>
-              <span class="badge">MATLAB</span>
-              <span class="badge">SQL</span>
-            </div>
           </div>
 
-          <div class="stack-col">
-            <h3 class="stack-head">Frameworks &amp; UI</h3>
-            <div class="badges">
-              <span class="badge">React</span>
-              <span class="badge">React Native</span>
-              <span class="badge">Leaflet</span>
-              <span class="badge">WordPress</span>
-              <span class="badge">OpenSearch Dashboards</span>
+          <div class="resume-item reveal-up">
+            <div class="item-head">
+              <h4>Web Developer & Manager</h4>
+              <span class="meta-text text-muted">MAY–AUG (2021-2023)</span>
             </div>
+            <p class="company">Pathfinders — Fredericton, NB</p>
+            <ul class="bullet-list">
+              <li>Maintained and enhanced production websites, delivering iterative improvements across PHP, HTML, and CSS.</li>
+              <li>Streamlined localization workflows by developing internal Google Apps Script tooling (JavaScript) to reduce manual update overhead.</li>
+              <li>Improved campaign measurement and site telemetry using Google Ads, GTM, and Analytics; deployed via Cloudflare, DreamHost, and WordPress.</li>
+            </ul>
           </div>
 
-          <div class="stack-col">
-            <h3 class="stack-head">LLM / ML</h3>
-            <div class="badges">
-              <span class="badge">llama.cpp</span>
-              <span class="badge">LangChain</span>
-              <span class="badge">MiniLM</span>
-              <span class="badge">HDBSCAN</span>
-              <span class="badge">Drain3</span>
+          <div class="resume-item reveal-up">
+            <div class="item-head">
+              <h4>Teaching Assistant</h4>
+              <span class="meta-text text-muted">SEPT–APR (2023-2026)</span>
             </div>
-          </div>
-
-          <div class="stack-col">
-            <h3 class="stack-head">DevOps &amp; Tools</h3>
-            <div class="badges">
-              <span class="badge">Jenkins</span>
-              <span class="badge">Cloudflare</span>
-              <span class="badge">Google Apps Script</span>
-              <span class="badge">DreamHost</span>
-              <span class="badge">Git/GitHub</span>
-              <span class="badge">Analytics/Tag Manager</span>
-            </div>
+            <p class="company">Queen's University — Kingston, ON</p>
+            <ul class="bullet-list">
+              <li>Elements of Computing with Data Analytics (CISC 151) and Discrete Structures II (CISC 203).</li>
+            </ul>
           </div>
         </div>
-      </section>
 
-      <!-- CONTACT -->
-      <section id="contact" class="contact content reveal" data-reveal>
-        <div class="contact-frame">
-          <div class="contact-grid2">
-            <div class="c-left">
-              <h2 class="c-title">Let’s talk</h2>
-              <p class="sub">Available for roles and collaborations.</p>
-              <div class="bubble-row">
-                <a class="bubble-btn" href="mailto:darwinchen8@outlook.com"><span class="bullet">•</span> Get in touch</a>
-                <a class="btn subtle" href="DarwinChen_Resume.pdf" target="_blank" rel="noopener">See Resume</a>
-              </div>
+        <div class="resume-col">
+          <h3 class="meta-text text-muted mb-2">EDUCATION & LEADERSHIP</h3>
+
+          <div class="resume-item reveal-up">
+            <div class="item-head">
+              <h4>Bachelor of Computing Honours</h4>
+              <span class="meta-text text-muted">SEPT 2021 – APR 2026</span>
             </div>
+            <p class="company">Queen's University</p>
+            <ul class="bullet-list">
+              <li>Artificial Intelligence Specialization.</li>
+              <li>Dean's Honour List (2022, 2024).</li>
+            </ul>
+          </div>
 
-            <div class="c-right">
-              <div class="col">
-                <div class="col-head">Contact me</div>
-                <a class="c-link" href="mailto:darwinchen8@outlook.com">
-                  <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
-                  darwinchen8@outlook.com
-                </a>
-                <a class="c-link" href="tel:+15068973819">
-                  <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92V19a2 2 0 0 1-2.2 2 19.5 19.5 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.5 19.5 0 0 1 3 4.2 2 2 0 0 1 5 2h2a2 2 0 0 1 2 1.7l.3 1.8a2 2 0 0 1-.6 1.8l-1 1a16 16 0 0 0 6 6l1-1a2 2 0 0 1 1.8-.6l1.8.3A2 2 0 0 1 22 16.92z"></path></svg>
-                  +1&nbsp;(506)&nbsp;897-3819
-                </a>
-              </div>
-
-              <div class="col">
-                <div class="col-head">Follow me</div>
-                <a class="c-link" target="_blank" rel="noopener" href="https://www.linkedin.com/in/darwinchen/">
-                  <svg class="ci" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><circle cx="8" cy="10" r="1.2"></circle><path d="M7 13h2v5H7zM11 13h2.1a2.2 2.2 0 0 1 2.2 2.2V18h-2v-2.6c0-.8-.6-1.4-1.3-1.4H11V13z"></path></svg>
-                  /in/darwinchen
-                </a>
-                <a class="c-link" target="_blank" rel="noopener" href="https://github.com/Darwin27264">
-                  <svg class="ci gh" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.5c.5.1.66-.22.66-.49v-1.7c-2.78.62-3.37-1.18-3.37-1.18-.46-1.16-1.12-1.47-1.12-1.47-.9-.6.07-.6.07-.6 1 .07 1.53 1.05 1.53 1.05.9 1.55 2.37 1.1 2.95.84.09-.65.35-1.1.63-1.36-2.22-.26-4.56-1.1-4.56-4.92 0-1.1.38-2 .99-2.7-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.9-1.29 2.74-1.02 2.74-1.02.55 1.4.2 2.44.1 2.7.64.7 1.02 1.6 1.02 2.7 0 3.83-2.34 4.66-4.57 4.92.36.32.68.94.68 1.9v2.81c0 .26.18.6.69.49A10 10 0 0 0 12 2z"></path></svg>
-                  @Darwin27264
-                </a>
-              </div>
+          <div class="resume-item reveal-up">
+            <div class="item-head">
+              <h4>Perception Integration Team Lead</h4>
+              <span class="meta-text text-muted">SEPT 2023 – APR 2024</span>
             </div>
+            <p class="company">Queen's AutoDrive</p>
+            <ul class="bullet-list">
+              <li>Integrated vision-based object detection into an SAE Lv.4 autonomous vehicle platform; coordinated perception interfaces and integration criteria.</li>
+              <li>Built validation workflows using MATLAB 3D simulations to verify outputs before on-vehicle testing.</li>
+            </ul>
+          </div>
+
+          <div class="resume-item reveal-up">
+            <div class="item-head">
+              <h4>Consulting Design Team Manager</h4>
+              <span class="meta-text text-muted">SEPT 2023 – APR 2024</span>
+            </div>
+            <p class="company">QMIND</p>
+            <ul class="bullet-list">
+              <li>Managed delivery of a fine-tuned GPT + LangChain pipeline for a client-facing application, coordinating implementation and integration handoff.</li>
+            </ul>
           </div>
         </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="wrap content">
-        <p>© Darwin Chen ● <time datetime="2025-09-22">2025-09-22</time></p>
       </div>
-    </footer>
-  </div><!-- /smooth -->
+    </section>
 
-  <!-- Modals -->
-  <div class="modal" id="modal-llm" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="llm-title">
-    <div class="modal-panel">
-      <button class="modal-close" data-close aria-label="Close">×</button>
-      <h3 id="llm-title">On-Device LLM Chat Agent</h3>
-      <p>React Native + Python with quantized LLMs. Private/offline chat, tool execution, and structured responses.</p>
-      <div class="modal-tech">
-        <span class="tech" title="React Native"><svg viewBox="0 0 32 32" class="i i-react"><circle cx="16" cy="16" r="3"/><ellipse cx="16" cy="16" rx="10" ry="4"/><ellipse cx="16" cy="16" rx="10" ry="4" transform="rotate(60 16 16)"/><ellipse cx="16" cy="16" rx="10" ry="4" transform="rotate(-60 16 16)"/></svg></span>
-        <span class="tech" title="Python"><svg viewBox="0 0 28 28" class="i-badge"><rect x="2" y="2" width="24" height="24" rx="6"/><text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">PY</text></svg></span>
+    <section id="skills" class="content reveal-up mt-massive">
+      <div class="section-header border-bottom pb-1 mb-2">
+        <h2 class="meta-text text-muted">TECHNICAL ARSENAL</h2>
       </div>
-      <p><a class="btn" href="#" aria-disabled="true">Case study (soon)</a></p>
+
+      <div class="skills-grid">
+        <div class="skills-col reveal-up">
+          <h3 class="skills-category">Languages</h3>
+          <p class="skills-list">Python, TypeScript, JavaScript, Java, C#, PHP, HTML/CSS.</p>
+        </div>
+        <div class="skills-col reveal-up" style="transition-delay: 0.1s;">
+          <h3 class="skills-category">AI, ML & Data</h3>
+          <p class="skills-list">LLMs, LangChain, llama.cpp, RAG, PyTorch, TensorFlow, OpenCV, Jupyter, MATLAB.</p>
+        </div>
+        <div class="skills-col reveal-up" style="transition-delay: 0.2s;">
+          <h3 class="skills-category">Frameworks</h3>
+          <p class="skills-list">React, React Native, Next.js, Tailwind CSS, Node.js, ASP.NET.</p>
+        </div>
+        <div class="skills-col reveal-up" style="transition-delay: 0.3s;">
+          <h3 class="skills-category">Tools & Cloud</h3>
+          <p class="skills-list">AWS, GCP, Docker, Jenkins, Git, OpenSearch, Firebase, Linux.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="stats" class="content reveal-up mt-massive">
+      <div class="section-header border-bottom pb-1 mb-2">
+        <h2 class="meta-text text-muted">BY THE NUMBERS</h2>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card surface-card reveal-scale">
+          <h3 class="massive-number">4+</h3>
+          <p class="meta-text mt-1">Years of professional & academic<br>development experience.</p>
+        </div>
+        <div class="stat-card surface-card reveal-scale" style="transition-delay: 0.1s;">
+          <h3 class="massive-number">3</h3>
+          <p class="meta-text mt-1">Core domains spanned: Web, AI,<br>& Autonomous Systems.</p>
+        </div>
+        <div class="stat-card surface-card reveal-scale" style="transition-delay: 0.2s;">
+          <h3 class="massive-number">30+</h3>
+          <p class="meta-text mt-1">Technologies, frameworks, and<br>cloud tools leveraged.</p>
+        </div>
+        <div class="stat-card surface-card reveal-scale" style="transition-delay: 0.3s;">
+          <h3 class="massive-number">2</h3>
+          <p class="meta-text mt-1">University computing courses<br>taught as a Teaching Assistant.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="content reveal-up mt-massive">
+      <div class="section-header split border-bottom pb-1 mb-2">
+        <h2 class="medium-title">Selected Work</h2>
+        <span class="meta-text text-muted">PORTFOLIO OVERVIEW</span>
+      </div>
+
+      <div class="project-category mb-1 mt-2">
+        <h3 class="meta-text text-main">I. WEB DEVELOPMENT</h3>
+      </div>
+      <div class="bento-12-grid">
+
+        <article class="bento-card span-8 surface-card reveal-scale">
+          <div class="card-image-box">
+            <img src="cognito_img.jpg" alt="Cognito Dashboard" loading="lazy">
+          </div>
+          <div class="bento-info">
+            <h3>cognito</h3>
+            <p class="text-muted mt-half">A real-time, mil-spec dashboard aggregating global OSINT, kinetic events, and logistics.</p>
+            <p class="meta-text mt-auto tech-accent">Next.js • React-Leaflet • TypeScript</p>
+          </div>
+          <a href="https://github.com/Darwin27264/cognito" target="_blank" class="large-white-btn" aria-label="View Cognito">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+
+        <article class="bento-card span-4 surface-card reveal-scale" style="transition-delay: 0.1s;">
+          <div class="card-image-box">
+            <img src="lexiloom_img.jpg" alt="Lexiloom" loading="lazy">
+          </div>
+          <div class="bento-info">
+            <h3>Lexiloom</h3>
+            <p class="text-muted mt-half">Minimal browser-only React app generating word/definition wallpapers with light/dark themes.</p>
+            <p class="meta-text mt-auto tech-accent">TypeScript • React</p>
+          </div>
+          <a href="https://github.com/Darwin27264/Lexiloom" target="_blank" class="large-white-btn" aria-label="View Lexiloom">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+
+        <article class="bento-card span-6 surface-card reveal-scale">
+          <div class="card-image-box">
+            <img src="fishing_img.jpg" alt="Fishing Mapper" loading="lazy">
+          </div>
+          <div class="bento-info">
+            <h3>Fishing Mapper</h3>
+            <p class="text-muted mt-half">Scraped provincial lake and species data normalized and visualized on an interactive map.</p>
+            <p class="meta-text mt-auto tech-accent">React • Leaflet • Python</p>
+          </div>
+          <a href="https://github.com/Darwin27264/Fishing-Data-Mapper" target="_blank" class="large-white-btn" aria-label="View Fishing Mapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+
+        <article class="bento-card span-6 surface-card reveal-scale" style="transition-delay: 0.1s;">
+          <div class="card-image-box">
+            <img src="queens_img.jpg" alt="Queens Purity" loading="lazy">
+          </div>
+          <div class="bento-info">
+            <h3>Queens-Purity</h3>
+            <p class="text-muted mt-half">An interactive, viral web quiz designed for Queen’s University students to compare campus experiences.</p>
+            <p class="meta-text mt-auto tech-accent">JavaScript • HTML/CSS</p>
+          </div>
+          <a href="https://github.com/Darwin27264/Queens-Purity" target="_blank" class="large-white-btn" aria-label="View Queens Purity">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+      </div>
+
+      <div class="project-category mb-1 mt-large">
+        <h3 class="meta-text text-main">II. SOFTWARE & AI</h3>
+      </div>
+      <div class="bento-12-grid">
+
+        <article class="bento-card span-8 surface-card reveal-scale horizontal-card">
+          <div class="card-image-box">
+            <img src="ofln_img.jpg" alt="ofln LLM App" loading="lazy">
+          </div>
+          <div class="bento-info">
+            <h3>ofln (On-Device LLM)</h3>
+            <p class="text-muted mt-half">Mobile app for on-device chat with quantized LLMs. Implemented RAG, VLM support, persona presets, and performance monitoring (tokens/s, latency, memory) with adaptive tuning packaged in an intuitive UI.</p>
+            <p class="meta-text mt-auto tech-accent">React Native • llama.rn • C++</p>
+          </div>
+          <a href="#" class="large-white-btn" aria-label="View ofln">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+
+        <article class="bento-card span-4 surface-card reveal-scale" style="transition-delay: 0.1s;">
+          <div class="card-image-box">
+            <img src="EzCap.jpg" alt="EzCap" loading="lazy">
+          </div>
+          <div class="bento-info">
+            <h3>EzCap</h3>
+            <p class="text-muted mt-half">Simple on-device caption generation service for mobile use, realized using Whisper & FFmpeg.</p>
+            <p class="meta-text mt-auto tech-accent">React Native • Whisper • FFmpeg • Next.js</p>
+          </div>
+          <a href="#" class="large-white-btn" aria-label="View EzCap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+
+        <article class="bento-card span-12 surface-card reveal-scale text-only-card">
+          <div class="card-image-box">
+            <img src="realgen.jpg" alt="ISLA AI Agent" loading="lazy">
+          </div>
+          <div class="bento-info flex-row">
+            <div class="info-left">
+              <h3>AI Content Pipeline</h3>
+              <p class="meta-text mt-half tech-accent">Python • React • Ollama • Whisper • FFmpeg</p>
+            </div>
+            <div class="info-right text-muted">
+              <p>Generated content briefs by prompting Ollama to emit structured JSON, then parsing into narration and scene timing; integrated TTS via the ElevenLabs API. Added on-screen captions using on-device Whisper transcription and rendered final videos using FFmpeg.</p>
+            </div>
+          </div>
+          <a href="#" class="large-white-btn absolute-center-right" aria-label="View Pipeline">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer reveal-scale mt-massive">
+    <div class="wrap footer-grid">
+
+      <div class="footer-left">
+        <div class="status-indicator mb-2">
+          <span class="dot"></span>
+          <span class="meta-text">AVAILABLE FOR OPPORTUNITIES</span>
+        </div>
+        <h2 class="huge-title">LET'S<br>BUILD.</h2>
+      </div>
+
+      <div class="footer-right">
+        <div class="footer-table">
+          <div class="table-row head">
+            <span>PLATFORM</span>
+            <span>LINK</span>
+          </div>
+          <a href="mailto:darwinchen8@outlook.com" class="table-row">
+            <span>Email</span>
+            <span>darwinchen8@outlook.com ↗</span>
+          </a>
+          <a href="https://www.linkedin.com/in/darwinchen/" target="_blank" class="table-row">
+            <span>LinkedIn</span>
+            <span>/in/darwinchen ↗</span>
+          </a>
+          <a href="https://github.com/Darwin27264" target="_blank" class="table-row">
+            <span>GitHub</span>
+            <span>@Darwin27264 ↗</span>
+          </a>
+          <a href="DarwinChen_Resume.pdf" target="_blank" class="table-row">
+            <span>Resume</span>
+            <span>View Resume ↗</span>
+          </a>
+        </div>
+
+        <div class="footer-bottom-meta mt-2">
+          <span class="meta-text text-muted">© 2026 DARWIN CHEN. ALL RIGHTS RESERVED.</span>
+        </div>
+      </div>
+
     </div>
-  </div>
+  </footer>
 
-  <div class="modal" id="modal-fish" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="fish-title">
-    <div class="modal-panel">
-      <button class="modal-close" data-close aria-label="Close">×</button>
-      <h3 id="fish-title">Fishing Data Mapper</h3>
-      <p>Scraped provincial lake/species data (Python + BS4), normalized and visualized on an interactive React + Leaflet map.</p>
-      <div class="modal-tech">
-        <span class="tech" title="JavaScript"><svg viewBox="0 0 28 28" class="i-badge"><rect x="2" y="2" width="24" height="24" rx="6"/><text x="50%" y="52%" text-anchor="middle">JS</text></svg></span>
-        <span class="tech" title="Python"><svg viewBox="0 0 28 28" class="i-badge"><rect x="2" y="2" width="24" height="24" rx="6"/><text x="50%" y="52%" text-anchor="middle">PY</text></svg></span>
-        <span class="tech" title="Leaflet"><svg viewBox="0 0 32 32" class="i i-map"><path d="M6 6l8 4 12-4v16l-12 4-8-4zM14 10v16"/></svg></span>
-      </div>
-      <p><a class="btn" href="https://github.com/Darwin27264/Fishing-Data-Mapper" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <button id="chatOpenBtn" class="chat-fab" aria-label="Chat with my résumé">
+    <div class="icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21a9 9 0 1 0-9-9c0 1.48.36 2.89 1 4.14L3 21l4.86-1c1.25.64 2.66 1 4.14 1z"></path>
+      </svg>
     </div>
-  </div>
-
-  <!-- Floating Chat FAB (bottom-right, small) -->
-  <button id="chatOpenBtn" class="chat-fab" aria-label="Chat with my résumé" title="Chat with my résumé">
-    <svg class="bot" viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="4" y="7" width="16" height="10" rx="3"></rect>
-      <circle cx="9"  cy="12" r="1.6"></circle>
-      <circle cx="15" cy="12" r="1.6"></circle>
-      <path d="M12 7V4M6 17h12" stroke-linecap="round"></path>
-    </svg>
-    <span>Chat with my résumé</span>
-    <span class="gpu-pill">GPU: <strong id="gpuBadge">Off</strong></span>
+    <span class="chat-text">Chat with Resume</span>
   </button>
 
-  <!-- Full-screen Chat Overlay -->
   <div id="chatWidget" class="chat-overlay" aria-hidden="true">
-    <div class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
-      <header class="chat-head">
-        <div class="chat-title">
-          <svg class="brain" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8.5 3.5a3 3 0 0 0-3 3v.5a3 3 0 0 0-2 2.8c0 1.1.6 2 1.6 2.6A3.5 3.5 0 0 0 7 16.5V17a3 3 0 0 0 3 3h.5a3 3 0 0 0 3-3v-.5a3.5 3.5 0 0 0 1.9-3.1c1 0 2-.9 2-2 0-1-.7-1.9-1.7-2.1a3 3 0 0 0-2.8-2.4 3 3 0 0 0-2.9-2.4H10a3 3 0 0 0-1.5.4Z"/>
-          </svg>
-          <h3 id="chatTitle">Chat with my résumé</h3>
-          <span class="gpu-pill">WebGPU: <strong id="gpuBadgeHeader">Off</strong></span>
-        </div>
-        <button id="chatCloseBtn" class="chat-close" aria-label="Close">×</button>
+    <div class="chat-panel surface-card" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+      <header class="chat-head border-bottom">
+        <h3 id="chatTitle">RESUME AI</h3>
+        <button id="chatCloseBtn" class="icon-btn small" aria-label="Close">✕</button>
       </header>
-
-      <div class="chat-status">
-        <div id="chatStatus" class="status-text" role="status">Ready</div>
-        <div id="chatProgress" class="progressline" hidden>
-          <div id="chatProgressBar" class="bar" style="width:0%"></div>
-          <span id="chatProgressLabel" class="label">0%</span>
-        </div>
+      <div class="chat-status border-bottom">
+        <div id="chatStatus" class="meta-text" role="status">SYSTEM READY</div>
       </div>
-
       <div id="chatLog" class="chat-log" role="log" aria-live="polite"></div>
-
-      <form id="chatForm" class="chat-form">
-        <textarea id="chatInput" rows="2" placeholder="Ask about experience, projects, tools…" required></textarea>
-        <button id="chatSendBtn" class="btn primary" type="submit">Send</button>
+      <form id="chatForm" class="chat-form border-top">
+        <textarea id="chatInput" rows="1" placeholder="Ask about my experience..." required></textarea>
+        <button id="chatSendBtn" class="pill-btn dark-btn" type="submit">SEND</button>
       </form>
     </div>
   </div>
 
+  <script src="styles.css" defer></script>
   <script src="script.js" defer></script>
 </body>
 </html>

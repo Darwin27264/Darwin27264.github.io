@@ -19,12 +19,12 @@
   }
 })();
 
-// Fetch Live Weather for Kingston, ON (No API Key Required)
+// Fetch Live Weather for Ottawa, ON (No API Key Required)
 (function () {
   async function fetchWeather() {
     try {
-      // Open-Meteo free API - Coordinates for Kingston, Ontario
-      const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.2312&longitude=-76.4860&current_weather=true');
+      // Open-Meteo free API - Coordinates for Ottawa, Ontario
+      const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=45.4215&longitude=-75.6972&current_weather=true');
       const data = await res.json();
       const temp = Math.round(data.current_weather.temperature);
       const weatherEl = document.getElementById('weatherStatus');
@@ -100,6 +100,23 @@
     logEl.scrollTop = logEl.scrollHeight;
   }
 
+  function getAssistantResponse(prompt) {
+    const p = prompt.toLowerCase();
+    if (p.includes('ericsson') || p.includes('job') || p.includes('work') || p.includes('role') || p.includes('cloudran')) {
+      return "Darwin is currently working full-time at Ericsson as a Software Engineer (SWE 5G/6G CloudRAN) in Ottawa, ON.";
+    }
+    if (p.includes('ottawa') || p.includes('location') || p.includes('where') || p.includes('city') || p.includes('kingston')) {
+      return "Darwin is currently based in Ottawa, ON (previously Kingston).";
+    }
+    if (p.includes('queen') || p.includes('degree') || p.includes('graduat') || p.includes('scholarship') || p.includes('education') || p.includes('honour')) {
+      return "Darwin graduated from Queen's University with a Bachelor of Computing Honours (AI Specialization), awarded the Queen's University Excellence Scholarship and Dean's Honour List (2022 & 2024).";
+    }
+    if (p.includes('ofln') || p.includes('project') || p.includes('llm') || p.includes('mobile') || p.includes('llama')) {
+      return "Darwin's flagship project is ofln: an open-source, fully offline on-device LLM chat application for Android & iOS built with llama.rn and React Native (https://github.com/Darwin27264/ofln).";
+    }
+    return "Thanks for your inquiry! Darwin is a Software Engineer at Ericsson (5G/6G CloudRAN) based in Ottawa, ON. Feel free to explore his projects on this site, inspect his résumé, or contact him at darwinchen8@outlook.com.";
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const q = input.value.trim();
@@ -109,8 +126,8 @@
     input.value = '';
 
     setTimeout(() => {
-      addMsg('assistant', "Thanks for your inquiry. To view full details about my work, please refer to the resume linked on this page or reach out via email.");
-    }, 800);
+      addMsg('assistant', getAssistantResponse(q));
+    }, 500);
   });
 
   input.addEventListener('keydown', (e) => {

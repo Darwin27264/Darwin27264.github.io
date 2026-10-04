@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Darwin Chen — Portfolio</title>
-  <meta name="description" content="Darwin Chen — AI-inclined web developer building clean, fast, human-centered tools." />
+  <meta name="description" content="Darwin Chen — Software Engineer at Ericsson (SWE 5G/6G CloudRAN) building high-performance systems and on-device AI tools." />
   <link rel="icon" href="favicon.ico" />
   <meta name="theme-color" content="#F2F2F0">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,10 +23,10 @@
       <div class="hero-top fade-up">
         <div>
           <span class="meta-text block">V2.0 — PORTFOLIO</span>
-          <span class="meta-text block text-muted mt-qtr">UPDATED MAR 12, 2026</span>
+          <span class="meta-text block text-muted mt-qtr">UPDATED OCT 2026</span>
         </div>
         <div class="text-right">
-          <span class="meta-text block">KINGSTON, ON</span>
+          <span class="meta-text block">OTTAWA, ON</span>
           <span class="meta-text block text-muted mt-qtr" id="weatherStatus">--°C LOCAL</span>
         </div>
       </div>
@@ -51,8 +51,8 @@
 
     <section id="statement" class="content reveal-up mt-massive">
       <h2 class="statement-text">
-        An AI-inclined web developer building clean, fast, human-centered interfaces and data-aware tools.
-        <span class="text-muted">Favoring clarity, performance, and quietly sophisticated interactions.</span>
+        Software Engineer at Ericsson working on 5G/6G CloudRAN. Building high-performance systems, on-device AI tools, and human-centered software.
+        <span class="text-muted">Favoring clarity, low-latency performance, and quietly sophisticated interactions.</span>
       </h2>
     </section>
 
@@ -67,6 +67,17 @@
       <div class="resume-grid mt-2">
         <div class="resume-col">
           <h3 class="meta-text text-muted mb-2">WORK EXPERIENCE</h3>
+
+          <div class="resume-item reveal-up">
+            <div class="item-head">
+              <h4>Software Engineer (SWE 5G/6G CloudRAN)</h4>
+              <span class="meta-text text-muted">PRESENT</span>
+            </div>
+            <p class="company">Ericsson — Ottawa, ON</p>
+            <ul class="bullet-list">
+              <li>Engineering high-performance software and infrastructure for 5G/6G CloudRAN architectures.</li>
+            </ul>
+          </div>
 
           <div class="resume-item reveal-up">
             <div class="item-head">
@@ -113,11 +124,12 @@
           <div class="resume-item reveal-up">
             <div class="item-head">
               <h4>Bachelor of Computing Honours</h4>
-              <span class="meta-text text-muted">SEPT 2021 – APR 2026</span>
+              <span class="meta-text text-muted">GRADUATED 2026</span>
             </div>
             <p class="company">Queen's University</p>
             <ul class="bullet-list">
               <li>Artificial Intelligence Specialization.</li>
+              <li>Queen's University Excellence Scholarship.</li>
               <li>Dean's Honour List (2022, 2024).</li>
             </ul>
           </div>
@@ -153,7 +165,7 @@
         <h2 class="meta-text text-muted">TECHNICAL ARSENAL</h2>
       </div>
 
-      <div class="skills-grid">
+      <div class="skills-grid mt-2">
         <div class="skills-col reveal-up">
           <h3 class="skills-category">Languages</h3>
           <p class="skills-list">Python, TypeScript, JavaScript, Java, C#, PHP, HTML/CSS.</p>
@@ -205,7 +217,62 @@
       </div>
 
       <div class="project-category mb-1 mt-2">
-        <h3 class="meta-text text-main">I. WEB DEVELOPMENT</h3>
+        <h3 class="meta-text text-main">I. SOFTWARE &amp; AI (FEATURED)</h3>
+      </div>
+      <div class="bento-12-grid">
+
+        <article class="bento-card span-8 surface-card reveal-scale horizontal-card">
+          <div class="card-image-box">
+            <img src="ofln_img.jpg" alt="ofln — Offline LLM Chat" loading="lazy">
+          </div>
+          <div class="bento-info">
+            <div class="project-badge mb-half">
+              <span class="meta-text tech-accent">FEATURED PROJECT</span>
+            </div>
+            <h3>ofln (On-Device LLM)</h3>
+            <p class="text-muted mt-half">Offline LLM chat for Android &amp; iOS. Download a GGUF model once, then chat fully on-device with zero cloud dependencies or accounts. Features multimodal VLM support, RAG, custom personas, and real-time inference telemetry (tok/s, latency, RAM).</p>
+            <p class="meta-text mt-auto tech-accent">React Native • llama.rn • C++ • GGUF</p>
+          </div>
+          <a href="https://github.com/Darwin27264/ofln" target="_blank" rel="noopener noreferrer" class="large-white-btn" aria-label="View ofln on GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+
+        <article class="bento-card span-4 surface-card reveal-scale" style="transition-delay: 0.1s;">
+          <div class="card-image-box">
+            <img src="EzCap.jpg" alt="EzCap" loading="lazy">
+          </div>
+          <div class="bento-info">
+            <h3>EzCap</h3>
+            <p class="text-muted mt-half">Simple on-device caption generation service for mobile use, realized using Whisper &amp; FFmpeg.</p>
+            <p class="meta-text mt-auto tech-accent">React Native • Whisper • FFmpeg • Next.js</p>
+          </div>
+          <a href="#" class="large-white-btn" aria-label="View EzCap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+
+        <article class="bento-card span-12 surface-card reveal-scale text-only-card">
+          <div class="card-image-box">
+            <img src="realgen.jpg" alt="ISLA AI Agent" loading="lazy">
+          </div>
+          <div class="bento-info flex-row">
+            <div class="info-left">
+              <h3>AI Content Pipeline</h3>
+              <p class="meta-text mt-half tech-accent">Python • React • Ollama • Whisper • FFmpeg</p>
+            </div>
+            <div class="info-right text-muted">
+              <p>Generated content briefs by prompting Ollama to emit structured JSON, then parsing into narration and scene timing; integrated TTS via the ElevenLabs API. Added on-screen captions using on-device Whisper transcription and rendered final videos using FFmpeg.</p>
+            </div>
+          </div>
+          <a href="#" class="large-white-btn absolute-center-right" aria-label="View Pipeline">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </article>
+      </div>
+
+      <div class="project-category mb-1 mt-large">
+        <h3 class="meta-text text-main">II. WEB DEVELOPMENT</h3>
       </div>
       <div class="bento-12-grid">
 
@@ -265,58 +332,6 @@
           </a>
         </article>
       </div>
-
-      <div class="project-category mb-1 mt-large">
-        <h3 class="meta-text text-main">II. SOFTWARE & AI</h3>
-      </div>
-      <div class="bento-12-grid">
-
-        <article class="bento-card span-8 surface-card reveal-scale horizontal-card">
-          <div class="card-image-box">
-            <img src="ofln_img.jpg" alt="ofln LLM App" loading="lazy">
-          </div>
-          <div class="bento-info">
-            <h3>ofln (On-Device LLM)</h3>
-            <p class="text-muted mt-half">Mobile app for on-device chat with quantized LLMs. Implemented RAG, VLM support, persona presets, and performance monitoring (tokens/s, latency, memory) with adaptive tuning packaged in an intuitive UI.</p>
-            <p class="meta-text mt-auto tech-accent">React Native • llama.rn • C++</p>
-          </div>
-          <a href="#" class="large-white-btn" aria-label="View ofln">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-          </a>
-        </article>
-
-        <article class="bento-card span-4 surface-card reveal-scale" style="transition-delay: 0.1s;">
-          <div class="card-image-box">
-            <img src="EzCap.jpg" alt="EzCap" loading="lazy">
-          </div>
-          <div class="bento-info">
-            <h3>EzCap</h3>
-            <p class="text-muted mt-half">Simple on-device caption generation service for mobile use, realized using Whisper & FFmpeg.</p>
-            <p class="meta-text mt-auto tech-accent">React Native • Whisper • FFmpeg • Next.js</p>
-          </div>
-          <a href="#" class="large-white-btn" aria-label="View EzCap">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-          </a>
-        </article>
-
-        <article class="bento-card span-12 surface-card reveal-scale text-only-card">
-          <div class="card-image-box">
-            <img src="realgen.jpg" alt="ISLA AI Agent" loading="lazy">
-          </div>
-          <div class="bento-info flex-row">
-            <div class="info-left">
-              <h3>AI Content Pipeline</h3>
-              <p class="meta-text mt-half tech-accent">Python • React • Ollama • Whisper • FFmpeg</p>
-            </div>
-            <div class="info-right text-muted">
-              <p>Generated content briefs by prompting Ollama to emit structured JSON, then parsing into narration and scene timing; integrated TTS via the ElevenLabs API. Added on-screen captions using on-device Whisper transcription and rendered final videos using FFmpeg.</p>
-            </div>
-          </div>
-          <a href="#" class="large-white-btn absolute-center-right" aria-label="View Pipeline">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-          </a>
-        </article>
-      </div>
     </section>
 
   </main>
@@ -327,7 +342,7 @@
       <div class="footer-left">
         <div class="status-indicator mb-2">
           <span class="dot"></span>
-          <span class="meta-text">AVAILABLE FOR OPPORTUNITIES</span>
+          <span class="meta-text">SWE @ ERICSSON • OPEN TO CONNECT</span>
         </div>
         <h2 class="huge-title">LET'S<br>BUILD.</h2>
       </div>
@@ -390,7 +405,6 @@
     </div>
   </div>
 
-  <script src="styles.css" defer></script>
   <script src="script.js" defer></script>
 </body>
 </html>

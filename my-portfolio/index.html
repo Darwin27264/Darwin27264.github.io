@@ -10,6 +10,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <noscript>
+    <style>
+      .fade-up, .reveal-up, .reveal-scale { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
 </head>
 <body>
 
@@ -391,15 +396,36 @@
   <div id="chatWidget" class="chat-overlay" aria-hidden="true">
     <div class="chat-panel surface-card" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
       <header class="chat-head border-bottom">
-        <h3 id="chatTitle">RESUME AI</h3>
-        <button id="chatCloseBtn" class="icon-btn small" aria-label="Close">✕</button>
+        <div class="chat-head-left">
+          <h3 id="chatTitle">RESUME AI</h3>
+          <span id="chatModeBadge" class="mode-badge">FAST MODE</span>
+        </div>
+        <div class="chat-head-right">
+          <button id="webgpuToggleBtn" class="pill-btn-small" type="button" aria-label="Toggle WebGPU AI Engine" title="Load on-device WebGPU neural model (~200MB)">
+            <span>✨</span>
+            <span id="webgpuBtnText">ENABLE WEBGPU</span>
+          </button>
+          <button id="chatCloseBtn" class="icon-btn small" aria-label="Close">✕</button>
+        </div>
       </header>
       <div class="chat-status border-bottom">
-        <div id="chatStatus" class="meta-text" role="status">SYSTEM READY</div>
+        <div class="chat-status-row">
+          <div id="chatStatus" class="meta-text" role="status">READY • INSTANT KNOWLEDGE BASE</div>
+          <div id="chatSpeedTag" class="meta-text text-muted">0ms LATENCY</div>
+        </div>
+        <div id="chatProgressWrap" class="chat-progress-wrap" style="display: none;">
+          <div id="chatProgressBar" class="chat-progress-bar"></div>
+        </div>
       </div>
       <div id="chatLog" class="chat-log" role="log" aria-live="polite"></div>
-      <form id="chatForm" class="chat-form border-top">
-        <textarea id="chatInput" rows="1" placeholder="Ask about my experience..." required></textarea>
+      <div id="chatSuggestions" class="chat-suggestions">
+        <button type="button" class="suggestion-chip" data-query="What is your current role at Ericsson?">💼 Ericsson Role</button>
+        <button type="button" class="suggestion-chip" data-query="Tell me about your ofln project.">📱 ofln (On-Device LLM)</button>
+        <button type="button" class="suggestion-chip" data-query="Where did you go to school and what awards did you receive?">🎓 Queen's &amp; Awards</button>
+        <button type="button" class="suggestion-chip" data-query="What is your core tech stack?">🛠 Tech Stack</button>
+      </div>
+      <form id="chatForm" class="chat-form">
+        <textarea id="chatInput" rows="1" placeholder="Ask about my experience, projects, or background..." required></textarea>
         <button id="chatSendBtn" class="pill-btn dark-btn" type="submit">SEND</button>
       </form>
     </div>

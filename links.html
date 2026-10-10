@@ -18,14 +18,37 @@
 </head>
 <body>
 
-  <!-- Top-Left Vertical Sticky Telemetry HUD -->
-  <aside class="links-telemetry-hud" aria-label="Live Ottawa telemetry">
-    <span class="links-meta-pill">📍 OTTAWA, ON</span>
-    <span class="links-meta-pill" id="liveTimePill" title="Live Ottawa Local Time">
-      <span class="live-clock-dot" aria-hidden="true"></span>
-      <span id="liveClock">--:--:--</span> EST
-    </span>
-    <span class="links-meta-pill" id="weatherStatus">--°C LOCAL</span>
+  <!-- Top-Left Ambient Page Telemetry Info (Non-sticky, in background) -->
+  <aside class="links-page-telemetry" aria-label="Live Ottawa telemetry and local time">
+    <div class="telemetry-item" title="Location">
+      <span class="telemetry-icon-box" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+      </span>
+      <span class="telemetry-val">OTTAWA, ON</span>
+    </div>
+    <div class="telemetry-item" id="liveTimePill" title="Live Ottawa Local Time">
+      <span class="telemetry-icon-box" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+      </span>
+      <span class="telemetry-val">
+        <span id="liveClock">--:--:--</span> EST
+        <span class="live-clock-dot" aria-hidden="true"></span>
+      </span>
+    </div>
+    <div class="telemetry-item" title="Local Ottawa Weather">
+      <span class="telemetry-icon-box" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+        </svg>
+      </span>
+      <span class="telemetry-val" id="weatherStatus">--°C LOCAL</span>
+    </div>
   </aside>
 
   <!-- Floating Controls (Theme Toggle & Share Profile) -->

@@ -205,7 +205,7 @@
     shareBtn.addEventListener('click', async () => {
       const shareData = {
         title: 'Darwin Chen — Links & Profiles',
-        text: 'Darwin Chen — Software Engineer @ Ericsson (CloudRAN) & AI builder.',
+        text: 'Darwin Chen — Software Engineer @ Ericsson & AI builder.',
         url: window.location.href
       };
 

@@ -117,7 +117,7 @@ Answer questions accurately, conversationally, and concisely (1 to 2 short parag
 If something is not present, politely say you do not know and invite them to view his resume or contact him via email.
 
 VERIFIED FACTS:
-- Current Role: Software Engineer (SWE 5G/6G CloudRAN) at Ericsson in Ottawa, ON (PRESENT). Focusing on CloudRAN software systems, high-performance telemetry, and wireless infrastructure.
+- Current Role: Software Engineer at Ericsson in Ottawa, ON (PRESENT). Creator of Evolvyn AI (https://www.evolvyn-ai.com/ — private, adaptive & edge-first AI systems branding). Focusing on high-performance infrastructure, on-device AI runtimes, and local-first software.
 - Past Experience: Software Developer Intern at Ericsson (Ottawa, ON, May 2024 – Aug 2025). Shipped React + OpenSearch observability dashboards auto-indexing 15+ Jenkins pipelines, reducing triage time by ~60%. Prototyped on-device LLM failure summarizer with llama.cpp converting 3,000+ error logs and 50,000+ lines into structured JSON. Built Python AST validation pipeline.
 - Past Experience: Web Developer & Manager at Pathfinders (2021-2023, Fredericton, NB). PHP, HTML/CSS, JS internal tooling, campaign telemetry.
 - Teaching: Teaching Assistant at Queen's University (Sept–Apr 2023-2026, Kingston, ON) for CISC 151 (Computing with Data Analytics) and CISC 203 (Discrete Structures II).
@@ -161,6 +161,9 @@ VERIFIED FACTS:
     const p = prompt.toLowerCase();
     if (p.includes('metis') || p.includes('blog') || p.includes('article') || p.includes('writing') || p.includes('essay') || p.includes('post') || p.includes('note') || p.includes('dispatch')) {
       return "Darwin authors 'Metis (Μῆτις)', a technical architecture publication right here on this portfolio (visit /blog/). Named after the ancient Greek concept of pragmatic intelligence and craft, Metis explores deep-dives into on-device LLM inference (llama.rn & WebGPU), local-first computing, and low-latency systems architecture.";
+    }
+    if (p.includes('evolvyn') || p.includes('brand') || p.includes('studio')) {
+      return "Evolvyn AI (https://www.evolvyn-ai.com/) is Darwin's AI systems and product branding, focused on private, adaptive, and edge-first AI software.";
     }
     if (p.includes('ericsson') || p.includes('cloudran') || p.includes('role') || p.includes('job') || p.includes('work') || p.includes('career') || p.includes('current')) {
       return "Darwin is currently working full-time at Ericsson as a Software Engineer (SWE 5G/6G CloudRAN) in Ottawa, ON, engineering software infrastructure and high-performance CloudRAN architectures. He previously interned at Ericsson shipping React/OpenSearch observability dashboards and on-device LLM diagnostic tools.";

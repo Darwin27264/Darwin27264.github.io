@@ -151,7 +151,6 @@ html[data-theme="dark"] .floating-btn {
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  filter: grayscale(100%);
 }
 
 /* EXPERIENCE & EDUCATION */
@@ -731,12 +730,10 @@ html[data-theme="dark"] .links-top-nav .icon-btn:hover {
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  filter: grayscale(100%);
-  transition: filter 0.4s ease, transform 0.4s ease;
+  transition: transform 0.4s ease;
 }
 
 .links-avatar-frame:hover img {
-  filter: grayscale(0%);
   transform: scale(1.04);
 }
 
@@ -1004,21 +1001,6 @@ body.is-scrolling .floating-btn {
   opacity: 1 !important;
   transform: none !important;
   pointer-events: auto !important;
-}
-
-.live-clock-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--tech-accent);
-  animation: clockTick 1s infinite alternate ease-in-out;
-}
-
-@keyframes clockTick {
-  0% { opacity: 0.35; transform: scale(0.8); }
-  100% { opacity: 1; transform: scale(1.15); }
 }
 
 .links-content {

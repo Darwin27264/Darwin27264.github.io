@@ -114,6 +114,7 @@
 
   const greetings = [
     { emoji: "👋", text: "Hey there!" },
+    { emoji: "🪐", text: "Building Evolvyn AI." },
     { emoji: "✨", text: "Welcome!" },
     { emoji: "☕", text: "Good to see you!" },
     { emoji: "🚀", text: "Glad you're here!" },

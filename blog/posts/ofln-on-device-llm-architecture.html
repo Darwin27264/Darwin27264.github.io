@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Architecting ofln: Zero-Cloud On-Device LLM Chat on Mobile — Darwin Chen</title>
+  <meta name="description" content="Technical deep-dive into building ofln: private offline LLM inference on iOS and Android with React Native, llama.rn, and quantized C++ GGUF runtimes." />
+  <link rel="icon" href="../../favicon.ico" />
+  <meta name="theme-color" content="#F2F2F0" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="stylesheet" href="../blog.css" />
+</head>
+<body>
+
+  <div id="readingProgressBar" class="reading-progress-bar" aria-hidden="true"></div>
+
+  <main class="article-wrap">
+
+    <nav class="blog-nav" aria-label="Breadcrumb navigation">
+      <div class="blog-nav-left">
+        <a href="../index.html" class="nav-back-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Metis Dispatches
+        </a>
+        <span class="meta-text text-muted">/</span>
+        <span class="blog-brand-title">On-Device AI</span>
+      </div>
+
+      <div class="blog-nav-right">
+        <button id="themeToggle" class="icon-btn small" aria-label="Toggle theme" title="Toggle theme">
+          <span class="icon">◑</span>
+        </button>
+      </div>
+    </nav>
+
+    <header class="article-header">
+      <div class="article-header-meta">
+        <span class="card-category-tag">ON-DEVICE AI</span>
+        <span>•</span>
+        <span>OCTOBER 2026</span>
+        <span>•</span>
+        <span>8 MIN READ</span>
+        <span>•</span>
+        <span>BY DARWIN CHEN</span>
+      </div>
+
+      <h1 class="article-main-title">
+        Architecting ofln: Zero-Cloud On-Device LLM Chat on Mobile
+      </h1>
+
+      <p class="article-intro-lead">
+        A technical breakdown of packaging quantized GGUF neural models for native iOS and Android using React Native, llama.rn, real-time memory telemetry, and offline multimodal capabilities.
+      </p>
+    </header>
+
+    <nav class="toc-box" aria-label="Table of contents">
+      <div class="toc-title">Table of Contents</div>
+      <ul class="toc-list">
+        <li><a href="#the-goal">1. The Problem: Cloud LLM Fatigue &amp; Privacy Leakage</a></li>
+        <li><a href="#runtime-architecture">2. High-Throughput Mobile Runtime Architecture</a></li>
+        <li><a href="#quantization-tradeoffs">3. Quantization Choices: Q4_K_M vs. FP16</a></li>
+        <li><a href="#telemetry-profiling">4. Real-Time Mobile Inference Telemetry</a></li>
+        <li><a href="#conclusion">5. Conclusion &amp; Open Source Code</a></li>
+      </ul>
+    </nav>
+
+    <article class="prose">
+
+      <section id="the-goal">
+        <h2>1. The Problem: Cloud LLM Fatigue &amp; Privacy Leakage</h2>
+        <p>
+          Most AI chat applications today are glorified API clients. Every token you generate leaves your phone, travels through a third-party server, gets logged into cloud storage, and incurs recurring latency and subscription costs. If you enter airplane mode or step into a subway with zero signal, the application becomes useless.
+        </p>
+        <p>
+          With <strong>ofln</strong>, our goal was simple: <em>Download a model once, chat forever with zero cloud dependencies.</em> Your conversations never touch a server, your data never leaves device flash, and inference executes directly on the phone's silicon.
+        </p>
+      </section>
+
+      <section id="runtime-architecture">
+        <h2>2. High-Throughput Mobile Runtime Architecture</h2>
+        <p>
+          Running transformer models with hundreds of millions or billions of parameters on smartphones requires bypassing standard JavaScript runtimes. The architecture of <code>ofln</code> relies on a clean 3-tier model:
+        </p>
+        <ol>
+          <li><strong>UI Layer (React Native / TypeScript)</strong>: Manages conversation tree state, markdown streaming renderers, and responsive user gestures.</li>
+          <li><strong>Bridge Layer (JSI / C++ Bindings via llama.rn)</strong>: Uses React Native's Javascript Interface (JSI) to call compiled C++ functions directly without JSON serialization overhead across the old asynchronous bridge.</li>
+          <li><strong>Compute Engine (llama.cpp compiled with NEON / Metal)</strong>: Directly executes optimized tensor matrix multiplications using ARM NEON SIMD intrinsics on Android and Apple Metal Performance Shaders (MPS) on iOS.</li>
+        </ol>
+
+        <pre><code>// Direct JSI invocation for streaming tokens without bridge overhead
+import { initLlama, LlamaContext } from 'llama.rn';
+
+const context: LlamaContext = await initLlama({
+  model: 'file:///data/user/0/com.ofln/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf',
+  use_mlock: true,        // Pin weights in RAM to prevent OS swapping
+  n_ctx: 2048,           // Context window constrained for mobile thermal envelope
+  n_gpu_layers: 99,      // Offload all compatible layers to Metal/OpenCL
+});</code></pre>
+      </section>
+
+      <section id="quantization-tradeoffs">
+        <h2>3. Quantization Choices: Q4_K_M vs. FP16</h2>
+        <p>
+          A 3B parameter model in standard 16-bit floating point precision (FP16) requires ~6GB of RAM—exceeding the available memory budget on most consumer smartphones and triggering immediate Out-Of-Memory (OOM) kills by the mobile OS watchdog.
+        </p>
+        <p>
+          By benchmarking <strong>k-quants</strong> (GGUF format), <code>Q4_K_M</code> emerged as the sweet spot. It reduces weight size from 6GB down to ~1.9GB while maintaining &gt;97% perplexity compared to unquantized baseline weights.
+        </p>
+      </section>
+
+      <section id="telemetry-profiling">
+        <h2>4. Real-Time Mobile Inference Telemetry</h2>
+        <p>
+          To maintain transparency, <code>ofln</code> streams live inference telemetry directly underneath every response bubble:
+        </p>
+        <ul>
+          <li><strong>Inference Speed (tokens/sec)</strong>: Real-time generation velocity across decode and prompt evaluation stages.</li>
+          <li><strong>Time to First Token (TTFT)</strong>: Measuring prompt processing latency.</li>
+          <li><strong>Resident Set Size (RAM in MB)</strong>: Ensuring model memory footprint stays strictly below OS warning thresholds.</li>
+        </ul>
+      </section>
+
+      <section id="conclusion">
+        <h2>5. Conclusion &amp; Open Source Code</h2>
+        <p>
+          On-device AI is moving from an experimental curiosity into standard consumer expectation. The source code for <code>ofln</code> is completely open-source on GitHub:
+        </p>
+        <p>
+          <a href="https://github.com/Darwin27264/ofln" target="_blank" rel="noopener noreferrer" class="pill-btn dark-btn">
+            Explore ofln on GitHub ↗
+          </a>
+        </p>
+      </section>
+
+    </article>
+
+    <div class="article-author-card">
+      <div class="author-pic">
+        <img src="../../prof_pic_old.png" alt="Darwin Chen" />
+      </div>
+      <div class="author-details">
+        <h4>Darwin Chen</h4>
+        <p>Software Engineer &amp; Systems Builder. Creator of ofln, on-device AI tools, and low-latency runtimes.</p>
+        <div class="author-links">
+          <a href="../../index.html">Portfolio</a>
+          <a href="https://github.com/Darwin27264" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="../../links.html">Profiles</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Read Next Section -->
+    <section class="read-next-section">
+      <h3>Read Next</h3>
+      <div class="blog-grid">
+        <article class="featured-card-col">
+          <a href="introducing-the-tech-blog.html" class="article-card">
+            <div class="card-meta">
+              <span class="card-category-tag">METIS PHILOSOPHY</span>
+              <span>•</span>
+              <span>OCTOBER 2026</span>
+            </div>
+            <h4 class="card-title" style="font-size: 1.25rem;">
+              Metis (Μῆτις): Introducing the Architecture Blog &amp; Systems Philosophy
+            </h4>
+            <p class="card-excerpt" style="font-size: 0.9rem;">
+              Why name this collection Metis? Exploring pragmatic intelligence, why we publish deep breakdowns directly here, and our core engineering tenets.
+            </p>
+            <span class="read-btn" style="margin-top: auto;">
+              Read Essay ↗
+            </span>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <footer class="blog-footer">
+      <div><span>© 2026 DARWIN CHEN • OTTAWA, ON</span></div>
+      <div class="blog-footer-links">
+        <a href="../index.html">← All Articles</a>
+        <a href="../../index.html">Portfolio</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="../blog.js" defer></script>
+</body>
+</html>

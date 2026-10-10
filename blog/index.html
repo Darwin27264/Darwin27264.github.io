@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Metis (Μῆτις) — Edge AI &amp; Systems Architecture | Darwin Chen</title>
+  <meta name="description" content="Metis (Μῆτις) — Technical dispatches by Darwin Chen on on-device LLM inference, local-first computing, and low-latency systems architecture." />
+  <link rel="icon" href="../favicon.ico" />
+  <meta name="theme-color" content="#F2F2F0" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="blog.css" />
+</head>
+<body>
+
+  <main class="blog-wrap">
+
+    <!-- Top Header: Refined Editorial Top Bar (Matching Portfolio Hero Top) -->
+    <header class="blog-hero-top">
+      <div>
+        <a href="index.html" class="blog-brand-mark">
+          <span class="meta-text block">METIS (Μῆτις) — DISPATCHES</span>
+          <span class="meta-text block text-muted mt-qtr">ARCHITECTURAL ESSAYS &amp; SYSTEMS PHILOSOPHY</span>
+        </a>
+      </div>
+      <div class="blog-nav-actions">
+        <a href="../index.html" class="pill-btn outline" style="padding: 0.5rem 1.15rem; font-size: 0.75rem;">PORTFOLIO ↗</a>
+        <a href="../links.html" class="pill-btn outline" style="padding: 0.5rem 1.15rem; font-size: 0.75rem;">PROFILES ↗</a>
+      </div>
+    </header>
+
+    <!-- Floating Theme Toggle (Fixed top-right, perfectly identical to portfolio and links) -->
+    <button id="themeToggle" class="icon-btn floating-btn" aria-label="Toggle theme" title="Toggle theme">
+      <span class="icon">◑</span>
+    </button>
+
+    <!-- Hero Header: Bold, Minimal, Architectural Typography (Matching Portfolio Hero) -->
+    <section class="blog-hero mt-large">
+      <div class="blog-meta-lead">
+        <span class="meta-text tech-accent">TECHNICAL DISPATCHES</span>
+        <span class="meta-text text-muted">• COLLECTION BY DARWIN CHEN</span>
+      </div>
+      <h1 class="massive-title mt-half">
+        Metis (Μῆτις).
+      </h1>
+      <p class="statement-text mt-2">
+        Dispatches on on-device LLM inference, edge AI runtimes, and low-latency systems architecture.
+        <span class="text-muted">Favoring low-latency performance, local-first computation, and quiet systems craftsmanship.</span>
+      </p>
+    </section>
+
+    <!-- Controls & Filters Section (Matching Portfolio Section Header) -->
+    <section class="blog-controls-section mt-large">
+      <div class="section-header split border-bottom pb-1 mb-2">
+        <div>
+          <span class="meta-text text-muted">ARCHIVED WRITINGS</span>
+          <h2 class="medium-title mt-qtr">All Dispatches</h2>
+        </div>
+        <div class="blog-search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="blogSearch" class="minimal-search-input" placeholder="Search essays or tags..." aria-label="Search essays" />
+        </div>
+      </div>
+
+      <div class="blog-filter-row">
+        <div class="filter-tabs" role="tablist">
+          <button type="button" class="filter-tab active" data-type="all">All Dispatches</button>
+          <button type="button" class="filter-tab" data-type="notes">Philosophy</button>
+          <button type="button" class="filter-tab" data-type="ai">On-Device AI</button>
+          <button type="button" class="filter-tab" data-type="systems">Architecture</button>
+        </div>
+        <span class="meta-text text-muted" id="matchCount">Showing 2 of 2 articles</span>
+      </div>
+    </section>
+
+    <!-- Blog Articles Grid -->
+    <section class="blog-grid mt-2" id="articlesGrid" aria-label="List of engineering articles">
+
+      <!-- =================================================================
+           POST 1: INTRODUCTION POST (FEATURED)
+           ================================================================= -->
+      <article class="featured-card-col article-card-item" data-type="notes systems">
+        <a href="posts/introducing-the-tech-blog.html" class="blog-article-card surface-card">
+          <div class="card-top-row">
+            <div class="card-meta-line">
+              <span class="meta-text tech-accent">METIS PHILOSOPHY</span>
+              <span class="meta-text text-muted">• OCT 2026 • 5 MIN READ</span>
+            </div>
+            <div class="card-arrow-pill" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <h2 class="card-title">
+            Metis (Μῆτις): Introducing the Architecture Blog &amp; Systems Philosophy
+          </h2>
+
+          <p class="card-excerpt">
+            Why name this collection Metis? Exploring the ancient Greek concept of cunning resourcefulness, pragmatic wisdom, and how it informs local-first computation, low-latency runtimes, and edge AI engineering.
+          </p>
+
+          <div class="card-bottom-row mt-auto">
+            <span class="meta-text tech-accent">Philosophy • On-Device AI • Architecture • Local-First</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- =================================================================
+           POST 2: OFLN (ON-DEVICE AI PROJECT DEEP DIVE)
+           ================================================================= -->
+      <article class="featured-card-col article-card-item" data-type="ai systems">
+        <a href="posts/ofln-on-device-llm-architecture.html" class="blog-article-card surface-card">
+          <div class="card-top-row">
+            <div class="card-meta-line">
+              <span class="meta-text tech-accent">ON-DEVICE AI</span>
+              <span class="meta-text text-muted">• OCT 2026 • 8 MIN READ</span>
+            </div>
+            <div class="card-arrow-pill" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <h2 class="card-title">
+            Architecting ofln: Zero-Cloud On-Device LLM Chat on Mobile
+          </h2>
+
+          <p class="card-excerpt">
+            How we built private offline mobile LLM chat for Android and iOS using React Native, llama.rn, and quantized C++ GGUF runtimes with real-time token/sec telemetry, RAM tracking, and on-device multimodal vision.
+          </p>
+
+          <div class="card-bottom-row mt-auto">
+            <span class="meta-text tech-accent">React Native • llama.rn • C++ • GGUF • VLM</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- Empty Filter State -->
+      <div id="noResults" class="no-results">
+        <h3>No matching essays found</h3>
+        <p>Try searching with another keyword or reset the category filter.</p>
+        <button type="button" id="resetFilterBtn" class="pill-btn outline mt-1">Clear Filters</button>
+      </div>
+
+    </section>
+
+    <!-- Footer (Matching Portfolio Footer) -->
+    <footer class="blog-footer border-top mt-massive">
+      <div>
+        <span class="meta-text text-muted">© 2026 DARWIN CHEN • OTTAWA, ON</span>
+      </div>
+      <div class="blog-footer-links">
+        <a href="../index.html">Portfolio</a>
+        <a href="../links.html">Profiles</a>
+        <a href="https://github.com/Darwin27264" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="blog.js" defer></script>
+</body>
+</html>

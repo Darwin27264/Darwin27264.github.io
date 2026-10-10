@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Darwin Chen — Links &amp; Profiles</title>
+  <meta name="description" content="Darwin Chen — Software Engineer at Ericsson (SWE 5G/6G CloudRAN) building high-performance systems and on-device AI tools. Connect and explore profiles." />
+  <link rel="icon" href="favicon.ico" />
+  <meta name="theme-color" content="#F2F2F0">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <noscript>
+    <style>
+      .links-avatar-frame, .fade-item, .link-card, .links-footer { opacity: 1 !important; transform: none !important; filter: none !important; }
+    </style>
+  </noscript>
+</head>
+<body>
+
+  <!-- Top-Left Vertical Sticky Telemetry HUD -->
+  <aside class="links-telemetry-hud" aria-label="Live Ottawa telemetry">
+    <span class="links-meta-pill">📍 OTTAWA, ON</span>
+    <span class="links-meta-pill" id="liveTimePill" title="Live Ottawa Local Time">
+      <span class="live-clock-dot" aria-hidden="true"></span>
+      <span id="liveClock">--:--:--</span> EST
+    </span>
+    <span class="links-meta-pill" id="weatherStatus">--°C LOCAL</span>
+  </aside>
+
+  <!-- Floating Controls (Theme Toggle & Share Profile) -->
+  <aside class="links-top-nav" aria-label="Page controls">
+    <button id="shareBtn" class="icon-btn" aria-label="Share or copy profile link" title="Share profile link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"></circle>
+        <circle cx="6" cy="12" r="3"></circle>
+        <circle cx="18" cy="19" r="3"></circle>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+      </svg>
+    </button>
+    <button id="themeToggle" class="icon-btn" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <span class="icon">◑</span>
+    </button>
+  </aside>
+
+  <!-- Main Linktree Container -->
+  <main class="links-wrapper">
+
+    <!-- Profile Header / Bio Section -->
+    <header class="links-header">
+      
+      <!-- Avatar -->
+      <div class="links-avatar-frame" title="Darwin Chen">
+        <img src="prof_pic_old.png" alt="Darwin Chen" />
+      </div>
+
+      <!-- Live Status Indicator -->
+      <div class="status-indicator mb-half fade-item fade-item-1">
+        <span class="dot"></span>
+        <span class="meta-text">SWE @ ERICSSON • OPEN TO CONNECT</span>
+      </div>
+
+      <!-- Name & Headline -->
+      <h1 class="links-name fade-item fade-item-2">Darwin Chen</h1>
+      <p class="links-headline fade-item fade-item-3">Software Engineer (5G/6G CloudRAN) @ Ericsson</p>
+
+      <!-- Animated Playful Greeting -->
+      <div class="links-greeting-box fade-item fade-item-4" id="greetingBox" role="status" aria-live="polite" title="Click for another greeting!">
+        <div class="greeting-content">
+          <span class="greeting-emoji" id="greetingEmoji">👋</span>
+          <span class="greeting-text" id="greetingText">Hey there!</span>
+          <span class="greeting-cursor" aria-hidden="true"></span>
+        </div>
+        <button type="button" class="greeting-refresh-btn" id="greetingRefreshBtn" aria-label="Next greeting" title="Click for another message">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Sections -->
+    <section class="links-content" aria-label="Links and Profiles">
+
+      <!-- =================================================================
+           SECTION 1: CORE PORTFOLIO & RESUME
+           ================================================================= -->
+      <div class="links-section">
+        <h2 class="links-section-title">PORTFOLIO &amp; OVERVIEW</h2>
+        <div class="links-list">
+
+          <!-- Portfolio Website -->
+          <a href="index.html" class="link-card link-card-featured" id="link-portfolio">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">Personal Portfolio</span>
+                <span class="link-badge featured"><span class="badge-sparkle">✦</span>MAIN SITE</span>
+              </div>
+              <span class="link-desc">Full interactive portfolio, architecture case studies &amp; resume chat</span>
+            </div>
+            <div class="link-actions-group">
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Resume / CV -->
+          <a href="DarwinChen_Resume.pdf" target="_blank" rel="noopener noreferrer" class="link-card" id="link-resume">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <line x1="10" y1="9" x2="8" y2="9"></line>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">Official Resume</span>
+                <span class="link-badge tech">PDF</span>
+              </div>
+              <span class="link-desc">Engineering experience, research, education &amp; awards</span>
+            </div>
+            <div class="link-actions-group">
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Metis: Edge AI & Systems Notes -->
+          <a href="blog/index.html" class="link-card" id="link-blog">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"></path>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">Metis (Μῆτις)</span>
+                <span class="link-badge tech">DISPATCHES</span>
+              </div>
+              <span class="link-desc">Edge AI, on-device inference, local-first runtimes &amp; systems architecture</span>
+            </div>
+            <div class="link-actions-group">
+              <button type="button" class="link-quick-copy" data-copy="https://darwin27264.github.io/blog/" aria-label="Copy Metis Blog URL" title="Copy Blog URL">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- =================================================================
+           SECTION 2: CONNECT
+           ================================================================= -->
+      <div class="links-section">
+        <h2 class="links-section-title">CONNECT</h2>
+        <div class="links-list links-grid-2col">
+
+          <!-- GitHub -->
+          <a href="https://github.com/Darwin27264" target="_blank" rel="noopener noreferrer" class="link-card" id="link-github">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">GitHub</span>
+                <span class="link-badge">@Darwin27264</span>
+              </div>
+              <span class="link-desc">Open-source repositories, on-device AI &amp; systems code</span>
+            </div>
+            <div class="link-actions-group">
+              <button type="button" class="link-quick-copy" data-copy="https://github.com/Darwin27264" aria-label="Copy GitHub URL" title="Copy GitHub profile URL">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/darwinchen/" target="_blank" rel="noopener noreferrer" class="link-card" id="link-linkedin">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">LinkedIn</span>
+                <span class="link-badge">/in/darwinchen</span>
+              </div>
+              <span class="link-desc">Professional journey, career updates &amp; recommendations</span>
+            </div>
+            <div class="link-actions-group">
+              <button type="button" class="link-quick-copy" data-copy="https://www.linkedin.com/in/darwinchen/" aria-label="Copy LinkedIn URL" title="Copy LinkedIn profile URL">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- X (Twitter) -->
+          <a href="https://x.com/DarwinC01814903" target="_blank" rel="noopener noreferrer" class="link-card" id="link-x">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">X</span>
+                <span class="link-badge">@DarwinC01814903</span>
+              </div>
+              <span class="link-desc">Tech thoughts, engineering updates &amp; AI explorations</span>
+            </div>
+            <div class="link-actions-group">
+              <button type="button" class="link-quick-copy" data-copy="https://x.com/DarwinC01814903" aria-label="Copy X profile URL" title="Copy X profile URL">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Discord -->
+          <a href="https://discord.com/" target="_blank" rel="noopener noreferrer" class="link-card" id="link-discord">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">Discord</span>
+                <span class="link-badge">@darizfarmerkun</span>
+              </div>
+              <span class="link-desc">Chat &amp; connect on Discord: @darizfarmerkun</span>
+            </div>
+            <div class="link-actions-group">
+              <button type="button" class="link-quick-copy" data-copy="darizfarmerkun" aria-label="Copy Discord handle" title="Copy Discord handle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Email -->
+          <a href="mailto:darwinchen8@outlook.com" class="link-card link-card-span-2" id="link-email">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">Direct Email</span>
+                <span class="link-badge">CONTACT</span>
+              </div>
+              <span class="link-desc">darwinchen8@outlook.com</span>
+            </div>
+            <div class="link-actions-group">
+              <button type="button" class="link-quick-copy" data-copy="darwinchen8@outlook.com" aria-label="Copy email address" title="Copy email address">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- =================================================================
+           SECTION 3: FEATURED PROJECTS
+           ================================================================= -->
+      <div class="links-section">
+        <h2 class="links-section-title">FEATURED WORK</h2>
+        <div class="links-list">
+
+          <!-- ofln: On-Device LLM -->
+          <a href="https://github.com/Darwin27264/ofln" target="_blank" rel="noopener noreferrer" class="link-card" id="link-ofln">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                <path d="M9 7h6M9 11h6"></path>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">ofln — Offline LLM Chat</span>
+                <span class="link-badge tech"><span class="badge-pulse-dot"></span>ON-DEVICE AI</span>
+              </div>
+              <span class="link-desc">Private on-device AI chat for iOS &amp; Android via llama.rn &amp; GGUF</span>
+            </div>
+            <div class="link-actions-group">
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Cognito OSINT Dashboard -->
+          <a href="https://github.com/Darwin27264/cognito" target="_blank" rel="noopener noreferrer" class="link-card" id="link-cognito">
+            <div class="link-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                <path d="M2 12h20"></path>
+              </svg>
+            </div>
+            <div class="link-info">
+              <div class="link-title-row">
+                <span class="link-title">Cognito Dashboard</span>
+                <span class="link-badge">OSINT</span>
+              </div>
+              <span class="link-desc">Real-time mil-spec intelligence aggregating global OSINT &amp; logistics</span>
+            </div>
+            <div class="link-actions-group">
+              <div class="link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="links-footer">
+      <span class="meta-text text-muted">© 2026 DARWIN CHEN • ALL RIGHTS RESERVED</span>
+    </footer>
+
+  </main>
+
+  <!-- Toast Notification Popup -->
+  <div id="linksToast" class="links-toast" role="status" aria-live="polite">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span class="toast-text">Link copied to clipboard!</span>
+  </div>
+
+  <script src="links.js" defer></script>
+</body>
+</html>

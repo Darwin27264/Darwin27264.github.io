@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Metis (Μῆτις): Systems &amp; Architecture Philosophy — Darwin Chen</title>
+  <meta name="description" content="Why this engineering archive is named Metis (Μῆτις). Exploring pragmatic intelligence, local-first computing, and low-latency systems architecture." />
+  <link rel="icon" href="../../favicon.ico" />
+  <meta name="theme-color" content="#F2F2F0" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="stylesheet" href="../blog.css" />
+</head>
+<body>
+
+  <!-- Reading Progress Bar -->
+  <div id="readingProgressBar" class="reading-progress-bar" aria-hidden="true"></div>
+
+  <main class="article-wrap">
+
+    <!-- Top Navigation -->
+    <nav class="blog-nav" aria-label="Breadcrumb navigation">
+      <div class="blog-nav-left">
+        <a href="../index.html" class="nav-back-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          All Dispatches
+        </a>
+        <span class="meta-text text-muted">/</span>
+        <span class="blog-brand-title">Metis (Μῆτις)</span>
+      </div>
+
+      <div class="blog-nav-right">
+        <button id="themeToggle" class="icon-btn small" aria-label="Toggle theme" title="Toggle theme">
+          <span class="icon">◑</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+      <div class="article-header-meta">
+        <span class="card-category-tag">METIS PHILOSOPHY</span>
+        <span>•</span>
+        <span>OCTOBER 9, 2026</span>
+        <span>•</span>
+        <span>5 MIN READ</span>
+        <span>•</span>
+        <span>BY DARWIN CHEN</span>
+      </div>
+
+      <h1 class="article-main-title">
+        Metis (Μῆτις): Introducing the Architecture Blog &amp; Systems Philosophy
+      </h1>
+
+      <p class="article-intro-lead">
+        Why name this collection Metis? Exploring the ancient Greek concept of pragmatic intelligence, why we publish deep breakdowns directly here, and the engineering principles guiding our work.
+      </p>
+    </header>
+
+    <!-- Table of Contents -->
+    <nav class="toc-box" aria-label="Table of contents">
+      <div class="toc-title">Table of Contents</div>
+      <ul class="toc-list">
+        <li><a href="#why-this-blog">1. Why Metis (Μῆτις)? Crafting Complex Systems</a></li>
+        <li><a href="#core-principles">2. Core Engineering Principles</a></li>
+        <li><a href="#projects-overview">3. The Projects We Build &amp; Dissect</a></li>
+        <li><a href="#what-to-expect">4. What’s Coming Next</a></li>
+      </ul>
+    </nav>
+
+    <!-- Article Body Prose -->
+    <article class="prose">
+
+      <section id="why-this-blog">
+        <h2>1. Why Metis (Μῆτις)? Crafting Complex Systems</h2>
+        <p>
+          In ancient Greek thought, <strong>Metis (Μῆτις)</strong> represented a profound and specific quality of mind: not abstract theory (<em>episteme</em>) or raw brute force (<em>bie</em>), but cunning resourcefulness, practical wisdom, and technical dexterity in navigating uncertain, ever-shifting environments. It was the intelligence of the navigator steering across turbulent tides, the artisan balancing metals under mechanical tension, and the strategist anticipating chaotic dynamics.
+        </p>
+        <p>
+          Modern computing embodies that exact reality. Building resilient distributed infrastructure, on-device AI engines, low-latency telemetry pipelines, and high-performance runtimes requires more than textbook formulas—it demands <em>metis</em>. It requires the practical engineering wisdom to reconcile theoretical elegance with silicon constraints, cache hierarchies, thermal limits, and real-time latency budgets.
+        </p>
+        <p>
+          Portfolio summaries are inherently condensed. When you inspect a featured project tile like <strong>ofln</strong> or <strong>Cognito</strong>, you see the punchy summary: <em>"Private on-device AI chat using llama.rn &amp; GGUF"</em> or <em>"Real-time OSINT dashboard in Next.js"</em>. What you don't see are the late-night memory leak investigations in C++ bindings, the battle against mobile thermal throttling, or the pipeline regex parsing that prevented schema collisions before production releases.
+        </p>
+        <p>
+          This archive is hosted directly in this repository to serve as a living, first-party technical notebook. No paywalls, no third-party tracking scripts, and no algorithmic noise. Just clean, rigorous architectural essays documenting real engineering decisions, benchmarks, and production lessons.
+        </p>
+
+        <div class="prose-callout highlight">
+          <div class="callout-icon">🏛️</div>
+          <div class="callout-body">
+            <h4>First-Party &amp; Zero-Bloat Philosophy</h4>
+            <p>
+              Like the rest of this website, this blog is rendered with vanilla HTML, modern CSS, and lightweight client-side scripts. It loads instantaneously, respects dark/light system preferences, and operates entirely client-side.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="core-principles">
+        <h2>2. Core Engineering Principles</h2>
+        <p>
+          Throughout my engineering work building high-performance systems and on-device AI software, three central design tenets have consistently yielded the best outcomes:
+        </p>
+
+        <h3>I. Local-First &amp; On-Device Execution</h3>
+        <p>
+          Centralized cloud APIs are powerful, but they come with high recurring costs, network latency penalties, and data privacy trade-offs. Whenever feasible, our systems prioritize <strong>local-first computation</strong>. By leveraging 4-bit and 8-bit quantized neural weights (GGUF), WebGPU in modern browsers, and SIMD hardware acceleration on ARM and x86 chips, consumer devices can execute tasks that previously required dedicated server clusters.
+        </p>
+
+        <h3>II. Low-Latency Over Abstraction Churn</h3>
+        <p>
+          Every layer of abstraction in modern software engineering carries a cost in latency, memory overhead, and debugging complexity. We favor systems where the execution path is transparent:
+        </p>
+        <ul>
+          <li><strong>Direct C++ runtimes</strong> over heavy runtime wrappers when executing neural matrix math.</li>
+          <li><strong>Deterministic memory management</strong> over unbounded garbage collection loops in high-throughput workloads.</li>
+          <li><strong>Clean semantic code</strong> with minimal dependencies that will compile and run reliably years from today.</li>
+        </ul>
+
+        <h3>III. Transparent Telemetry &amp; Observability</h3>
+        <p>
+          You cannot optimize what you do not measure. In on-device apps, we surface real-time telemetry (tokens per second, time-to-first-token latency, RSS RAM consumption). In CI/CD pipelines, we index stage-level signals to turn 50,000+ line log dumps into structured, actionable JSON summaries.
+        </p>
+
+        <pre><code>// Example: Minimal llama.cpp context configuration for on-device thermal efficiency
+llama_context_params ctx_params = llama_context_default_params();
+ctx_params.n_ctx         = 2048;    // Constrain context window to conserve mobile RAM
+ctx_params.n_threads     = 4;       // Target performance cores to avoid thermal throttling
+ctx_params.n_batch       = 512;     // Balanced prompt evaluation batching
+ctx_params.offload_kqv   = true;    // Offload Key/Value caches to GPU when available</code></pre>
+      </section>
+
+      <section id="projects-overview">
+        <h2>3. The Projects We Build &amp; Dissect</h2>
+        <p>
+          The essays on this blog will dissect specific, open-source projects hosted in this ecosystem. Here is an overview of the core initiatives:
+        </p>
+
+        <ul>
+          <li>
+            <strong>ofln (On-Device LLM Chat)</strong>: An open-source Android and iOS mobile application that downloads GGUF models directly to device flash and chats with zero internet connection or server subscriptions. Includes multimodal vision, on-device RAG, and live inference profiling.
+          </li>
+          <li>
+            <strong>Distributed Telemetry &amp; Log Clustering</strong>: Designing high-performance observability pipelines, automated log template clustering (Drain3), and AST-based code validation tooling for complex software workflows.
+          </li>
+          <li>
+            <strong>Cognito OSINT Intelligence</strong>: A real-time mil-spec dashboard aggregating open-source intelligence, kinetic satellite events, and maritime/aviation logistics into interactive Leaflet layers.
+          </li>
+          <li>
+            <strong>EzCap &amp; Audio Pipelines</strong>: Mobile-friendly on-device audio captioning and video assembly using local Whisper models and FFmpeg.
+          </li>
+        </ul>
+      </section>
+
+      <section id="what-to-expect">
+        <h2>4. What’s Coming Next</h2>
+        <p>
+          Over the coming weeks, we will publish dedicated, in-depth architectural breakdowns. Next up:
+        </p>
+        <ol>
+          <li>
+            <strong>"Architecting ofln"</strong>: Digging into React Native C++ JSI bridges, memory allocation on iOS/Android, and GGUF quantization tradeoffs.
+          </li>
+          <li>
+            <strong>"Automated Log Clustering &amp; Triage"</strong>: How we slashed triage time in high-throughput pipelines using OpenSearch and unsupervised Drain3 template mining.
+          </li>
+          <li>
+            <strong>"On-Device WebGPU in the Browser"</strong>: Running neural models directly in the client via WebGPU with sub-millisecond setup latency.
+          </li>
+        </ol>
+        <p>
+          Thank you for reading, and welcome to the blog. If you have questions or want to discuss any of the systems covered here, feel free to connect via <a href="https://github.com/Darwin27264" target="_blank" rel="noopener noreferrer">GitHub</a> or <a href="https://www.linkedin.com/in/darwinchen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
+        </p>
+      </section>
+
+    </article>
+
+    <!-- Author Profile Card -->
+    <div class="article-author-card">
+      <div class="author-pic">
+        <img src="../../prof_pic_old.png" alt="Darwin Chen" />
+      </div>
+      <div class="author-details">
+        <h4>Darwin Chen</h4>
+        <p>
+          Software Engineer &amp; Systems Builder. Engineering high-performance systems, on-device AI tools, and human-centered software in Ottawa, ON.
+        </p>
+        <div class="author-links">
+          <a href="../../index.html">Portfolio</a>
+          <a href="https://github.com/Darwin27264" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/darwinchen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="../../links.html">Profiles</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Read Next Section -->
+    <section class="read-next-section">
+      <h3>Read Next</h3>
+      <div class="blog-grid">
+
+        <article class="featured-card-col">
+          <a href="ofln-on-device-llm-architecture.html" class="article-card">
+            <div class="card-meta">
+              <span class="card-category-tag">ON-DEVICE AI</span>
+              <span>•</span>
+              <span>OCTOBER 2026</span>
+            </div>
+            <h4 class="card-title" style="font-size: 1.25rem;">
+              Architecting ofln: Zero-Cloud On-Device LLM Chat on Mobile
+            </h4>
+            <p class="card-excerpt" style="font-size: 0.9rem;">
+              Private offline LLM execution on mobile hardware using React Native, llama.rn, and C++ GGUF runtimes.
+            </p>
+            <span class="read-btn" style="margin-top: auto;">
+              Read Essay ↗
+            </span>
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="blog-footer">
+      <div>
+        <span>© 2026 DARWIN CHEN • OTTAWA, ON</span>
+      </div>
+      <div class="blog-footer-links">
+        <a href="../index.html">← All Articles</a>
+        <a href="../../index.html">Portfolio</a>
+        <a href="../../links.html">Links Hub</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="../blog.js" defer></script>
+</body>
+</html>

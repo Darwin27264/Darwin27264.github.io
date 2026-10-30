@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Metis — Dispatches</title>
+  <subtitle>Technical dispatches by Darwin Chen on on-device LLM inference, edge AI runtimes, and low-latency systems architecture.</subtitle>
+  <link href="https://darwin27264.github.io/blog/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://darwin27264.github.io/blog/" rel="alternate" type="text/html"/>
+  <id>https://darwin27264.github.io/blog/</id>
+  <updated>2026-10-29T00:00:00Z</updated>
+  <author>
+    <name>Darwin Chen</name>
+    <uri>https://darwin27264.github.io/</uri>
+  </author>
+  <entry>
+    <title>Architecting ofln: Zero-Cloud On-Device LLM Chat on Mobile</title>
+    <link href="https://darwin27264.github.io/blog/posts/ofln-on-device-llm-architecture.html" rel="alternate" type="text/html"/>
+    <id>https://darwin27264.github.io/blog/posts/ofln-on-device-llm-architecture.html</id>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <published>2026-10-01T00:00:00Z</published>
+    <summary type="text">How ofln packages Q4_0 GGUF models for private offline LLM chat on iOS and Android using React Native, llama.rn, and a curated phone-sized model shelf.</summary>
+    <author>
+      <name>Darwin Chen</name>
+    </author>
+  </entry>
+  <entry>
+    <title>Metis (Μῆτις): Introducing the Architecture Blog &amp; Systems Philosophy</title>
+    <link href="https://darwin27264.github.io/blog/posts/introducing-the-tech-blog.html" rel="alternate" type="text/html"/>
+    <id>https://darwin27264.github.io/blog/posts/introducing-the-tech-blog.html</id>
+    <updated>2026-10-09T00:00:00Z</updated>
+    <published>2026-10-09T00:00:00Z</published>
+    <summary type="text">Why this engineering archive is named Metis (Μῆτις)—pragmatic intelligence, local-first computing, and low-latency systems philosophy.</summary>
+    <author>
+      <name>Darwin Chen</name>
+    </author>
+  </entry>
+</feed>

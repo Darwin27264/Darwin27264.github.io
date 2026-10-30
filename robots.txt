@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://darwin27264.github.io/sitemap.xml
